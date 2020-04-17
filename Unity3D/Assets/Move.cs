@@ -13,8 +13,4 @@ public class Move : MonoBehaviour {
 		transform.position += new Vector3 (Input.GetAxis ("Horizontal"), 0, 0);
 
 	}
-
-	void OnCollisionEnter(){
-		//Destroy (gameObject);
-	}
 }
