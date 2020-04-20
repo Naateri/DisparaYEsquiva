@@ -21,12 +21,15 @@ public class Sphere : MonoBehaviour
     	//only do this if colission is with cube
     	//not with bullet
 
-    	this.lives--;
-    	print("lives: " + this.lives);
-    	//Destroy(collision.gameObject);
+    	if (collision.gameObject.tag == "Enemy1"){
 
-    	if (this.lives == 0){
-    		Destroy(gameObject, 2);
+    		this.lives--;
+    		print("lives: " + this.lives);
+    		Destroy(collision.gameObject, 2);
+
+    		if (this.lives == 0){
+    			Destroy(gameObject, 2);
+    		}
     	}
     }
 
