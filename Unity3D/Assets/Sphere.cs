@@ -17,6 +17,10 @@ public class Sphere : MonoBehaviour
 	}
 
     private void OnCollisionEnter(Collision collision){
+
+    	//only do this if colission is with cube
+    	//not with bullet
+
     	this.lives--;
     	print("lives: " + this.lives);
     	//Destroy(collision.gameObject);

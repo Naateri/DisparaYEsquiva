@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Cubes : MonoBehaviour {
 
-	private float delay = 1.1f; //in seconds
+	private float delay = 0.8f; //in seconds
 	private float MIN_DEPTH = -5.5f;
 	public GameObject cube;
 
@@ -21,4 +21,10 @@ public class Cubes : MonoBehaviour {
 			Destroy(cube);
 		}
 	}
+
+	private void OnCollisionEnter(Collision collision){
+		//only if collision with bullet
+    	//Destroy(cube);
+    	//destroy bullet
+    }
 }
