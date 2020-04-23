@@ -19,8 +19,8 @@ sock = socket.socket(socket.AF_INET, # Internet
 
 # begin streaming
 
-video_font = 'http://192.168.1.136:4747/video'
-
+video_font = 'http://192.168.1.61:4747/video'
+#video_font = 0
 LIGHT_CONTOUR = 10
 
 cap = cv2.VideoCapture(video_font)
@@ -30,7 +30,7 @@ last_y = 0
     
 while True:
     _, frame = cap.read()
-
+    #frame = cv2.flip(frame, 1);
     # convert frame to monochrome and blur
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     blur = cv2.GaussianBlur(gray, (9, 9), 0)
@@ -69,7 +69,7 @@ while True:
     sock.sendto(bl,(UDP_IP,UDP_PORT)) #SENDING TO UNITY
     #print("posy", last_y)
     #display frames and exit
-    cv2.imshow('light', thr)
+    #cv2.imshow('light', thr)
     cv2.imshow('frame', frame)
 
     cv2.waitKey(4)
