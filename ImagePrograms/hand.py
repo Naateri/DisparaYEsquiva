@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import math
 
-video_font = 'http://192.168.1.61:4747/video'
+video_font = 'http://192.168.1.136:4747/video'
 cap = cv2.VideoCapture(video_font)
 
 while (1):

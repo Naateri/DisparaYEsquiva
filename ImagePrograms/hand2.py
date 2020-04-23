@@ -1,7 +1,11 @@
 import cv2
 import numpy as np
 import math
-cap = cv2.VideoCapture(0)
+
+video_font = 'http://192.168.1.136:4747/video'
+cap = cv2.VideoCapture(video_font)
+
+#cap = cv2.VideoCapture(0)
 while(cap.isOpened()):
     ret, img = cap.read()
     cv2.rectangle(img,(300,300),(100,100),(0,255,0),0)
@@ -32,6 +36,15 @@ while(cap.isOpened()):
     defects = cv2.convexityDefects(cnt,hull)
     count_defects = 0
     cv2.drawContours(thresh1, contours, -1, (0,255,0), 3)
+
+    try:
+        ans = len(defects.shape) >= 0
+    except:
+        ans = 0
+
+    if not ans:
+        continue
+    
     for i in range(defects.shape[0]):
         s,e,f,d = defects[i,0]
         start = tuple(cnt[s][0])
@@ -47,7 +60,7 @@ while(cap.isOpened()):
         #dist = cv2.pointPolygonTest(cnt,far,True)
         cv2.line(crop_img,start,end,[0,255,0],2)
         #cv2.circle(crop_img,far,5,[0,0,255],-1)
-    if count_defects == 1:
+    """if count_defects == 1:
         cv2.putText(img,"I'M VIKRANT SHARMA", (50,50), cv2.FONT_HERSHEY_SIMPLEX, 2, 2)
     elif count_defects == 2:
         str = "THIS IS A BASIC HAND GESTURE RECOGNISER!!"
@@ -59,6 +72,11 @@ while(cap.isOpened()):
     else:
         cv2.putText(img,"GOOD AFTERNOON TEACHERS", (50,50),\
                     cv2.FONT_HERSHEY_SIMPLEX, 2, 2)
+                    """
+    if count_defects >= 4:
+        cv2.putText(img,"DISPARAAAA", (50,50), cv2.FONT_HERSHEY_SIMPLEX, 2, 2)
+    else:
+        cv2.putText(img,"NO HACER NADA", (50,50), cv2.FONT_HERSHEY_SIMPLEX, 2, 2)
     #cv2.imshow('drawing', drawing)
     #cv2.imshow('end', crop_img)
     cv2.imshow('Gesture', img)
