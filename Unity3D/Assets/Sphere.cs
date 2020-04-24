@@ -25,7 +25,7 @@ public class Sphere : MonoBehaviour
 
     		this.lives--;
     		print("lives: " + this.lives);
-    		Destroy(collision.gameObject, 2);
+    		Destroy(collision.gameObject, 0);
 
     		if (this.lives == 0){
     			Destroy(gameObject, 2);

@@ -10,7 +10,7 @@ public class Bullets : MonoBehaviour
 
 	private Vector3 speed = new Vector3(0.0f, 7.5f, 0.0f);
 
-	private float delay = 0.5f;
+	private float delay = 1.0f;
     // Start is called before the first frame update
     void Start(){
         InvokeRepeating("Spawn", delay, delay);

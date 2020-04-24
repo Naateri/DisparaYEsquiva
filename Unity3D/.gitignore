@@ -5,6 +5,12 @@ Temp/
 Obj/
 UnityGenerated/
 Library/
+
+# ======================= #
+# Executable if generated #
+# ======================= #
+
+Executable/
  
 # ===================================== #
 # Visual Studio / MonoDevelop generated #

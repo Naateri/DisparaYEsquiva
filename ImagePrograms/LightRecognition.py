@@ -19,8 +19,8 @@ sock = socket.socket(socket.AF_INET, # Internet
 
 # begin streaming
 
-#video_font = 'http://192.168.1.66:4747/video'
-video_font = 0
+video_font = 'http://192.168.1.136:4747/video'
+#video_font = 0
 LIGHT_CONTOUR = 10
 
 cap = cv2.VideoCapture(video_font)
