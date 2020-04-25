@@ -19,7 +19,7 @@ sock = socket.socket(socket.AF_INET, # Internet
 
 # begin streaming
 
-video_font = 'http://192.168.1.136:4747/video'
+video_font = 'http://192.168.1.60:4747/video'
 #video_font = 0
 LIGHT_CONTOUR = 10
 

@@ -6,9 +6,9 @@ public class Cubes : MonoBehaviour {
 	private float delay = 0.8f; //in seconds
 	private float MIN_DEPTH = -5.5f;
 	public GameObject cube, clone;
-
-	// Use this for initialization
-	void Start () {
+   
+    // Use this for initialization
+    void Start () {
 		InvokeRepeating ("Spawn", 0.0f, delay);
 	}
 
