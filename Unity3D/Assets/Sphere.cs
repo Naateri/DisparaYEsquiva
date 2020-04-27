@@ -7,6 +7,7 @@ public class Sphere : MonoBehaviour
 {
 
 	public int lives = 5;
+	AudioSource cube_audio;
 
 	void Start(){
 		print("Start Sphere");
@@ -25,7 +26,15 @@ public class Sphere : MonoBehaviour
 
     		this.lives--;
     		print("lives: " + this.lives);
-    		Destroy(collision.gameObject, 0);
+
+    		cube_audio = collision.gameObject.GetComponent<AudioSource>();
+    		cube_audio.Play();
+
+    		collision.gameObject.GetComponent<MeshRenderer>().enabled = false;
+    		(collision.gameObject.GetComponent(typeof(BoxCollider)) as Collider).enabled = false;
+    		collision.gameObject.GetComponent<Rigidbody>().useGravity = false;
+
+    		Destroy(collision.gameObject,2);
 
     		if (this.lives == 0){
     			Destroy(gameObject, 2);

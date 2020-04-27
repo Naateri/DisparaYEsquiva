@@ -6,6 +6,7 @@ public class Bullets : MonoBehaviour
 {
 	public GameObject hero;
 	public GameObject bullet, clone;
+    public AudioSource gunshot;
 	private float MAX_HEIGHT = 10.0f;
 
 	private Vector3 speed = new Vector3(0.0f, 7.5f, 0.0f);
@@ -35,5 +36,7 @@ public class Bullets : MonoBehaviour
 		clone = Instantiate (bullet, new Vector3 (hero.transform.position.x, 
 			hero.transform.position.y + 0.2f, 0), Quaternion.identity);
 		clone.GetComponent<Rigidbody>().velocity = speed;
+        gunshot = clone.GetComponent<AudioSource>();
+        gunshot.Play();
 	}
 }
