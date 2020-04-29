@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using static MenuToGame;
 
 public class Manager : MonoBehaviour
 {
@@ -17,9 +18,18 @@ public class Manager : MonoBehaviour
         
     }
 
-    public void CargarJuego(string nombre)
+    public void CargarEscena(string nombre)
     {
         SceneManager.LoadScene(nombre);
     }
 
+    public void SetDifficulty(int num){
+    	MenuToGame.Difficulty = num;
+    	print("Difficulty = " + num);
+    	SceneManager.LoadScene("menu");
+    }
+
+    public void ExitGame(){
+    	Application.Quit();
+    }
 }

@@ -1,14 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
+using static MenuToGame;
 
 public class Cubes : MonoBehaviour {
 
-	private float delay = 0.8f; //in seconds
+	private float delay;// = 0.8f; //in seconds
 	private float MIN_DEPTH = -5.5f;
 	public GameObject cube, clone;
    
     // Use this for initialization
     void Start () {
+
+    	if (MenuToGame.Difficulty == 1){
+    		this.delay = 1.2f;
+    	} else if (MenuToGame.Difficulty == 2){
+    		this.delay = 0.6f;
+    	}
+
 		InvokeRepeating ("Spawn", 0.0f, delay);
 	}
 

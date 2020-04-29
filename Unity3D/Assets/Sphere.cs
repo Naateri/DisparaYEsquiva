@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Sphere : MonoBehaviour
 {
@@ -13,8 +14,20 @@ public class Sphere : MonoBehaviour
 		print("Start Sphere");
 	}
 
+	/*private void GoBackToMenu(){
+		print("Back to menu");
+		SceneManager.LoadScene("menu");
+	}
+
+	IEnumerator BackToMenu(){
+		yield return new WaitForSeconds(4);
+		GoBackToMenu();
+	}*/
+
 	void Update(){
-		
+		/*if (this.lives <= 0){
+			StartCoroutine(BackToMenu());
+		}*/
 	}
 
     private void OnCollisionEnter(Collision collision){
