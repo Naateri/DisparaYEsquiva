@@ -1,6 +1,28 @@
 import cv2
 import numpy as np
 import math
+import socket
+import time
+
+UDP_IP = "127.0.0.1"
+UDP_PORT = 5070
+
+print ("UDP target IP:", UDP_IP)
+print ("UDP target port:", UDP_PORT)
+
+sock = socket.socket(socket.AF_INET, # Internet
+                     socket.SOCK_DGRAM) # UDP
+
+SHOTS_PER_SECOND = 0.5
+SHOOT_WAIT_TIME = False
+
+
+#################################################
+
+def send_socket(info):
+    info_b = bytes(str(info), encoding='utf-8')
+    sock.sendto(info_b, (UDP_IP, UDP_PORT)) #SENDING TO UNITY
+    
 
 video_font = 'http://192.168.1.136:4747/video'
 cap = cv2.VideoCapture(video_font)
@@ -60,23 +82,27 @@ while(cap.isOpened()):
         #dist = cv2.pointPolygonTest(cnt,far,True)
         cv2.line(crop_img,start,end,[0,255,0],2)
         #cv2.circle(crop_img,far,5,[0,0,255],-1)
-    """if count_defects == 1:
-        cv2.putText(img,"I'M VIKRANT SHARMA", (50,50), cv2.FONT_HERSHEY_SIMPLEX, 2, 2)
-    elif count_defects == 2:
-        str = "THIS IS A BASIC HAND GESTURE RECOGNISER!!"
-        cv2.putText(img, str, (5,50), cv2.FONT_HERSHEY_SIMPLEX, 1, 2)
-    elif count_defects == 3:
-        cv2.putText(img,"This is FOUR (:", (50,50), cv2.FONT_HERSHEY_SIMPLEX, 2, 2)
-    elif count_defects == 4:
-        cv2.putText(img,"HARE KRSNA", (50,50), cv2.FONT_HERSHEY_SIMPLEX, 2, 2)
-    else:
-        cv2.putText(img,"GOOD AFTERNOON TEACHERS", (50,50),\
-                    cv2.FONT_HERSHEY_SIMPLEX, 2, 2)
-                    """
+
     if count_defects >= 4:
         cv2.putText(img,"DISPARAAAA", (50,50), cv2.FONT_HERSHEY_SIMPLEX, 2, 2)
+
+        if not SHOOT_WAIT_TIME: #shoot wait not activated
+            start_time = time.perf_counter()
+            SHOOT_WAIT_TIME = True
+            info = "100"
+        else: #shoot wait activated
+            end_time = time.perf_counter()
+            if (end_time - start_time) >= SHOTS_PER_SECOND: #can shoot again
+                SHOOT_WAIT_TIME = False
+            else:
+                info = "0"
+
     else:
         cv2.putText(img,"NO HACER NADA", (50,50), cv2.FONT_HERSHEY_SIMPLEX, 2, 2)
+        info = "0"
+
+    print("Info", info)
+    send_socket(info)
     #cv2.imshow('drawing', drawing)
     #cv2.imshow('end', crop_img)
     cv2.imshow('Gesture', img)
