@@ -1,23 +1,40 @@
 import cv2
 import numpy as np
+import socket
 
+UDP_IP = "127.0.0.1"
+UDP_PORT = 5065
+
+print ("UDP target IP:", UDP_IP)
+print ("UDP target port:", UDP_PORT)
+
+sock = socket.socket(socket.AF_INET, # Internet
+		     socket.SOCK_DGRAM) # UDP
+
+pos_x = 0
+pos_y = 0
 
 def dibujar(mask,color):
-	contornos,_ = cv2.findContours(mask, cv2.RETR_EXTERNAL,
-		cv2.CHAIN_APPROX_SIMPLE)
+	global pos_x, pos_y
+	contornos,_ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+	max_val = np.argmax([cv2.contourArea(c) for c in contornos])
 	for c in contornos:
 		area = cv2.contourArea(c)
 		if area > 3000:
 			M = cv2.moments(c)
 			if (M["m00"]==0): M["m00"]=1
 			x = int(M["m10"]/M["m00"])
-			y = int(M['m01']/M['m00'])
+			y = int(M["m01"]/M["m00"])
 			nuevoContorno = cv2.convexHull(c)
 			cv2.circle(frame,(x,y),7,(0,255,0),-1)
 			cv2.putText(frame,'{},{}'.format(x,y),(x+10,y), font, 0.75,(0,255,0),1,cv2.LINE_AA)
 			cv2.drawContours(frame, [nuevoContorno], 0, color, 3)
+			
+			pos_x = x
+			pos_y = y
 
-video_font = 'http://192.168.1.60:4747/video'
+#video_font = 'http://192.168.1.60:4747/video'
+video_font = 'http://192.168.1.136:4747/video'
 cap = cv2.VideoCapture(video_font)
 
 
@@ -33,19 +50,35 @@ redAlto1 = np.array([5,255,255],np.uint8)
 redBajo2 = np.array([175,100,20],np.uint8)
 redAlto2 = np.array([179,255,255],np.uint8)
 
+moradoBajo = np.array([128,0,128],np.uint8)
+moradoAlto = np.array([148,50,211],np.uint8)
+
+verdeBajo = np.array([100,20,100], np.uint8)
+verdeAlto = np.array([255,255,125], np.uint8)
+
 font = cv2.FONT_HERSHEY_SIMPLEX
 while True:
 	ret,frame = cap.read()
 	if ret == True:
 		frameHSV = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
-		maskAzul = cv2.inRange(frameHSV,azulBajo,azulAlto)
+		#maskAzul = cv2.inRange(frameHSV,azulBajo,azulAlto)
 		maskAmarillo = cv2.inRange(frameHSV,amarilloBajo,amarilloAlto)
-		maskRed1 = cv2.inRange(frameHSV,redBajo1,redAlto1)
-		maskRed2 = cv2.inRange(frameHSV,redBajo2,redAlto2)
-		maskRed = cv2.add(maskRed1,maskRed2)
-		dibujar(maskAzul,(255,0,0))
+		#maskRed1 = cv2.inRange(frameHSV,redBajo1,redAlto1)
+		#maskRed2 = cv2.inRange(frameHSV,redBajo2,redAlto2)
+		#maskRed = cv2.add(maskRed1,maskRed2)
+		#maskMorado = cv2.inRange(frameHSV,moradoBajo, moradoAlto)
+		#maskVerde = cv2.inRange(frameHSV,verdeBajo, verdeAlto)
+		#dibujar(maskAzul,(255,0,0))
 		dibujar(maskAmarillo,(0,255,255))
-		dibujar(maskRed2,(0,0,255))
+		#dibujar(maskRed2,(0,0,255))
+		#dibujar(maskMorado, (157,24,198))
+		#dibujar(maskVerde, (0,255,0))
+
+		pos_info = str(pos_x) + " " + str(pos_y)
+		
+		info= bytes(pos_info,encoding='utf-8')
+		sock.sendto(info,(UDP_IP,UDP_PORT)) #SENDING TO UNITY
+		
 		cv2.imshow('frame',frame)
 		if cv2.waitKey(1) & 0xFF == ord('s'):
 			break

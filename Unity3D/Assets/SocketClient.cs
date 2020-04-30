@@ -12,6 +12,8 @@ public class SocketClient : MonoBehaviour {
 
 	public GameObject hero;
 	private float xPos = 10.0f;
+	private float yPos = -3.0f;
+	private bool update_x = true;
 
 	Thread receiveThread;
 	UdpClient client;
@@ -67,10 +69,20 @@ public class SocketClient : MonoBehaviour {
 
 				string text = Encoding.UTF8.GetString(data);
 				print (">> " + text);
+
+				String[] separation = { " " }; 
+				Int32 count = 2; 
+
+				String[] strlist = text.Split(separation, count, 
+              	StringSplitOptions.RemoveEmptyEntries); 
+
 				lastReceivedUDPPacket=text;
 				allReceivedUDPPackets=allReceivedUDPPackets+text;
-				xPos = float.Parse(text);
+				xPos = float.Parse(strlist[0]);
 				xPos *= 0.021818f;
+
+				yPos = float.Parse(strlist[1]);
+				yPos *= 0.005f;
 			}catch(Exception e){
 				print (e.ToString());
 			}
@@ -84,7 +96,7 @@ public class SocketClient : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		hero.transform.position = new Vector3(xPos-6.0f,-3,0);
+		hero.transform.position = new Vector3(-xPos+6.0f,-1.5f-yPos,0);
 	}
 
 	void OnApplicationQuit(){
