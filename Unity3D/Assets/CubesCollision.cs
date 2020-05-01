@@ -7,7 +7,7 @@ public class CubesCollision : MonoBehaviour
     public AudioSource audioWood;
     private float UPPER_THRESHOLD = 9.0f;
 
-    //private ParticleSystem particle;
+    private ParticleSystem particle;
     //private SpriteRenderer sr ;
     
     void Start()
@@ -36,10 +36,15 @@ public class CubesCollision : MonoBehaviour
                 return;
             }
 
+            particle = this.gameObject.GetComponent<ParticleSystem>();
+            particle.Play();
+
             audioWood = this.gameObject.GetComponent<AudioSource>();
             audioWood.Play();
 
             
+
+
             Destroy(collision.gameObject);
 
             this.gameObject.GetComponent<MeshRenderer>().enabled = false;
