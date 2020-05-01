@@ -12,8 +12,8 @@ public class SocketClient : MonoBehaviour {
 
 	public GameObject hero;
 	private float xPos = 10.0f;
-	private float yPos = -3.0f;
-	//private float yPos = 0.0f;
+	//private float yPos = -3.0f;
+	private float yPos = 0.0f;
 	private bool update_x = true;
 
 	Thread receiveThread;
