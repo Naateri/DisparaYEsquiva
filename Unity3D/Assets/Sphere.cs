@@ -9,6 +9,7 @@ public class Sphere : MonoBehaviour
 
 	public int lives = 5;
 	AudioSource cube_audio;
+	private ParticleSystem particle;
 
 	void Start(){
 		print("Start Sphere");
@@ -39,6 +40,9 @@ public class Sphere : MonoBehaviour
 
     		this.lives--;
     		print("lives: " + this.lives);
+
+    		particle = collision.gameObject.GetComponent<ParticleSystem>();
+            particle.Play();
 
     		cube_audio = collision.gameObject.GetComponent<AudioSource>();
     		cube_audio.Play();
