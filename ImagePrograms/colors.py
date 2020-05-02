@@ -17,7 +17,8 @@ pos_y = 0
 def dibujar(mask,color):
 	global pos_x, pos_y
 	contornos,_ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-	max_val = np.argmax([cv2.contourArea(c) for c in contornos])
+	if len(contornos) > 0:
+		max_val = np.argmax([cv2.contourArea(c) for c in contornos])
 	for c in contornos:
 		area = cv2.contourArea(c)
 		if area > 3000:
