@@ -31,6 +31,25 @@ public class Sphere : MonoBehaviour
 		}*/
 	}
 
+    private IEnumerator Break(Collision collision)
+    {
+        collision.gameObject.GetComponent<Rigidbody>().freezeRotation = true;
+        particle = collision.gameObject.GetComponent<ParticleSystem>();
+        particle.Play();
+
+        cube_audio = collision.gameObject.GetComponent<AudioSource>();
+        cube_audio.Play();
+
+        collision.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        (collision.gameObject.GetComponent(typeof(BoxCollider)) as Collider).enabled = false;
+        //collision.gameObject.GetComponent<Rigidbody>().useGravity = false;
+       
+
+        yield return new WaitForSeconds(0.8f);
+
+        Destroy(collision.gameObject, 2);
+    }
+
     private void OnCollisionEnter(Collision collision){
 
     	//only do this if colission is with cube
@@ -41,17 +60,12 @@ public class Sphere : MonoBehaviour
     		this.lives--;
     		print("lives: " + this.lives);
 
-    		particle = collision.gameObject.GetComponent<ParticleSystem>();
-            particle.Play();
+            StartCoroutine(Break(collision));
+    	
+           
 
-    		cube_audio = collision.gameObject.GetComponent<AudioSource>();
-    		cube_audio.Play();
-
-    		collision.gameObject.GetComponent<MeshRenderer>().enabled = false;
-    		(collision.gameObject.GetComponent(typeof(BoxCollider)) as Collider).enabled = false;
-    		collision.gameObject.GetComponent<Rigidbody>().useGravity = false;
-
-    		Destroy(collision.gameObject,2);
+            //yield return new WaitForSeconds(particle.main.StartLifetime.constantMax);
+    	
 
     		if (this.lives == 0){
     			Destroy(gameObject, 2);
