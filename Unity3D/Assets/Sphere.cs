@@ -51,7 +51,7 @@ public class Sphere : MonoBehaviour
 
         yield return new WaitForSeconds(0.8f);
 
-        Destroy(collision.gameObject, 2);
+       
     }
 
     private void OnCollisionEnter(Collision collision){
@@ -65,13 +65,16 @@ public class Sphere : MonoBehaviour
     		print("lives: " + this.lives);
 
             StartCoroutine(Break(collision));
+            Destroy(collision.gameObject, 2);
             //yield return new WaitForSeconds(particle.main.StartLifetime.constantMax);
 
-    	} else if (collision.gameObject.tag == "Enemy2") {
+        } else if (collision.gameObject.tag == "Enemy2") {
     		print("Collision with enemy2");
     		this.lives -= 2;
     		print("lives: " + this.lives);
-    		Destroy(collision.gameObject, 0);
+            StartCoroutine(Break(collision));
+          
+            Destroy(collision.gameObject, 0);
     	}
     	
     	if (this.lives <= 0){

@@ -8,6 +8,8 @@ public class Enemy2Collisions : MonoBehaviour
 {
     private float UPPER_THRESHOLD = 9.0f;
     private int lives = 2;
+    public AudioSource audioMetal;
+    private ParticleSystem particle;
 
     void Start()
     {
@@ -22,6 +24,14 @@ public class Enemy2Collisions : MonoBehaviour
                 Destroy(collision.gameObject);
                 return;
             }
+
+            particle = this.gameObject.GetComponent<ParticleSystem>();
+            particle.Play();
+
+            audioMetal = this.gameObject.GetComponent<AudioSource>();
+            audioMetal.Play();
+
+
 
 
             Destroy(collision.gameObject);
