@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static MenuToGame;
 
 public class Sphere : MonoBehaviour
 {
 
 	public int lives = 5;
+	public int score = 0;
 	AudioSource cube_audio;
 	private ParticleSystem particle;
 
@@ -29,6 +31,8 @@ public class Sphere : MonoBehaviour
 		/*if (this.lives <= 0){
 			StartCoroutine(BackToMenu());
 		}*/
+
+		this.score = MenuToGame.Score;
 	}
 
     private IEnumerator Break(Collision collision)
@@ -61,15 +65,17 @@ public class Sphere : MonoBehaviour
     		print("lives: " + this.lives);
 
             StartCoroutine(Break(collision));
-    	
-           
-
             //yield return new WaitForSeconds(particle.main.StartLifetime.constantMax);
-    	
 
-    		if (this.lives == 0){
-    			Destroy(gameObject, 2);
-    		}
+    	} else if (collision.gameObject.tag == "Enemy2") {
+    		print("Collision with enemy2");
+    		this.lives -= 2;
+    		print("lives: " + this.lives);
+    		Destroy(collision.gameObject, 0);
+    	}
+    	
+    	if (this.lives <= 0){
+    		Destroy(gameObject, 2);
     	}
     }
 
@@ -87,6 +93,13 @@ public class Sphere : MonoBehaviour
 			GUI.Box (rectObj,"GAME OVER", 
 		          style );
 		}
+
+		Rect rectObj2 = new Rect(800, 450, 200, 400);
+		GUIStyle style2 = new GUIStyle();
+
+		style.alignment = TextAnchor.UpperLeft;
+
+		GUI.Box(rectObj2, "SCORE: " + this.score, style2);
 
 	}
 

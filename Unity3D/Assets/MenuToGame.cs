@@ -5,7 +5,6 @@ using UnityEngine;
 public class MenuToGame
 {
 	private static int difficulty = 1; //1 = easy, 2 = hard
-    // Start is called before the first frame update
 
 	public static int Difficulty{
 		get {
@@ -16,14 +15,15 @@ public class MenuToGame
 		}
 	}
 
-    void Start()
-    {
-        
-    }
+	private static int score = 0;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public static int Score{
+		get {
+			return score;
+		}
+		set {
+			score = value;
+		}
+	}
+
 }

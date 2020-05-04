@@ -12,12 +12,14 @@ public class Bullets : MonoBehaviour
 	public GameObject hero;
 	public GameObject bullet, clone;
     public AudioSource gunshot;
-	private float MAX_HEIGHT = 10.0f;
+	private float MAX_HEIGHT = 9.5f;
     private bool shot = false;
+
+    private bool AUTO_SHOOTING = false; //testing purposes
 
 	private Vector3 speed = new Vector3(0.0f, 7.5f, 0.0f);
 
-	private float delay = 1.0f;
+	private float delay = 0.3f;
 
     Thread receiveThread;
     UdpClient client;
@@ -25,15 +27,19 @@ public class Bullets : MonoBehaviour
 
     // Start is called before the first frame update
     void Start(){
-        //InvokeRepeating("Spawn", delay, delay);
 
-        port = 5070;
+        if (AUTO_SHOOTING){
+            InvokeRepeating("Spawn", delay, delay);
+        } else {
 
-        print ("Sending to 127.0.0.1 : " + port);
+            port = 5070;
 
-        receiveThread = new Thread (new ThreadStart(ReceiveData));
-        receiveThread.IsBackground = true;
-        receiveThread.Start ();
+            print ("Sending to 127.0.0.1 : " + port);
+
+            receiveThread = new Thread (new ThreadStart(ReceiveData));
+            receiveThread.IsBackground = true;
+            receiveThread.Start ();
+        }
     }
 
     private void ReceiveData(){

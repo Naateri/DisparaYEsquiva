@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static MenuToGame;
 
 public class CubesCollision : MonoBehaviour
 {
@@ -15,18 +16,7 @@ public class CubesCollision : MonoBehaviour
         //audioWood = GetComponent<AudioSource>();
         //sr = GetComponent<SpriteRenderer>();
     }
-    /*
-    private IEnumerator Break()
-    {
-          particle = GameObject.Find("Particle System").GetComponent<ParticleSystem>();
-          particle.Play();
-          sr.enabled = false;
-          yield return new WaitForSeconds(particle.main.startLifetime.constantMax);
-        audioWood.Play();
-        yield return null;
 
-    }
-    */
 
     private void OnCollisionEnter(Collision collision){
 		if (collision.gameObject.tag == "MainBullet"){
@@ -49,6 +39,9 @@ public class CubesCollision : MonoBehaviour
 
             this.gameObject.GetComponent<MeshRenderer>().enabled = false;
             (gameObject.GetComponent(typeof(BoxCollider)) as Collider).enabled = false;
+
+            MenuToGame.Score++;
+            print("Score " + MenuToGame.Score);
 
             Destroy(this.gameObject, 2);
         }
