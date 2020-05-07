@@ -80,8 +80,9 @@ public class SocketClient : MonoBehaviour {
 				lastReceivedUDPPacket=text;
 				allReceivedUDPPackets=allReceivedUDPPackets+text;
 				xPos = float.Parse(strlist[0]);
-				xPos *= 0.021818f;
-
+				//xPos *= 0.021818f;
+				xPos /= 20;
+				
 				yPos = float.Parse(strlist[1]);
 				yPos *= 0.005f;
 			}catch(Exception e){
@@ -97,7 +98,8 @@ public class SocketClient : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		hero.transform.position = new Vector3(-xPos+6.0f,-1.5f-yPos,0);
+		//hero.transform.position = new Vector3(-xPos+6.0f,-1.5f-yPos,0);
+		hero.transform.position = new Vector3(xPos,-1.5f-yPos,0);
 	}
 
 	void OnApplicationQuit(){
