@@ -97,7 +97,7 @@ public class Sphere : MonoBehaviour
 		          style );
 		}
 
-		Rect rectObj2 = new Rect(800, 450, 200, 400);
+		Rect rectObj2 = new Rect(800, 300, 200, 350);
 		GUIStyle style2 = new GUIStyle();
 
 		style.alignment = TextAnchor.UpperLeft;
