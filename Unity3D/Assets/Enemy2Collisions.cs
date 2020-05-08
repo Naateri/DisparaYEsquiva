@@ -31,9 +31,6 @@ public class Enemy2Collisions : MonoBehaviour
             audioMetal = this.gameObject.GetComponent<AudioSource>();
             audioMetal.Play();
 
-
-
-
             Destroy(collision.gameObject);
 
             //GameObject enemy = this.gameObject.GetComponent<Enemy2>();

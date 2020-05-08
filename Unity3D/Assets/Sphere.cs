@@ -8,8 +8,8 @@ using static MenuToGame;
 public class Sphere : MonoBehaviour
 {
 
-	public int lives = 5;
-	public int score = 0;
+	private int lives = 7;
+	private int score = 0;
 	AudioSource cube_audio;
 	private ParticleSystem particle;
 
@@ -74,7 +74,7 @@ public class Sphere : MonoBehaviour
     		print("lives: " + this.lives);
             StartCoroutine(Break(collision));
           
-            Destroy(collision.gameObject, 0);
+            Destroy(collision.gameObject, 2);
     	}
     	
     	if (this.lives <= 0){
