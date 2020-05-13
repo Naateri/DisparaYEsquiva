@@ -26,4 +26,17 @@ public class MenuToGame
 		}
 	}
 
+	private static int game_mode = 0;
+	//0 = regular
+	//1 = training
+
+	public static int Game_mode{
+		get{
+			return game_mode;
+		}
+		set {
+			game_mode = value;
+		}
+	}
+
 }

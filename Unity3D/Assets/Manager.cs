@@ -29,6 +29,11 @@ public class Manager : MonoBehaviour
     	SceneManager.LoadScene("menu");
     }
 
+    public void SetGameMode(){
+        MenuToGame.Game_mode = 1;
+        SceneManager.LoadScene("socketTest");
+    }
+
     public void ExitGame(){
     	Application.Quit();
     }

@@ -61,7 +61,8 @@ public class Sphere : MonoBehaviour
 
     	if (collision.gameObject.tag == "Enemy1"){
 
-    		this.lives--;
+    		if (MenuToGame.Game_mode == 0)
+    			this.lives--;
     		print("lives: " + this.lives);
 
             StartCoroutine(Break(collision));
@@ -70,7 +71,8 @@ public class Sphere : MonoBehaviour
 
         } else if (collision.gameObject.tag == "Enemy2") {
     		print("Collision with enemy2");
-    		this.lives -= 2;
+    		if (MenuToGame.Game_mode == 0)
+    			this.lives -= 2;
     		print("lives: " + this.lives);
             StartCoroutine(Break(collision));
           
