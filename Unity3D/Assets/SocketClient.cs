@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -27,7 +28,11 @@ public class SocketClient : MonoBehaviour {
 
 	void Start () {
 		init();
-	}
+        GameObject[] gobjects = GameObject.FindGameObjectsWithTag("Music");
+
+        for (var i = 0; i < gobjects.Length; i++)
+            Destroy(gobjects[i]);
+    }
 
 	void OnGUI(){
 		Rect  rectObj=new Rect (40,10,200,400);

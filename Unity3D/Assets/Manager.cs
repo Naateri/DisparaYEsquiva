@@ -9,7 +9,7 @@ public class Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+    
     }
 
     // Update is called once per frame
@@ -34,7 +34,10 @@ public class Manager : MonoBehaviour
 
     public void SetGameMode(){
         MenuToGame.Game_mode = 1;
+
+
         SceneManager.LoadScene("socketTest");
+        
     }
 
     public void ExitGame(){
