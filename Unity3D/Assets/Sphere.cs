@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using static MenuToGame;
 
 public class Sphere : MonoBehaviour
@@ -13,8 +14,14 @@ public class Sphere : MonoBehaviour
 	AudioSource cube_audio;
 	private ParticleSystem particle;
 
+	public GameObject leaveButton;
+
 	void Start(){
 		print("Start Sphere");
+		if (MenuToGame.Game_mode == 0)
+			leaveButton.SetActive(false);
+		else
+			leaveButton.SetActive(true);
 	}
 
 	/*private void GoBackToMenu(){
@@ -37,6 +44,7 @@ public class Sphere : MonoBehaviour
 
     private IEnumerator Break(Collision collision)
     {
+    	//impacto de cubo con el jugador
         collision.gameObject.GetComponent<Rigidbody>().freezeRotation = true;
         particle = collision.gameObject.GetComponent<ParticleSystem>();
         particle.Play();
@@ -51,7 +59,17 @@ public class Sphere : MonoBehaviour
 
         yield return new WaitForSeconds(0.8f);
 
-       
+    }
+
+    private IEnumerator RestartGame(){
+    	//Destroy(gameObject, 2);
+    	yield return new WaitForSeconds(2.0f);
+    	gameObject.GetComponent<MeshRenderer>().enabled = false;
+    	(gameObject.GetComponent(typeof(SphereCollider)) as Collider).enabled = false;
+
+    	yield return new WaitForSeconds(2.0f);
+    	SceneManager.LoadScene("menu");
+    	Destroy(gameObject);
     }
 
     private void OnCollisionEnter(Collision collision){
@@ -80,7 +98,8 @@ public class Sphere : MonoBehaviour
     	}
     	
     	if (this.lives <= 0){
-    		Destroy(gameObject, 2);
+    		//Destroy(gameObject, 2);
+    		StartCoroutine(RestartGame());
     	}
     }
 

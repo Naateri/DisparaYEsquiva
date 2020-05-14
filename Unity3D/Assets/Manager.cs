@@ -20,6 +20,9 @@ public class Manager : MonoBehaviour
 
     public void CargarEscena(string nombre)
     {
+        if (nombre == "socketTest"){
+            MenuToGame.Game_mode = 0;
+        }
         SceneManager.LoadScene(nombre);
     }
 
