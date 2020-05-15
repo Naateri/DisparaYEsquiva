@@ -56,26 +56,43 @@ public class SocketClient : MonoBehaviour {
 
 	}
 
+	private IEnumerator Wait(float time){
+		yield return new WaitForSeconds(time);
+		receiveThread = new Thread (new ThreadStart(ReceiveData));
+		receiveThread.IsBackground = true;
+		receiveThread.Start ();
+	}
+
 	private void init(){
 		print ("UPDSend.init()");
 
 		port = 5065;
 
+		//client = new UdpClient (port);
+
 		print ("Sending to 127.0.0.1 : " + port);
 
-		receiveThread = new Thread (new ThreadStart(ReceiveData));
-		receiveThread.IsBackground = true;
-		receiveThread.Start ();
+		StartCoroutine(Wait(0.8f));
+
+		//receiveThread = new Thread (new ThreadStart(ReceiveData));
+		//receiveThread.IsBackground = true;
+		//receiveThread.Start ();
 
 	}
 
 	private void ReceiveData(){
-		//client = new UdpClient (port);
+		print("Recieve thread MOVE");
+		client = new UdpClient (port);
 		while (true) {
 		//while(MenuToGame.Alive == 1){
 			try{
-				client = new UdpClient (port);
+				//client = new UdpClient (port);
+				if (MenuToGame.Alive == 0){
+					client.Close();
+					break;
+				}
 				IPEndPoint anyIP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
+
 				byte[] data = client.Receive(ref anyIP);
 
 				string text = Encoding.UTF8.GetString(data);
@@ -95,7 +112,7 @@ public class SocketClient : MonoBehaviour {
 				
 				yPos = float.Parse(strlist[1]);
 				yPos *= 0.005f;
-				client.Close();
+				//client.Close();
 			}catch(Exception e){
 				print (e.ToString());
 			}
@@ -117,20 +134,20 @@ public class SocketClient : MonoBehaviour {
 		//} catch(Exception e){
 			;
 		//}
-		if (MenuToGame.Alive == 0){
-			receiveThread.Abort();
-			if (client != null)
-				client.Close();
+		/*if (MenuToGame.Alive == 0){
+			//receiveThread.Abort();
+			//if (client != null)
+			//	client.Close();
 			//client.Close();
-		}
+		}*/
 	}
 
-	void OnApplicationQuit(){
+	/*void OnApplicationQuit(){
 		if (receiveThread != null) {
+			//if (client != null)
+			//	client.Close();
 			receiveThread.Abort();
-			if (client != null)
-				client.Close();
 			Debug.Log(receiveThread.IsAlive); //must be false
 		}
-	}
+	}*/
 }

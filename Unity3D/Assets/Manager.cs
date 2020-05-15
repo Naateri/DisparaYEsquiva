@@ -22,6 +22,8 @@ public class Manager : MonoBehaviour
     {
         if (nombre == "socketTest"){
             MenuToGame.Game_mode = 0;
+        } else if (nombre == "menu"){
+            MenuToGame.Alive = 0;
         }
         SceneManager.LoadScene(nombre);
     }

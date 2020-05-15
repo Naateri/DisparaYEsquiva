@@ -26,6 +26,13 @@ public class Bullets : MonoBehaviour
     UdpClient client;
     public int port;
 
+    private IEnumerator Wait(float time){
+        yield return new WaitForSeconds(time);
+        receiveThread = new Thread (new ThreadStart(ReceiveData));
+        receiveThread.IsBackground = true;
+        receiveThread.Start ();
+    }
+
     // Start is called before the first frame update
     void Start(){
 
@@ -33,33 +40,42 @@ public class Bullets : MonoBehaviour
             InvokeRepeating("Spawn", delay, delay);
         } else {
 
+            //client = new UdpClient (port);
+
             port = 5070;
 
             print ("Sending to 127.0.0.1 : " + port);
+            StartCoroutine(Wait(0.8f));
 
-            receiveThread = new Thread (new ThreadStart(ReceiveData));
-            receiveThread.IsBackground = true;
-            receiveThread.Start ();
+            //receiveThread = new Thread (new ThreadStart(ReceiveData));
+            //receiveThread.IsBackground = true;
+            //receiveThread.Start ();
         }
     }
 
     private void ReceiveData(){
-        //client = new UdpClient (port);
-        //while (true) {
-        while (MenuToGame.Alive == 1){
+        print("Recieve thread BULL");
+        client = new UdpClient (port);
+        while (true) {
+        //while (MenuToGame.Alive == 1){
             try{
-                client = new UdpClient (port);
+                if (MenuToGame.Alive == 0){
+                    client.Close();
+                    break;
+                }
+                //client = new UdpClient (port);
                 IPEndPoint anyIP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
+
                 byte[] data = client.Receive(ref anyIP);
 
                 string text = Encoding.UTF8.GetString(data);
-                print (">> " + text);
+                //print (">> BULLET " + text);
                 //lastReceivedUDPPacket=text;
                 //allReceivedUDPPackets=allReceivedUDPPackets+text;
                 if (text == "100"){
                     shot = true;
                 }
-                client.Close();
+                //client.Close();
             }catch(Exception e){
                 print (e.ToString());
             }
@@ -67,14 +83,14 @@ public class Bullets : MonoBehaviour
         //client.Close();
     }
 
-    void OnApplicationQuit(){
+    /*void OnApplicationQuit(){
         if (receiveThread != null) {
+            //if (client != null)
+            //    client.Close();
             receiveThread.Abort();
-            if (client != null)
-                client.Close();
             Debug.Log(receiveThread.IsAlive); //must be false
         }
-    }
+    }*/
 
     // Update is called once per frame
     void Update(){
@@ -103,10 +119,10 @@ public class Bullets : MonoBehaviour
             ;
         //}
 
-        if (MenuToGame.Alive == 0){
-            receiveThread.Abort();
+        /*if (MenuToGame.Alive == 0){
+            //receiveThread.Abort();
             //client.Close();
-        }
+        }*/
     }
 
     void Spawn () {
