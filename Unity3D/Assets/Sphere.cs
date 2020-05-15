@@ -18,21 +18,15 @@ public class Sphere : MonoBehaviour
 
 	void Start(){
 		print("Start Sphere");
-		if (MenuToGame.Game_mode == 0)
+		if (MenuToGame.Game_mode == 0){
 			leaveButton.SetActive(false);
-		else
+		}
+		else{
 			leaveButton.SetActive(true);
-	}
+		}
 
-	/*private void GoBackToMenu(){
-		print("Back to menu");
-		SceneManager.LoadScene("menu");
+		MenuToGame.Alive = 1;
 	}
-
-	IEnumerator BackToMenu(){
-		yield return new WaitForSeconds(4);
-		GoBackToMenu();
-	}*/
 
 	void Update(){
 		/*if (this.lives <= 0){
@@ -98,6 +92,7 @@ public class Sphere : MonoBehaviour
     	}
     	
     	if (this.lives <= 0){
+    		MenuToGame.Alive = 0;
     		//Destroy(gameObject, 2);
     		StartCoroutine(RestartGame());
     	}

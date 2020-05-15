@@ -39,4 +39,15 @@ public class MenuToGame
 		}
 	}
 
+	private static int alive = 1;
+
+	public static int Alive{
+		get{
+			return alive;
+		}
+		set {
+			alive = value;
+		}
+	}
+
 }

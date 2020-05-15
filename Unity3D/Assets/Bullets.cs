@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using static MenuToGame;
 
 public class Bullets : MonoBehaviour
 {
@@ -43,9 +44,11 @@ public class Bullets : MonoBehaviour
     }
 
     private void ReceiveData(){
-        client = new UdpClient (port);
-        while (true) {
+        //client = new UdpClient (port);
+        //while (true) {
+        while (MenuToGame.Alive == 1){
             try{
+                client = new UdpClient (port);
                 IPEndPoint anyIP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
                 byte[] data = client.Receive(ref anyIP);
 
@@ -56,15 +59,19 @@ public class Bullets : MonoBehaviour
                 if (text == "100"){
                     shot = true;
                 }
+                client.Close();
             }catch(Exception e){
                 print (e.ToString());
             }
         }
+        //client.Close();
     }
 
     void OnApplicationQuit(){
         if (receiveThread != null) {
             receiveThread.Abort();
+            if (client != null)
+                client.Close();
             Debug.Log(receiveThread.IsAlive); //must be false
         }
     }
@@ -75,17 +82,30 @@ public class Bullets : MonoBehaviour
     	if (clone.transform.position.y >= MAX_HEIGHT){
     		Destroy(clone);
     	}*/
-        if (shot){
-            Spawn();
-            shot = false;
-        }
+        //try{
+            //hero = GameObject.FindWithTag("PlayerObj");
 
-        GameObject[] instances = GameObject.FindGameObjectsWithTag("MainBullet");
-        for(int i = 0; i < instances.Length; i++){
-            if (instances[i].transform.position.y >= MAX_HEIGHT){
-                Destroy(instances[i]);
-                break; 
+            if (shot){
+                Spawn();
+                shot = false;
             }
+
+            GameObject[] instances = GameObject.FindGameObjectsWithTag("MainBullet");
+            for(int i = 0; i < instances.Length; i++){
+                if (instances[i].transform.position.y >= MAX_HEIGHT){
+                    Destroy(instances[i]);
+                    break; 
+                }
+            }
+
+            
+       // } catch (Exception e){
+            ;
+        //}
+
+        if (MenuToGame.Alive == 0){
+            receiveThread.Abort();
+            //client.Close();
         }
     }
 

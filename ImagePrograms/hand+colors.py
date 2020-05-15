@@ -100,6 +100,7 @@ class ScreenColor():
             pos_info = str(self.pos_x) + " " + str(self.pos_y)
         
             info= bytes(pos_info,encoding='utf-8')
+            #print(pos_info)
             self.sock.sendto(info,(self.UDP_IP,self.UDP_PORT)) #SENDING TO UNITY
                     
             cv2.imshow('frame',frame)

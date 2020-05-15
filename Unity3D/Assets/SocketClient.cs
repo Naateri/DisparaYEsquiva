@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using static MenuToGame;
 
 public class SocketClient : MonoBehaviour {
 
@@ -28,6 +29,8 @@ public class SocketClient : MonoBehaviour {
 
 	void Start () {
 		init();
+
+		MenuToGame.Score = 0;
         GameObject[] gobjects = GameObject.FindGameObjectsWithTag("Music");
 
         for (var i = 0; i < gobjects.Length; i++)
@@ -67,14 +70,16 @@ public class SocketClient : MonoBehaviour {
 	}
 
 	private void ReceiveData(){
-		client = new UdpClient (port);
+		//client = new UdpClient (port);
 		while (true) {
+		//while(MenuToGame.Alive == 1){
 			try{
+				client = new UdpClient (port);
 				IPEndPoint anyIP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
 				byte[] data = client.Receive(ref anyIP);
 
 				string text = Encoding.UTF8.GetString(data);
-				print (">> " + text);
+				//print (">> " + text);
 
 				String[] separation = { " " }; 
 				Int32 count = 2; 
@@ -90,10 +95,12 @@ public class SocketClient : MonoBehaviour {
 				
 				yPos = float.Parse(strlist[1]);
 				yPos *= 0.005f;
+				client.Close();
 			}catch(Exception e){
 				print (e.ToString());
 			}
 		}
+		//client.Close();
 	}
 
 	public string getLatestUDPPacket(){
@@ -103,13 +110,26 @@ public class SocketClient : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//hero.transform.position = new Vector3(-xPos+6.0f,-1.5f-yPos,0);
-		hero.transform.position = new Vector3(xPos,-1.5f-yPos,0);
+		//try{
+			//hero = GameObject.FindWithTag("PlayerObj");
+			//hero.transform.position = new Vector3(-xPos+6.0f,-1.5f-yPos,0);
+			hero.transform.position = new Vector3(xPos,-1.5f-yPos,0);
+		//} catch(Exception e){
+			;
+		//}
+		if (MenuToGame.Alive == 0){
+			receiveThread.Abort();
+			if (client != null)
+				client.Close();
+			//client.Close();
+		}
 	}
 
 	void OnApplicationQuit(){
 		if (receiveThread != null) {
 			receiveThread.Abort();
+			if (client != null)
+				client.Close();
 			Debug.Log(receiveThread.IsAlive); //must be false
 		}
 	}
