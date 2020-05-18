@@ -26,6 +26,7 @@ public class Sphere : MonoBehaviour
 		}
 
 		MenuToGame.Alive = 1;
+		MenuToGame.Power_status = 1;
 	}
 
 	void Update(){
@@ -111,6 +112,16 @@ public class Sphere : MonoBehaviour
 		} else {
 			GUI.Box (rectObj,"GAME OVER", 
 		          style );
+		}
+
+		Rect powerNotif = new Rect(650, 400, 200, 350);
+
+		if (MenuToGame.Power_status == 0){
+			GUI.Box (powerNotif, "POWER IS NOT AVAILABLE", style);
+		} else if (MenuToGame.Power_status == 1){
+			GUI.Box (powerNotif, "POWER AVAILABLE", style);
+		} else if (MenuToGame.Power_status == 2){
+			GUI.Box (powerNotif, "POWER ACTIVATED", style);
 		}
 
 		Rect rectObj2 = new Rect(800, 300, 200, 350);

@@ -50,4 +50,19 @@ public class MenuToGame
 		}
 	}
 
+	// 0 -> can't activate power
+	// 1 -> can activate power
+	// 2 -> power is active
+
+	private static int power_status = 1;
+
+	public static int Power_status{
+		get{
+			return power_status;
+		}
+		set {
+			power_status = value;
+		}
+	}
+
 }

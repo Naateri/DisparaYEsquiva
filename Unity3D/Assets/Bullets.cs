@@ -15,6 +15,7 @@ public class Bullets : MonoBehaviour
     public AudioSource gunshot;
 	private float MAX_HEIGHT = 9.5f;
     private bool shot = false;
+    private bool power = false;
 
     private bool AUTO_SHOOTING = false; //testing purposes
 
@@ -74,6 +75,13 @@ public class Bullets : MonoBehaviour
                 //allReceivedUDPPackets=allReceivedUDPPackets+text;
                 if (text == "100"){
                     shot = true;
+                }
+                else if (text == "200"){
+                    MenuToGame.Power_status = 0; // cant activate power
+                } else if (text == "300"){
+                    MenuToGame.Power_status = 1; // can activate power
+                } else if (text == "400"){
+                    MenuToGame.Power_status = 2; // power IS activated
                 }
                 //client.Close();
             }catch(Exception e){

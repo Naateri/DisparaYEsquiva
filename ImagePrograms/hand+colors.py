@@ -4,6 +4,12 @@ import math
 import socket
 import time
 
+# 0 = no-shoot
+# 100 = shoot
+# 200 = notify power can be activated
+# 300 = notify can't activate power
+# 400 = notify power is activated
+
 #################################################
 
 def send_socket(info, sock, UDP_IP, UDP_PORT):
@@ -44,6 +50,9 @@ class ScreenColor():
     UDP_IP = "127.0.0.1"
 
     font = cv2.FONT_HERSHEY_SIMPLEX
+
+    y_values = list() # Store last 10 y_values
+    MAX_Y_VALUES = 10
 
     def __init__(self, cap, color, sock): #cap = VideoCapture
 
@@ -102,9 +111,24 @@ class ScreenColor():
             info= bytes(pos_info,encoding='utf-8')
             #print(pos_info)
             self.sock.sendto(info,(self.UDP_IP,self.UDP_PORT)) #SENDING TO UNITY
+            if self.pos_y != 0:
+                self.y_values.append(self.pos_y)
+            if len(self.y_values) > self.MAX_Y_VALUES:
+                self.y_values.pop(0)
                     
             cv2.imshow('frame',frame)
-    
+
+
+    def activate_power(self):
+        if len(self.y_values) < self.MAX_Y_VALUES:
+            return False
+        
+        max_y = max(self.y_values)
+        min_y = min(self.y_values)
+
+        if max_y - min_y >= 250:
+            return True
+        return False
 
 def main():
 
@@ -115,6 +139,13 @@ def main():
     SHOTS_PER_SECOND = 0.5
     SHOOT_WAIT_TIME = False
 
+    POWER_ACTIVE_TIME = 5.0
+    POWER_WAIT_TIME = 5.0
+    POWER_ENABLED = False
+    POWER_WAIT_ENABLED = False
+
+    power_start_time = 0
+    power_start_wait_time = 0
 
     print ("UDP target IP:", UDP_IP)
     print ("UDP hand target port:", UDP_HAND_PORT)
@@ -212,6 +243,41 @@ def main():
         if k == 27:
             break
 
+        if not POWER_ENABLED:
+            cv2.putText(img,"NO PODER", (250,250), cv2.FONT_HERSHEY_SIMPLEX, 2, 2)
+        elif POWER_WAIT_ENABLED:
+            cv2.putText(img,"NO SE PUEDE ACTIVAR PODER", (250,250), cv2.FONT_HERSHEY_SIMPEX, 2, 2)
+        else:
+            cv2.putText(img,"PODER", (250,250), cv2.FONT_HERSHEY_SIMPLEX, 2, 2)
+            
         screenColor.loop(img)
+        if screenColor.activate_power():
+            if not POWER_WAIT_ENABLED and not POWER_ENABLED: # can use power
+                power_start_time = time.perf_counter()
+                POWER_ENABLED = True
+                cv2.putText(img,"PODER", (250,250), cv2.FONT_HERSHEY_SIMPLEX, 2, 2)
+                SHOTS_PER_SECOND = 0.25
+                info = "400" # Power IS activated
+                send_socket(info, sock, UDP_IP, UDP_HAND_PORT)
+
+        # Check power duration
+        power_end_time = time.perf_counter()
+        if (POWER_ENABLED and int(power_start_time) != 0 and
+            (power_end_time - power_start_time) >= POWER_ACTIVE_TIME): # power over
+            POWER_ENABLED = False
+            SHOTS_PER_SECOND = 0.5
+            info = "200" # Cant activate power
+            send_socket(info, sock, UDP_IP, UDP_HAND_PORT)
+            POWER_WAIT_ENABLED = True
+            power_start_wait_time = time.perf_counter()
+
+        # Enable Power
+        if POWER_WAIT_ENABLED:
+            # Check if power can be enabled
+            power_end_wait_time = time.perf_counter()
+            if (power_end_wait_time - power_start_wait_time) >= POWER_WAIT_TIME:
+                POWER_WAIT_ENABLED = False
+                info = "300" # Can activate power
+                send_socket(info, sock, UDP_IP, UDP_HAND_PORT)
 
 main()
