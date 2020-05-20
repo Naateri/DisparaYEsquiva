@@ -179,7 +179,7 @@ public class MenuCellphone : MonoBehaviour {
                     if (elapsed >= waitTime)
                     {
                         print("Entrar al boton");
-                        //print(button);
+                        print(button);
 
                         prev_button = 0;
                         timer = 0.0f;
