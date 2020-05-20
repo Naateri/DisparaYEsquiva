@@ -4,11 +4,18 @@ import math
 import socket
 import time
 
+
+# bullet socket
 # 0 = no-shoot
 # 100 = shoot
 # 200 = notify power can be activated
 # 300 = notify can't activate power
 # 400 = notify power is activated
+
+# UDP Ports
+# 5065: cellphone to player (controlling movement + power)
+# 5070: bullet (hand)
+# 5080: cellphone to menu (controlling menu)
 
 #################################################
 
@@ -22,6 +29,8 @@ class ScreenColor():
 
     total_x = 600 #maximum value of x, pos_x = total_x - min_x
     min_x = 200 #minimum value of x, pos_x = 0
+
+    total_y = 450
 
     x_difference = total_x - min_x 
     substract_x = x_difference / 2
@@ -47,6 +56,7 @@ class ScreenColor():
     verdeAlto = np.array([255,255,125], np.uint8)
 
     UDP_PORT = 5065
+    UDP_MENU_PORT = 5080
     UDP_IP = "127.0.0.1"
 
     font = cv2.FONT_HERSHEY_SIMPLEX
@@ -67,6 +77,8 @@ class ScreenColor():
         self.pos_x = 0
         self.pos_y = 0
 
+        self.menu_pos_x = 0
+
         print(self.substract_x)
 
         self.sock = sock
@@ -86,10 +98,22 @@ class ScreenColor():
                         cv2.circle(frame,(x,y),7,(0,255,0),-1)
                         cv2.putText(frame,'{},{}'.format(x,y),(x+10,y),self.font, 0.75,(0,255,0),1,cv2.LINE_AA)
                         cv2.drawContours(frame, [nuevoContorno], 0, color, 3)
+
+                        self.menu_pos_x = x
                             
                         self.pos_x = x - self.substract_x #eg: x = x - 200, goes from 0 to 400
                         self.pos_x -= self.substract_x #eg: x = x - 200, goes from -200 to 200
                         self.pos_y = y
+
+    def send_menu_info(self, x, y):
+
+        x = x - (self.total_x / 2)
+        y = (self.total_y / 2) - y
+        
+        pos_info = str(x) + " " + str(y)
+        info = bytes(pos_info, encoding='utf-8')
+
+        self.sock.sendto(info,(self.UDP_IP, self.UDP_MENU_PORT))
 
     def loop(self, frame):
             frameHSV = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
@@ -115,6 +139,8 @@ class ScreenColor():
                 self.y_values.append(self.pos_y)
             if len(self.y_values) > self.MAX_Y_VALUES:
                 self.y_values.pop(0)
+
+            self.send_menu_info(self.menu_pos_x, self.pos_y)
                     
             cv2.imshow('frame',frame)
 
@@ -249,7 +275,9 @@ def main():
             cv2.putText(img,"NO SE PUEDE ACTIVAR PODER", (250,250), cv2.FONT_HERSHEY_SIMPEX, 2, 2)
         else:
             cv2.putText(img,"PODER", (250,250), cv2.FONT_HERSHEY_SIMPLEX, 2, 2)
-            
+
+        #### SCREEN COLOR #####
+        
         screenColor.loop(img)
         if screenColor.activate_power():
             if not POWER_WAIT_ENABLED and not POWER_ENABLED: # can use power

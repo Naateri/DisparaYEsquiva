@@ -15,7 +15,7 @@ public class Bullets : MonoBehaviour
     public AudioSource gunshot;
 	private float MAX_HEIGHT = 9.5f;
     private bool shot = false;
-    private bool power = false;
+    //private bool power = false;
 
     private bool AUTO_SHOOTING = false; //testing purposes
 

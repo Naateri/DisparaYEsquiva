@@ -27,6 +27,7 @@ public class Sphere : MonoBehaviour
 
 		MenuToGame.Alive = 1;
 		MenuToGame.Power_status = 1;
+		MenuToGame.Menu_Cellphone = 1; // can create menu socket again
 	}
 
 	void Update(){

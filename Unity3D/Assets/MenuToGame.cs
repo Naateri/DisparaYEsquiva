@@ -65,4 +65,18 @@ public class MenuToGame
 		}
 	}
 
+	// 0 -> DO NOT create extra socket
+	// 1 -> Can create socket for menu interaction
+
+	private static int menu_cellphone = 1;
+
+	public static int Menu_Cellphone{
+		get {
+			return menu_cellphone;
+		}
+		set {
+			menu_cellphone = value;
+		}
+	}
+
 }
