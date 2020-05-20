@@ -20,11 +20,16 @@ public class MenuCellphone : MonoBehaviour {
 	//private float yPos = -3.0f;
 	private float yPos = 0.0f;
 	private bool update_x = true;
+    private float waitTime = 0.0002f;
+    private float timer = 0.0f;
+    private int button = 0;
+    private int prev_button = 0;
+ 
 
-	// just before timer to choose button
-	// is over (0.1s?): switch_scene = true
+    // just before timer to choose button
+    // is over (0.1s?): switch_scene = true
 
-	private bool switch_scene = false;
+    private bool switch_scene = false;
 
 	Thread receiveThread;
 	UdpClient client;
@@ -41,6 +46,7 @@ public class MenuCellphone : MonoBehaviour {
 		} else {
 			print("Do nothing");
 		}
+
     }
 
 	void OnGUI(){
@@ -137,11 +143,60 @@ public class MenuCellphone : MonoBehaviour {
 		allReceivedUDPPackets = "";
 		return lastReceivedUDPPacket;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		pointer.transform.position = new Vector3(xPos,yPos,0);
-	}
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        pointer.transform.position = new Vector3(xPos, yPos, 0);
+     
+        for (int i = 0; i < 4; ++i)
+        {
+            int posy = 70 - i * 60;
+            Rect rect = new Rect(0,posy , 180, 40);
+           // print(pointer.transform.position);
+
+            Vector3 startPos = Vector3.zero;
+            startPos = (new Vector2(pointer.transform.position.x/10.0f*300.0f, pointer.transform.position.y /6.0f * 300.0f));
+            //print(startPos);
+            if (rect.Contains(startPos))
+            {
+                button = i;
+                timer = Time.realtimeSinceStartup;
+                //print("BOTON");
+                //print(i);
+               // print("TIMER");
+
+                //print(timer);
+             
+                //print(i);
+                if (prev_button == button)
+                {
+
+                    print("ELAPSED");
+                    float elapsed = Time.realtimeSinceStartup - timer;
+                    print(elapsed);
+                    if (elapsed >= waitTime)
+                    {
+                        print("Entrar al boton");
+                        //print(button);
+
+                        prev_button = 0;
+                        timer = 0.0f;
+                    }
+
+                }
+                else
+                {
+                    prev_button = button;
+                    timer = 0.0f;
+                    
+                }
+            }
+
+        }
+    
+    }
 
 	void OnApplicationQuit(){
 		if (receiveThread != null) {
