@@ -9,7 +9,7 @@ using static MenuToGame;
 public class Sphere : MonoBehaviour
 {
 
-	private int lives = 7;
+	private int lives = 10;
 	private int score = 0;
 	AudioSource cube_audio;
 	private ParticleSystem particle;
@@ -91,6 +91,21 @@ public class Sphere : MonoBehaviour
             StartCoroutine(Break(collision));
           
             Destroy(collision.gameObject, 2);
+    	} else if (collision.gameObject.tag == "Enemy3") {
+    		print("Collision with enemy3");
+    		if (MenuToGame.Game_mode == 0)
+    			this.lives -= 3;
+    		print("lives: " + this.lives);
+    		// uncomment when enemy3 has sound collision and particle effect
+            //StartCoroutine(Break(collision));
+          
+            Destroy(collision.gameObject, 2);
+    	} else if (collision.gameObject.tag == "Enemy3Bullet"){
+    		print("Collision with enemy3 bullet");
+    		if (MenuToGame.Game_mode == 0)
+    			this.lives -= 1;
+    		print("lives: " + this.lives);
+    		Destroy(collision.gameObject,0);
     	}
     	
     	if (this.lives <= 0){

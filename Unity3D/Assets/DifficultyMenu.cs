@@ -12,7 +12,7 @@ using static MenuToGame;
 // y goes from -6 to 6
 // x goes from -10 to 10
 
-public class MenuCellphone : MonoBehaviour {
+public class DifficultyMenu : MonoBehaviour {
 
 	// Use this for initialization
 
@@ -30,7 +30,7 @@ public class MenuCellphone : MonoBehaviour {
 
     private string button;
  	
- 	private Rect play, opt, tryout, exit;
+ 	private Rect easy, hard, back;
 
     // just before timer to choose button
     // is over (0.1s?): switch_scene = true
@@ -48,10 +48,9 @@ public class MenuCellphone : MonoBehaviour {
 
 	void Start () {
 
-        play = new Rect(0, 70 - 0*60 , 180, 70);
-        opt = new Rect(0, 70 - 1*60 , 180, 70);
-        tryout = new Rect(0, 70 - 2*60 , 180, 70);
-        exit = new Rect(0, 70 - 3*60 , 180, 70);
+        easy = new Rect(0, 100, 200, 70);
+        hard = new Rect(0, 25, 200, 70);
+        back = new Rect(0, -50, 200, 70);
 
 		if (MenuToGame.Menu_Cellphone == 1){
 			init();
@@ -63,15 +62,13 @@ public class MenuCellphone : MonoBehaviour {
 
     void switch_to_scene(int button){
     	if (button == 0){
-            MenuToGame.Game_mode = 0;
-            SceneManager.LoadScene("socketTest");
+            MenuToGame.Difficulty = 1;
+            SceneManager.LoadScene("menu");
         } else if (button == 1){
-            SceneManager.LoadScene("menu-difficulty");
+            MenuToGame.Difficulty = 2;
+            SceneManager.LoadScene("menu");
         } else if (button == 2){
-        	MenuToGame.Game_mode = 1;
-        	SceneManager.LoadScene("socketTest");
-        } else if (button == 3){
-        	Application.Quit();
+            SceneManager.LoadScene("menu");
         }
     }
 
@@ -97,13 +94,11 @@ public class MenuCellphone : MonoBehaviour {
 		if (prev_button == -1){
 			button = "None";
 		} else if (prev_button == 0){
-			button = "Jugar";
+			button = "Facil";
 		} else if (prev_button == 1){
-			button = "Opciones";
+			button = "Dificil";
 		} else if (prev_button == 2){
-			button = "Pruebas";
-		} else if (prev_button == 3){
-			button = "Salir";
+			button = "Volver";
 		}
 		GUI.Box(rectObj2, "TIME ON BUTTON " + button + " = " + cur_time, style);
 
@@ -193,32 +188,25 @@ public class MenuCellphone : MonoBehaviour {
         pointer.transform.position = new Vector3(xPos, yPos, 0);
         Vector3 startPos = Vector3.zero;
         startPos = (new Vector2(pointer.transform.position.x/10.0f*550.0f, pointer.transform.position.y /6.0f * 300.0f));
-        if (play.Contains(startPos)){
+        if (easy.Contains(startPos)){
         	if (prev_button == 0){
         		cur_time = Time.time - timer;
         	} else {
         		prev_button = 0;
         		timer = Time.time;
         	}
-        } else if (opt.Contains(startPos)){
+        } else if (hard.Contains(startPos)){
         	if (prev_button == 1){
         		cur_time = Time.time - timer;
         	} else {
         		prev_button = 1;
         		timer = Time.time;
         	}
-        } else if (tryout.Contains(startPos)){
+        } else if (back.Contains(startPos)){
         	if (prev_button == 2){
         		cur_time = Time.time - timer;
         	} else {
         		prev_button = 2;
-        		timer = Time.time;
-        	}
-        } else if (exit.Contains(startPos)){
-        	if (prev_button == 3){
-        		cur_time = Time.time - timer;
-        	} else {
-        		prev_button = 3;
         		timer = Time.time;
         	}
         } else {
@@ -233,8 +221,8 @@ public class MenuCellphone : MonoBehaviour {
         }
 
         if (cur_time >= waitTime){
-        	print("Entrar al boton " + prev_button);
         	MenuToGame.Menu_Cellphone = 1;
+        	print("Entrar al boton " + prev_button);
         	switch_to_scene(prev_button);
         }
     

@@ -35,6 +35,12 @@ public class SocketClient : MonoBehaviour {
 
         for (var i = 0; i < gobjects.Length; i++)
             Destroy(gobjects[i]);
+
+        GameObject MenuPointer, RealPointer;
+        MenuPointer = GameObject.FindWithTag("CellphonePointer");
+        RealPointer = GameObject.FindWithTag("RealPointer");
+        Destroy(RealPointer);
+        Destroy(MenuPointer);
     }
 
 	void OnGUI(){

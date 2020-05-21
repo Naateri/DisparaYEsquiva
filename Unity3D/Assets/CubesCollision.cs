@@ -15,10 +15,12 @@ public class CubesCollision : MonoBehaviour
     {
         //audioWood = GetComponent<AudioSource>();
         //sr = GetComponent<SpriteRenderer>();
+        Physics.IgnoreLayerCollision(9,9);
     }
 
 
     private void OnCollisionEnter(Collision collision){
+
 		if (collision.gameObject.tag == "MainBullet"){
 
             if(transform.position.y >= UPPER_THRESHOLD){
