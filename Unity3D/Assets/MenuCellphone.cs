@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using UnityEngine.SceneManagement;
 using static MenuToGame;
 
 // y goes from -6 to 6
@@ -20,11 +21,16 @@ public class MenuCellphone : MonoBehaviour {
 	//private float yPos = -3.0f;
 	private float yPos = 0.0f;
 	private bool update_x = true;
-    private float waitTime = 0.0002f;
+    //private float waitTime = 0.0002f;
+    private float waitTime = 2.0f;
     private float timer = 0.0f;
-    private int button = 0;
-    private int prev_button = 0;
- 
+    private float cur_time = 0.0f;
+    //private int button = -1;
+    private int prev_button = -1;
+
+    private string button;
+ 	
+ 	private Rect play, opt, tryout, exit;
 
     // just before timer to choose button
     // is over (0.1s?): switch_scene = true
@@ -41,12 +47,32 @@ public class MenuCellphone : MonoBehaviour {
 	public string allReceivedUDPPackets = "";
 
 	void Start () {
+
+        play = new Rect(0, 70 - 0*60 , 180, 70);
+        opt = new Rect(0, 70 - 1*60 , 180, 70);
+        tryout = new Rect(0, 70 - 2*60 , 180, 70);
+        exit = new Rect(0, 70 - 3*60 , 180, 70);
+
 		if (MenuToGame.Menu_Cellphone == 1){
 			init();
 		} else {
 			print("Do nothing");
 		}
 
+    }
+
+    void switch_to_scene(int button){
+    	if (button == 0){
+            MenuToGame.Game_mode = 0;
+            SceneManager.LoadScene("socketTest");
+        } else if (button == 1){
+            SceneManager.LoadScene("menu-difficulty");
+        } else if (button == 2){
+        	MenuToGame.Game_mode = 1;
+        	SceneManager.LoadScene("socketTest");
+        } else if (button == 3){
+        	Application.Quit();
+        }
     }
 
 	void OnGUI(){
@@ -65,6 +91,21 @@ public class MenuCellphone : MonoBehaviour {
 		          //+ "\n\nAll Messages: \n"+allReceivedUDPPackets
 		          
 		          ,style );
+
+		Rect rectObj2 = new Rect(100, 500, 200, 400);
+
+		if (prev_button == -1){
+			button = "None";
+		} else if (prev_button == 0){
+			button = "Jugar";
+		} else if (prev_button == 1){
+			button = "Opciones";
+		} else if (prev_button == 2){
+			button = "Pruebas";
+		} else if (prev_button == 3){
+			button = "Salir";
+		}
+		GUI.Box(rectObj2, "TIME ON BUTTON " + button + " = " + cur_time, style);
 
 	}
 
@@ -102,6 +143,7 @@ public class MenuCellphone : MonoBehaviour {
 			try{
 				//client = new UdpClient (port);
 				if (switch_scene){
+					print("CLOSED MENU SOCKET UNITY-WISE");
 					client.Close();
 					break;
 				}
@@ -149,51 +191,51 @@ public class MenuCellphone : MonoBehaviour {
     {
 
         pointer.transform.position = new Vector3(xPos, yPos, 0);
-     
-        for (int i = 0; i < 4; ++i)
-        {
-            int posy = 70 - i * 60;
-            Rect rect = new Rect(0,posy , 180, 40);
-           // print(pointer.transform.position);
 
-            Vector3 startPos = Vector3.zero;
-            startPos = (new Vector2(pointer.transform.position.x/10.0f*300.0f, pointer.transform.position.y /6.0f * 300.0f));
-            //print(startPos);
-            if (rect.Contains(startPos))
-            {
-                button = i;
-                timer = Time.realtimeSinceStartup;
-                //print("BOTON");
-                //print(i);
-               // print("TIMER");
+        Vector3 startPos = Vector3.zero;
+        startPos = (new Vector2(pointer.transform.position.x/10.0f*550.0f, pointer.transform.position.y /6.0f * 300.0f));
+        if (play.Contains(startPos)){
+        	if (prev_button == 0){
+        		cur_time = Time.time - timer;
+        	} else {
+        		prev_button = 0;
+        		timer = Time.time;
+        	}
+        } else if (opt.Contains(startPos)){
+        	if (prev_button == 1){
+        		cur_time = Time.time - timer;
+        	} else {
+        		prev_button = 1;
+        		timer = Time.time;
+        	}
+        } else if (tryout.Contains(startPos)){
+        	if (prev_button == 2){
+        		cur_time = Time.time - timer;
+        	} else {
+        		prev_button = 2;
+        		timer = Time.time;
+        	}
+        } else if (exit.Contains(startPos)){
+        	if (prev_button == 3){
+        		cur_time = Time.time - timer;
+        	} else {
+        		prev_button = 3;
+        		timer = Time.time;
+        	}
+        } else {
+        	timer = Time.time; //restarting timer
+        	cur_time = 0.0f;
+        }
 
-                //print(timer);
-             
-                //print(i);
-                if (prev_button == button)
-                {
+        //print(cur_time + " " + prev_button);
 
-                    print("ELAPSED");
-                    float elapsed = Time.realtimeSinceStartup - timer;
-                    print(elapsed);
-                    if (elapsed >= waitTime)
-                    {
-                        print("Entrar al boton");
-                        //print(button);
+        if (cur_time >= waitTime - 0.15f){
+        	switch_scene = true;
+        }
 
-                        prev_button = 0;
-                        timer = 0.0f;
-                    }
-
-                }
-                else
-                {
-                    prev_button = button;
-                    timer = 0.0f;
-                    
-                }
-            }
-
+        if (cur_time >= waitTime){
+        	print("Entrar al boton " + prev_button);
+        	switch_to_scene(prev_button);
         }
     
     }
