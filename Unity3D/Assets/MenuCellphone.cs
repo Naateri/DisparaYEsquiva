@@ -191,7 +191,6 @@ public class MenuCellphone : MonoBehaviour {
     {
 
         pointer.transform.position = new Vector3(xPos, yPos, 0);
-
         Vector3 startPos = Vector3.zero;
         startPos = (new Vector2(pointer.transform.position.x/10.0f*550.0f, pointer.transform.position.y /6.0f * 300.0f));
         if (play.Contains(startPos)){
