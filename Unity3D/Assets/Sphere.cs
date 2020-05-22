@@ -96,8 +96,7 @@ public class Sphere : MonoBehaviour
     		if (MenuToGame.Game_mode == 0)
     			this.lives -= 3;
     		print("lives: " + this.lives);
-    		// uncomment when enemy3 has sound collision and particle effect
-            //StartCoroutine(Break(collision));
+            StartCoroutine(Break(collision));
           
             Destroy(collision.gameObject, 2);
     	} else if (collision.gameObject.tag == "Enemy3Bullet"){
@@ -116,31 +115,31 @@ public class Sphere : MonoBehaviour
     }
 
     void OnGUI(){
-		Rect rectObj= new Rect (40,450,200,400);
+		Rect rectObj= new Rect (45,70,200,400);
 		
 		GUIStyle style = new GUIStyle ();
 		
 		style.alignment = TextAnchor.UpperLeft;
         style.font = myFont;
         style.fontSize = 35;
-        style.normal.textColor = Color.blue;
+        style.normal.textColor = Color.yellow;
 		if (this.lives > 0){
 			GUI.Box (rectObj,"VIDAS: " + this.lives, 
 		          style );
 		} else {
-			GUI.Box (rectObj,"GAME OVER", 
+			GUI.Box (rectObj,"PERDISTE", 
 		          style );
 		}
       
-        Rect powerNotif = new Rect(750, 30, 200, 350);
+        Rect powerNotif = new Rect(800, 70, 200, 350);
         style.fontSize = 30;
         style.normal.textColor = Color.green;
         if (MenuToGame.Power_status == 0){
-			GUI.Box (powerNotif, "POWER IS NOT AVAILABLE", style);
+			GUI.Box (powerNotif, "PODER NO DISPONIBLE", style);
 		} else if (MenuToGame.Power_status == 1){
-			GUI.Box (powerNotif, "POWER AVAILABLE", style);
+			GUI.Box (powerNotif, "PODER DISPONIBLE", style);
 		} else if (MenuToGame.Power_status == 2){
-			GUI.Box (powerNotif, "POWER ACTIVATED", style);
+			GUI.Box (powerNotif, "PODER ACTIVADO", style);
 		}
 
 		Rect rectObj2 = new Rect(800, 300, 200, 350);

@@ -5,12 +5,13 @@ using UnityEngine;
 public class Enemy3BulletCollisions : MonoBehaviour
 {
 	  private float UPPER_THRESHOLD = 9.0f;
-   
+    public AudioSource shot;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        shot.Play();
         Physics.IgnoreLayerCollision(9,9);
     }
 

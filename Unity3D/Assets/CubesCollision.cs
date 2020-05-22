@@ -22,17 +22,15 @@ public class CubesCollision : MonoBehaviour
 
     void OnGUI()
     {
-        Rect rectObj = new Rect(30, 10, 200, 400);
+        Rect rectObj = new Rect(0, 20, 200, 400);
 
         GUIStyle style = new GUIStyle();
         style.font = myFont;
         style.fontSize = 40;
-        style.normal.textColor = Color.red;
+        style.normal.textColor = Color.white;
         style.alignment = TextAnchor.UpperRight;
 
-        GUI.Box(rectObj, "SCORE : " + MenuToGame.Score + " \n"
-
-                  , style);
+        GUI.Box(rectObj, "SCORE : " + MenuToGame.Score, style);
 
     }
 
