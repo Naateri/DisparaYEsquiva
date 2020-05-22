@@ -17,7 +17,7 @@ public class Bullets : MonoBehaviour
     private bool shot = false;
     //private bool power = false;
 
-    private bool AUTO_SHOOTING = true; //testing purposes
+    private bool AUTO_SHOOTING = false; //testing purposes
 
 	private Vector3 speed = new Vector3(0.0f, 7.5f, 0.0f);
 

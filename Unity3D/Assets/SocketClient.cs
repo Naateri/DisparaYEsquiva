@@ -20,6 +20,7 @@ public class SocketClient : MonoBehaviour {
 
 	Thread receiveThread;
 	UdpClient client;
+	Socket send_score;
 	public int port;
 
 	//info
@@ -78,6 +79,10 @@ public class SocketClient : MonoBehaviour {
 
 		print ("Sending to 127.0.0.1 : " + port);
 
+		//send_score = new UdpClient("127.0.0.1",5090);
+		send_score = new Socket(AddressFamily.InterNetwork, SocketType.Dgram,
+			ProtocolType.Udp);
+
 		StartCoroutine(Wait(0.8f));
 
 		//receiveThread = new Thread (new ThreadStart(ReceiveData));
@@ -133,6 +138,26 @@ public class SocketClient : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		IPEndPoint anyIP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 5090);
+		if (MenuToGame.Alive == 0){
+			Byte[] sendBytes = Encoding.ASCII.GetBytes("Dead");
+			try{
+			    send_score.SendTo(sendBytes, anyIP);
+			    send_score.Close();
+			}
+			catch ( Exception e ){
+			    Console.WriteLine( e.ToString());
+			}
+		} else {
+			Byte[] sendBytes = Encoding.ASCII.GetBytes(MenuToGame.Score.ToString());
+			try{
+			    send_score.SendTo(sendBytes, anyIP);
+			}
+			catch ( Exception e ){
+			    Console.WriteLine( e.ToString());
+			}
+		}
+
 		//try{
 			//hero = GameObject.FindWithTag("PlayerObj");
 			//hero.transform.position = new Vector3(-xPos+6.0f,-1.5f-yPos,0);

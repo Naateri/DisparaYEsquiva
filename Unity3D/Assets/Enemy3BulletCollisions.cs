@@ -33,22 +33,19 @@ public class Enemy3BulletCollisions : MonoBehaviour
 
             if(transform.position.y >= UPPER_THRESHOLD){
                 Destroy(collision.gameObject);
+                Destroy(this.gameObject);
                 return;
             }
 
-         
+            Destroy(collision.gameObject);
 
-
-
-            Destroy(collision.gameObject, 0);
-
-            this.gameObject.GetComponent<MeshRenderer>().enabled = false;
-            (gameObject.GetComponent(typeof(BoxCollider)) as Collider).enabled = false;
+            //this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            //(gameObject.GetComponent(typeof(BoxCollider)) as Collider).enabled = false;
 
             //MenuToGame.Score++;
             //print("Score " + MenuToGame.Score);
 
-            Destroy(this.gameObject, 0);
+            Destroy(this.gameObject);
         }
     }
 }

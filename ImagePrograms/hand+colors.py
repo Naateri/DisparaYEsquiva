@@ -3,6 +3,7 @@ import numpy as np
 import math
 import socket
 import time
+import threading
 
 
 # bullet socket
@@ -16,6 +17,7 @@ import time
 # 5065: cellphone to player (controlling movement + power)
 # 5070: bullet (hand)
 # 5080: cellphone to menu (controlling menu)
+# 5090: score notifications
 
 #################################################
 
@@ -57,12 +59,16 @@ class ScreenColor():
 
     UDP_PORT = 5065
     UDP_MENU_PORT = 5080
+    UDP_SCORE_PORT = 5090
     UDP_IP = "127.0.0.1"
 
     font = cv2.FONT_HERSHEY_SIMPLEX
 
     y_values = list() # Store last 10 y_values
     MAX_Y_VALUES = 10
+
+    colors = ["blue", "red", "yellow"]
+    color_trio = [(255,0,0),(0,0,255),(0,255,255)]
 
     def __init__(self, cap, color, sock): #cap = VideoCapture
 
@@ -72,8 +78,11 @@ class ScreenColor():
         # "yellow"
         
         self.cap = cap
-        self.color = color
-
+        #self.color = color
+        self.mask_color = color
+        self.color = self.colors[0]
+        self.draw_color = self.color_trio[0]
+        
         self.pos_x = 0
         self.pos_y = 0
 
@@ -83,6 +92,35 @@ class ScreenColor():
 
         self.sock = sock
 
+        # sock 2 is to recieve messages
+
+        self.sock2 = socket.socket(socket.AF_INET,
+                                   socket.SOCK_DGRAM)
+
+        self.sock2.bind((self.UDP_IP, self.UDP_SCORE_PORT))
+
+        self.score = 0
+
+    def recv_socket(self):
+        last_10 = 10
+        while True:
+            data, addr = self.sock2.recvfrom(128) # buffer size of 128 bytes
+            if data == b'Dead':
+                print("Player dead")
+                self.score = 0
+                self.color = self.colors[0]
+                self.draw_color = self.color_trio[0]
+                last_10 = 10
+            else:
+                num = int(data)
+                self.score = num
+                #print(num)
+                past_10 = (num - last_10) >= 0 # went past its 10 (eg: score = 11, 11-10 = 0)
+                if num % 10 == 0 or past_10: # update color
+                    self.color = self.colors[(num//10)%3]
+                    self.draw_color = self.color_trio[(num//10)%3]
+                    past_10 += 10
+            
     def dibujar(self, mask,color,frame):
             contornos,_ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
             if len(contornos) > 0:
@@ -95,7 +133,7 @@ class ScreenColor():
                         x = int(M["m10"]/M["m00"])
                         y = int(M["m01"]/M["m00"])
                         nuevoContorno = cv2.convexHull(c)
-                        cv2.circle(frame,(x,y),7,(0,255,0),-1)
+                        cv2.circle(frame,(x,y),7,self.draw_color,-1)
                         cv2.putText(frame,'{},{}'.format(x,y),(x+10,y),self.font, 0.75,(0,255,0),1,cv2.LINE_AA)
                         cv2.drawContours(frame, [nuevoContorno], 0, color, 3)
 
@@ -117,19 +155,28 @@ class ScreenColor():
 
     def loop(self, frame):
             frameHSV = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
-            if (self.color == "blue"):
-                mask = cv2.inRange(frameHSV,self.azulBajo,self.azulAlto)
+            '''if (self.color == "blue"):
                 draw_color = (255,0,0)
+                #mask = cv2.inRange(frameHSV,self.azulBajo,self.azulAlto)
             elif self.color == "red":
-                mask = cv2.inRange(frameHSV,self.redBajo2,self.redAlto2)
                 draw_color = (0,0,255)
+                #mask = cv2.inRange(frameHSV,self.redBajo2,self.redAlto2)
             elif self.color == "yellow":
-                mask = cv2.inRange(frameHSV,self.amarilloBajo,self.amarilloAlto)
                 draw_color = (0,255,255)
+                #mask = cv2.inRange(frameHSV,self.amarilloBajo,self.amarilloAlto)
+            else:
+                return '''
+            
+            if self.mask_color == "blue":
+                mask = cv2.inRange(frameHSV,self.azulBajo,self.azulAlto)
+            elif self.mask_color == "red":
+                mask = cv2.inRange(frameHSV,self.redBajo2,self.redAlto2)
+            elif self.mask_color == "yellow":
+                mask = cv2.inRange(frameHSV,self.amarilloBajo,self.amarilloAlto)
             else:
                 return
-
-            self.dibujar(mask, draw_color,frame)
+            
+            self.dibujar(mask, self.draw_color,frame)
             pos_info = str(self.pos_x) + " " + str(self.pos_y)
         
             info= bytes(pos_info,encoding='utf-8')
@@ -183,6 +230,11 @@ def main():
     cap = cv2.VideoCapture(video_font)
 
     screenColor = ScreenColor(cap, "yellow", sock)
+
+    # recieve from unity
+
+    sock_recieve = threading.Thread(target=screenColor.recv_socket)
+    sock_recieve.start()
 
     #cap = cv2.VideoCapture(0)
     while(cap.isOpened()):
@@ -279,6 +331,7 @@ def main():
         #### SCREEN COLOR #####
         
         screenColor.loop(img)
+ 
         if screenColor.activate_power():
             if not POWER_WAIT_ENABLED and not POWER_ENABLED: # can use power
                 power_start_time = time.perf_counter()

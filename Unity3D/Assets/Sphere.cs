@@ -132,7 +132,7 @@ public class Sphere : MonoBehaviour
 		          style );
 		}
       
-        Rect powerNotif = new Rect(800, 30, 200, 350);
+        Rect powerNotif = new Rect(750, 30, 200, 350);
         style.fontSize = 30;
         style.normal.textColor = Color.green;
         if (MenuToGame.Power_status == 0){
