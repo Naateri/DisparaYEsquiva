@@ -5,6 +5,10 @@ using UnityEngine;
 public class Enemy3BulletCollisions : MonoBehaviour
 {
 	  private float UPPER_THRESHOLD = 9.0f;
+   
+    public AudioSource audioGlass;
+    private ParticleSystem particle;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +36,14 @@ public class Enemy3BulletCollisions : MonoBehaviour
                 Destroy(collision.gameObject);
                 return;
             }
+
+            particle = this.gameObject.GetComponent<ParticleSystem>();
+            particle.Play();
+
+            audioGlass = this.gameObject.GetComponent<AudioSource>();
+            audioGlass.Play();
+
+
 
             Destroy(collision.gameObject, 0);
 

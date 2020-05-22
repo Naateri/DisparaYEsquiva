@@ -10,6 +10,8 @@ public class Enemy2Collisions : MonoBehaviour
     private int lives = 2;
     public AudioSource audioMetal;
     private ParticleSystem particle;
+    public Material newMaterial;
+    Renderer rend;
 
     void Start()
     {
@@ -37,6 +39,14 @@ public class Enemy2Collisions : MonoBehaviour
             //enemy.lives--
 
             print("Enemy 2 lives " + this.lives);
+
+            if(this.lives == 1)
+            {
+                rend = GetComponent<Renderer>();
+                rend.enabled = true;
+                rend.sharedMaterial = newMaterial;
+            }
+
 
             if (this.lives-1 == 0){
 
