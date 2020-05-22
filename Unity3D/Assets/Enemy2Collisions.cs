@@ -16,6 +16,7 @@ public class Enemy2Collisions : MonoBehaviour
     void Start()
     {
         Physics.IgnoreLayerCollision(9,9);
+       
     }
 
 
@@ -40,15 +41,14 @@ public class Enemy2Collisions : MonoBehaviour
 
             print("Enemy 2 lives " + this.lives);
 
-            if(this.lives == 1)
-            {
+          
                 rend = GetComponent<Renderer>();
                 rend.enabled = true;
                 rend.sharedMaterial = newMaterial;
-            }
+            
 
 
-            if (this.lives-1 == 0){
+             if (this.lives-1 == 0){
 
 
             	this.gameObject.GetComponent<MeshRenderer>().enabled = false;

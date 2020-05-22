@@ -44,11 +44,11 @@ public class SocketClient : MonoBehaviour {
     }
 
 	void OnGUI(){
-		Rect  rectObj=new Rect (40,10,200,400);
+		/*Rect  rectObj=new Rect (40,10,200,400);
 		
 		GUIStyle  style  = new GUIStyle ();
 		
-		style .alignment  = TextAnchor.UpperLeft;
+	
 		
 		GUI .Box (rectObj,"# UDPReceive\n127.0.0.1 "+port +" #\n"
 		          
@@ -59,7 +59,7 @@ public class SocketClient : MonoBehaviour {
 		          //+ "\n\nAll Messages: \n"+allReceivedUDPPackets
 		          
 		          ,style );
-
+*/
 	}
 
 	private IEnumerator Wait(float time){

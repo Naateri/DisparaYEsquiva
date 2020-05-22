@@ -13,7 +13,7 @@ public class Sphere : MonoBehaviour
 	private int score = 0;
 	AudioSource cube_audio;
 	private ParticleSystem particle;
-
+    public Font myFont;
 	public GameObject leaveButton;
 
 	void Start(){
@@ -121,18 +121,21 @@ public class Sphere : MonoBehaviour
 		GUIStyle style = new GUIStyle ();
 		
 		style.alignment = TextAnchor.UpperLeft;
-		
+        style.font = myFont;
+        style.fontSize = 35;
+        style.normal.textColor = Color.blue;
 		if (this.lives > 0){
-			GUI.Box (rectObj,"Lives remaining: " + this.lives, 
+			GUI.Box (rectObj,"VIDAS: " + this.lives, 
 		          style );
 		} else {
 			GUI.Box (rectObj,"GAME OVER", 
 		          style );
 		}
-
-		Rect powerNotif = new Rect(650, 400, 200, 350);
-
-		if (MenuToGame.Power_status == 0){
+      
+        Rect powerNotif = new Rect(800, 30, 200, 350);
+        style.fontSize = 30;
+        style.normal.textColor = Color.green;
+        if (MenuToGame.Power_status == 0){
 			GUI.Box (powerNotif, "POWER IS NOT AVAILABLE", style);
 		} else if (MenuToGame.Power_status == 1){
 			GUI.Box (powerNotif, "POWER AVAILABLE", style);
@@ -145,7 +148,7 @@ public class Sphere : MonoBehaviour
 
 		style.alignment = TextAnchor.UpperLeft;
 
-		GUI.Box(rectObj2, "SCORE: " + this.score, style2);
+		//GUI.Box(rectObj2, "SCORE: " + this.score, style2);
 
 	}
 

@@ -6,8 +6,7 @@ public class Enemy3BulletCollisions : MonoBehaviour
 {
 	  private float UPPER_THRESHOLD = 9.0f;
    
-    public AudioSource audioGlass;
-    private ParticleSystem particle;
+
 
     // Start is called before the first frame update
     void Start()
@@ -37,11 +36,7 @@ public class Enemy3BulletCollisions : MonoBehaviour
                 return;
             }
 
-            particle = this.gameObject.GetComponent<ParticleSystem>();
-            particle.Play();
-
-            audioGlass = this.gameObject.GetComponent<AudioSource>();
-            audioGlass.Play();
+         
 
 
 

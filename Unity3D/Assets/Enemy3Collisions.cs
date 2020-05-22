@@ -7,7 +7,7 @@ public class Enemy3Collisions : MonoBehaviour
 
 	private float UPPER_THRESHOLD = 9.0f;
     private int lives = 1;
-    public AudioSource audioMetal;
+    public AudioSource audioGlass;
     private ParticleSystem particle;
     // Start is called before the first frame update
     void Start()
@@ -30,15 +30,15 @@ public class Enemy3Collisions : MonoBehaviour
                 return;
             }
 
-            /*
+            
             particle = this.gameObject.GetComponent<ParticleSystem>();
             particle.Play();
 
-            audioMetal = this.gameObject.GetComponent<AudioSource>();
-            audioMetal.Play();
+            audioGlass = this.gameObject.GetComponent<AudioSource>();
+            audioGlass.Play();
 
             Destroy(collision.gameObject);
-            */
+            
 
             print("Enemy 3 lives " + this.lives);
 

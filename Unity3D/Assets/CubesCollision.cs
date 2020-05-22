@@ -10,6 +10,7 @@ public class CubesCollision : MonoBehaviour
 
     private ParticleSystem particle;
     //private SpriteRenderer sr ;
+    public Font myFont;
     
     void Start()
     {
@@ -17,6 +18,25 @@ public class CubesCollision : MonoBehaviour
         //sr = GetComponent<SpriteRenderer>();
         Physics.IgnoreLayerCollision(9,9);
     }
+
+
+    void OnGUI()
+    {
+        Rect rectObj = new Rect(30, 10, 200, 400);
+
+        GUIStyle style = new GUIStyle();
+        style.font = myFont;
+        style.fontSize = 40;
+        style.normal.textColor = Color.red;
+        style.alignment = TextAnchor.UpperRight;
+
+        GUI.Box(rectObj, "SCORE : " + MenuToGame.Score + " \n"
+
+                  , style);
+
+    }
+
+
 
 
     private void OnCollisionEnter(Collision collision){
@@ -43,7 +63,7 @@ public class CubesCollision : MonoBehaviour
             (gameObject.GetComponent(typeof(BoxCollider)) as Collider).enabled = false;
 
             MenuToGame.Score++;
-            print("Score " + MenuToGame.Score);
+  
 
             Destroy(this.gameObject, 2);
         }
