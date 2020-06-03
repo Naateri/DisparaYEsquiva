@@ -30,7 +30,7 @@ public class MenuCellphone : MonoBehaviour {
 
     private string button;
  	
- 	private Rect play, opt, tryout, exit;
+ 	private Rect play, multi,opt, tryout, exit;
 
     // just before timer to choose button
     // is over (0.1s?): switch_scene = true
@@ -48,12 +48,12 @@ public class MenuCellphone : MonoBehaviour {
 
 	void Start () {
 
-        play = new Rect(0, 70 - 0*60 , 180, 70);
-        opt = new Rect(0, 70 - 1*60 , 180, 70);
-        tryout = new Rect(0, 70 - 2*60 , 180, 70);
-        exit = new Rect(0, 70 - 3*60 , 180, 70);
-
-		if (MenuToGame.Menu_Cellphone == 1){
+        play = new Rect(0, 70 - 0*60 , 200, 70);
+        multi = new Rect(0, 70 - 1*60 , 200, 70);
+        opt = new Rect(0, 70 - 2*60 , 200, 70);
+        tryout = new Rect(0, 70 - 3*60 , 200, 70);
+        exit = new Rect(0, 70 - 4 * 60, 200, 70);
+        if (MenuToGame.Menu_Cellphone == 1){
 			init();
 		} else {
 			print("Do nothing");
@@ -66,11 +66,13 @@ public class MenuCellphone : MonoBehaviour {
             MenuToGame.Game_mode = 0;
             SceneManager.LoadScene("socketTest");
         } else if (button == 1){
-            SceneManager.LoadScene("menu-difficulty");
+            SceneManager.LoadScene("multiplayer-menu");
         } else if (button == 2){
+            SceneManager.LoadScene("menu-difficulty");
+        } else if (button == 3){
         	MenuToGame.Game_mode = 1;
         	SceneManager.LoadScene("socketTest");
-        } else if (button == 3){
+        } else if (button == 4){
         	Application.Quit();
         }
     }
@@ -99,10 +101,12 @@ public class MenuCellphone : MonoBehaviour {
 		} else if (prev_button == 0){
 			button = "Jugar";
 		} else if (prev_button == 1){
-			button = "Opciones";
-		} else if (prev_button == 2){
-			button = "Pruebas";
+            button = "Modo 2J";
+        } else if (prev_button == 2){
+            button = "Opciones";
 		} else if (prev_button == 3){
+            button = "Pruebas";
+        } else if (prev_button == 4){
 			button = "Salir";
 		}
 		GUI.Box(rectObj2, "TIME ON BUTTON " + button + " = " + cur_time, style);
@@ -200,27 +204,34 @@ public class MenuCellphone : MonoBehaviour {
         		prev_button = 0;
         		timer = Time.time;
         	}
-        } else if (opt.Contains(startPos)){
+        } else if (multi.Contains(startPos)){
         	if (prev_button == 1){
         		cur_time = Time.time - timer;
         	} else {
         		prev_button = 1;
         		timer = Time.time;
         	}
-        } else if (tryout.Contains(startPos)){
+        } else if (opt.Contains(startPos)){
         	if (prev_button == 2){
         		cur_time = Time.time - timer;
         	} else {
         		prev_button = 2;
         		timer = Time.time;
         	}
-        } else if (exit.Contains(startPos)){
+        } else if (tryout.Contains(startPos)){
         	if (prev_button == 3){
         		cur_time = Time.time - timer;
         	} else {
         		prev_button = 3;
         		timer = Time.time;
         	}
+        } else if (exit.Contains(startPos)){
+            if (prev_button == 4){
+                cur_time = Time.time - timer;
+            } else{
+                prev_button = 4;
+                timer = Time.time;
+            }
         } else {
         	timer = Time.time; //restarting timer
         	cur_time = 0.0f;
