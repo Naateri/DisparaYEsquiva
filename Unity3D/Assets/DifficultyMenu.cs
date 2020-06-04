@@ -17,7 +17,7 @@ public class DifficultyMenu : MonoBehaviour {
 	// Use this for initialization
 
 	public GameObject pointer;
-	private float xPos = 0.0f;
+	private float xPos = -3.0f;
 	//private float yPos = -3.0f;
 	private float yPos = 0.0f;
 	private bool update_x = true;

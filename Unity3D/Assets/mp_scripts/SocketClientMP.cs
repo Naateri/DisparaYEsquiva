@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using static MenuToGame;
 
-public class SocketClient : MonoBehaviour {
+public class SocketClientMP : MonoBehaviour {
 
 	// Use this for initialization
 
@@ -175,12 +175,13 @@ public class SocketClient : MonoBehaviour {
 		}*/
 	}
 
-	/*void OnApplicationQuit(){
+	void OnApplicationQuit(){
 		if (receiveThread != null) {
 			//if (client != null)
 			//	client.Close();
 			receiveThread.Abort();
 			Debug.Log(receiveThread.IsAlive); //must be false
+			send_score.Close();
 		}
-	}*/
+	}
 }
