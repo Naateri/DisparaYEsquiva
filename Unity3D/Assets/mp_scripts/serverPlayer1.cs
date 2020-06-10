@@ -9,6 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using static MenuToGame;
+using static globalGameInfo;
 
 public class serverPlayer1: MonoBehaviour
 {
@@ -56,7 +57,27 @@ public class serverPlayer1: MonoBehaviour
         receiveThread.IsBackground = true;
         receiveThread.Start ();
     }
+    
+    String spawn_enemy1()
+    {
+        if (globalGameInfo.Sp_e1 == 1) // has spawned
+        {
+            String position, str_posx, str_posy;
+            float enemy1_pos_x, enemy1_pos_y;
+            enemy1_pos_x = globalGameInfo.Sp_e1_x;
+            enemy1_pos_y = globalGameInfo.Sp_e1_y;
 
+            str_posx = enemy1_pos_x.ToString();
+            str_posy = enemy1_pos_y.ToString();
+
+            position = "2000 0 " + str_posx + " " + str_posy;
+
+            globalGameInfo.Sp_e1 = 0;
+            return position;
+        }
+        return "None"; // if no spawn
+    }
+    
 	void Update(){
 
         IPEndPoint anyIP = new IPEndPoint(IPAddress.Parse(client_ip), port1);
@@ -73,9 +94,17 @@ public class serverPlayer1: MonoBehaviour
 
         position = "1000 " + str_posx + " " + str_posy;
 
+        String enemy1pos = spawn_enemy1();
+
+        Byte[] enemy1pos_bytes = Encoding.ASCII.GetBytes(enemy1pos);
+
         Byte[] sendBytes = Encoding.ASCII.GetBytes(position);
         try{
-            server_to_client.SendTo(sendBytes, anyIP);
+            server_to_client.SendTo(sendBytes, anyIP); // sends position
+            if (enemy1pos != "None")
+            {
+                server_to_client.SendTo(enemy1pos_bytes, anyIP); // sends spawn position only when it happens
+            }
             //server_to_client.Close();
         }
         catch ( Exception e ){
@@ -93,8 +122,10 @@ public class serverPlayer1: MonoBehaviour
         while (true) {
         //while(MenuToGame.Alive == 1){
             try{
+                print("Recieving new msg");
                 //client = new UdpClient (port);
                 if (MenuToGame.Alive == 0){
+                    print("Closing channel");
                     client.Close();
                     break;
                 }
@@ -103,7 +134,7 @@ public class serverPlayer1: MonoBehaviour
                 byte[] data = client.Receive(ref anyIP);
 
                 string text = Encoding.UTF8.GetString(data);
-                //print (">> " + text);
+                print (">> " + text);
 
                 String[] separation = { " " }; 
                 Int32 count = 2; 
@@ -114,6 +145,7 @@ public class serverPlayer1: MonoBehaviour
                 String[] strlist = text.Split(' ');
 
                 if (strlist[0] == "1000"){ // player2 position update
+                    print("Position " + pos_x);
                     
                     pos_x = float.Parse(strlist[1]);
                     pos_y = float.Parse(strlist[2]);

@@ -19,6 +19,18 @@ public class clientPlayer2 : MonoBehaviour
     public Font myFont;
 	public GameObject player1, player2;
 
+    /// <summary>
+    /// Enemies
+    /// </summary>
+    /// 
+
+    // Enemy 1
+    
+    private float MIN_DEPTH = -5.5f;
+    public GameObject cube, clone;
+
+    // Sockets
+
     Thread receiveThread, sendThread;
     UdpClient server; // connection to server
     Socket client_to_server;
@@ -30,6 +42,12 @@ public class clientPlayer2 : MonoBehaviour
 
     private void update_position(float x, float y){
         player1.transform.position = new Vector3(x,y,0);
+    }
+
+    void SpawnEnemy1(float x, float y)
+    {
+        clone = Instantiate(cube, new Vector3(x, y, 0),
+             Quaternion.identity);
     }
 
 	void Start(){
@@ -81,8 +99,19 @@ public class clientPlayer2 : MonoBehaviour
 
         update_position(pos_x, pos_y); // update player 1's position
 
-		//this.score = MenuToGame.Score;
-	}
+        // Clearing enemy 1 if needed
+        GameObject[] instances = GameObject.FindGameObjectsWithTag("Enemy1");
+        for (int i = 0; i < instances.Length; i++)
+        {
+            if (instances[i].transform.position.y <= MIN_DEPTH)
+            {
+                Destroy(instances[i]);
+                break;
+            }
+        }
+
+        //this.score = MenuToGame.Score;
+    }
 
     private void ReceiveData(){
         //recieve from server at port1
@@ -116,6 +145,10 @@ public class clientPlayer2 : MonoBehaviour
                     pos_x = float.Parse(strlist[1]);
                     pos_y = float.Parse(strlist[2]);
                     //update_position(pos_x, pos_y);
+                } else if (strlist[0] == "2000") { // enemy1 spawn
+                    float e1_posx = float.Parse(strlist[2]);
+                    float e2_posy = float.Parse(strlist[3]);
+                    SpawnEnemy1(e1_posx, e2_posy);
                 }
                 //client.Close();
             }catch(Exception e){
