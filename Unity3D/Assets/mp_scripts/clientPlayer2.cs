@@ -24,8 +24,16 @@ public class clientPlayer2 : MonoBehaviour
     /// </summary>
     /// 
 
+    // Bullets
+
+    public GameObject bullet, b_clone;
+    public AudioSource gunshot;
+    private Vector3 speed = new Vector3(0.0f, 7.5f, 0.0f);
+
+    private int shot = 0; // 0->dont shoot, 1->shoot
+
     // Enemy 1
-    
+
     private float MIN_DEPTH = -5.5f;
     public GameObject cube, clone;
 
@@ -50,7 +58,33 @@ public class clientPlayer2 : MonoBehaviour
              Quaternion.identity);
     }
 
-	void Start(){
+    void Spawn_shot() // player1 shot
+    {
+        b_clone = Instantiate(bullet, new Vector3(player1.transform.position.x,
+            player1.transform.position.y + 0.2f, 0), Quaternion.identity);
+        b_clone.GetComponent<Rigidbody>().velocity = speed;
+        gunshot = b_clone.GetComponent<AudioSource>();
+        gunshot.Play();
+    }
+
+    String send_shot() // sending shot notification to player 2
+    {
+        String position, str_posx, str_posy;
+        float player_pos_x, player_pos_y;
+        player_pos_x = player2.transform.position.x;
+        player_pos_y = player2.transform.position.y;
+
+        str_posx = player_pos_x.ToString();
+        str_posy = player_pos_y.ToString();
+
+        position = "1500 " + str_posx + " " + str_posy;
+
+        globalGameInfo.Sp_b = 0;
+        return position;
+    }
+
+
+    void Start(){
 		print("Server mp");
 
 		//MenuToGame.Alive = 1;
@@ -91,6 +125,13 @@ public class clientPlayer2 : MonoBehaviour
         Byte[] sendBytes = Encoding.ASCII.GetBytes(position);
         try{
             client_to_server.SendTo(sendBytes, anyIP);
+
+            if (globalGameInfo.Sp_b == 1) // player has shot, send bullet info
+            {
+                String bullet_notif = send_shot();
+                Byte[] send_bullet = Encoding.ASCII.GetBytes(bullet_notif);
+                client_to_server.SendTo(send_bullet, anyIP);
+            }
             //server_to_client.Close();
         }
         catch ( Exception e ){
@@ -98,6 +139,12 @@ public class clientPlayer2 : MonoBehaviour
         }
 
         update_position(pos_x, pos_y); // update player 1's position
+
+        if (shot == 1)
+        {
+            Spawn_shot(); // Shoot bullet
+            shot = 0;
+        }
 
         // Clearing enemy 1 if needed
         GameObject[] instances = GameObject.FindGameObjectsWithTag("Enemy1");
@@ -140,7 +187,7 @@ public class clientPlayer2 : MonoBehaviour
 
                 String[] strlist = text.Split(' ');
 
-                if (strlist[0] == "1000"){ // player2 position update
+                if (strlist[0] == "1000"){ // player1 position update
                     
                     pos_x = float.Parse(strlist[1]);
                     pos_y = float.Parse(strlist[2]);
@@ -149,6 +196,9 @@ public class clientPlayer2 : MonoBehaviour
                     float e1_posx = float.Parse(strlist[2]);
                     float e2_posy = float.Parse(strlist[3]);
                     SpawnEnemy1(e1_posx, e2_posy);
+                } else if (strlist[0] == "1500") // bullet from player1
+                {
+                    shot = 1;
                 }
                 //client.Close();
             }catch(Exception e){

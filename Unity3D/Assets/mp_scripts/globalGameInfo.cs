@@ -39,6 +39,17 @@ public class globalGameInfo
 		set { sp_e1_y = value; }
 	}
 
+	// sp: spawn
+	// b: bullet
 
+	private static int sp_b = 0;
+	// 0 -> no shot
+	// 1 -> cur player has shot, must update other player
+
+	public static int Sp_b
+    {
+		get { return sp_b; }
+        set { sp_b = value; }
+    }
 
 }
