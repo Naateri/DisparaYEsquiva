@@ -37,6 +37,10 @@ public class clientPlayer2 : MonoBehaviour
     private float MIN_DEPTH = -5.5f;
     public GameObject cube, clone;
 
+    // 0 -> no spawn
+    // 1 -> spawn
+    private int enemy1_spawn = 0; 
+
     // Sockets
 
     Thread receiveThread, sendThread;
@@ -44,7 +48,8 @@ public class clientPlayer2 : MonoBehaviour
     Socket client_to_server;
     public int port1, port2;
 
-    String server_ip = "192.168.1.133";
+    //String server_ip = "192.168.1.133";
+    String server_ip = "26.65.123.2";
 
     float pos_x, pos_y; // stores positions recieved from player 1
 
@@ -146,6 +151,14 @@ public class clientPlayer2 : MonoBehaviour
             shot = 0;
         }
 
+        // spawn enemy 1
+
+        if (enemy1_spawn == 1)
+        {
+            SpawnEnemy1(globalGameInfo.Sp_e1_x, globalGameInfo.Sp_e1_y);
+            enemy1_spawn = 0; // reseting values
+        }
+
         // Clearing enemy 1 if needed
         GameObject[] instances = GameObject.FindGameObjectsWithTag("Enemy1");
         for (int i = 0; i < instances.Length; i++)
@@ -194,8 +207,11 @@ public class clientPlayer2 : MonoBehaviour
                     //update_position(pos_x, pos_y);
                 } else if (strlist[0] == "2000") { // enemy1 spawn
                     float e1_posx = float.Parse(strlist[2]);
-                    float e2_posy = float.Parse(strlist[3]);
-                    SpawnEnemy1(e1_posx, e2_posy);
+                    float e1_posy = float.Parse(strlist[3]);
+                    //SpawnEnemy1(e1_posx, e2_posy);
+                    globalGameInfo.Sp_e1_x = e1_posx;
+                    globalGameInfo.Sp_e1_y = e1_posy;
+                    enemy1_spawn = 1;
                 } else if (strlist[0] == "1500") // bullet from player1
                 {
                     shot = 1;
