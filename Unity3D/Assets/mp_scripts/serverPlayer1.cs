@@ -89,6 +89,27 @@ public class serverPlayer1: MonoBehaviour
         return "None"; // if no spawn
     }
 
+    String spawn_enemy2()
+    {
+        if (globalGameInfo.Sp_e2 == 1) // has spawned
+        {
+            String position, str_posx, str_posy;
+            float enemy2_pos_x, enemy2_pos_y;
+            enemy2_pos_x = globalGameInfo.Sp_e2_x;
+            enemy2_pos_y = globalGameInfo.Sp_e2_y;
+
+            str_posx = enemy2_pos_x.ToString();
+            str_posy = enemy2_pos_y.ToString();
+
+            position = "2100 0 " + str_posx + " " + str_posy;
+
+            globalGameInfo.Sp_e2 = 0;
+            return position;
+        }
+        return "None"; // if no spawn
+    }
+
+
     void Spawn_shot() // player2 shot
     {
         print("Player 2 shot");
@@ -135,6 +156,10 @@ public class serverPlayer1: MonoBehaviour
 
         Byte[] enemy1pos_bytes = Encoding.ASCII.GetBytes(enemy1pos);
 
+        String enemy2pos = spawn_enemy2();
+
+        Byte[] enemy2pos_bytes = Encoding.ASCII.GetBytes(enemy2pos);
+
         Byte[] sendBytes = Encoding.ASCII.GetBytes(position);
 
         try{
@@ -142,6 +167,10 @@ public class serverPlayer1: MonoBehaviour
             if (enemy1pos != "None")
             {
                 server_to_client.SendTo(enemy1pos_bytes, anyIP); // sends spawn position only when it happens
+            }
+            if (enemy2pos != "None")
+            {
+                server_to_client.SendTo(enemy2pos_bytes, anyIP); // sends spawn position only when it happens
             }
 
             if (globalGameInfo.Sp_b == 1) // player has shot, send bullet info
