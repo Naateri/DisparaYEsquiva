@@ -7,20 +7,29 @@ public class globalGameInfo
 
 	// sp: spawn
 	// e1: enemy 1
+	// e2: enemy 2
 	// 0 -> can spawn
 	// 1 -> has spawned, clear
+
 	private static int sp_e1 = 0;
+	private static int sp_e2 = 0;
 
 	public static int Sp_e1
     {
 		get { return sp_e1; }
 		set { sp_e1 = value; }
     }
+	public static int Sp_e2
+	{
+		get { return sp_e2; }
+		set { sp_e2 = value; }
+	}
 
 	// sp: spawn
 	// e1: enemy 1
 	// x: position_x
 	private static float sp_e1_x = 0.0f;
+	private static float sp_e2_x = 0.0f;
 
 	public static float Sp_e1_x
     {
@@ -28,15 +37,29 @@ public class globalGameInfo
 		set { sp_e1_x = value; }
     }
 
+	public static float Sp_e2_x
+	{
+		get { return sp_e2_x; }
+		set { sp_e2_x = value; }
+	}
+
+
 	// sp: spawn
 	// e1: enemy 1
 	// y: position_y
 	private static float sp_e1_y = 0.0f;
+	private static float sp_e2_y = 0.0f;
 
 	public static float Sp_e1_y
 	{
 		get { return sp_e1_y; }
 		set { sp_e1_y = value; }
+	}
+
+	public static float Sp_e2_y
+	{
+		get { return sp_e2_y; }
+		set { sp_e2_y = value; }
 	}
 
 	// sp: spawn
