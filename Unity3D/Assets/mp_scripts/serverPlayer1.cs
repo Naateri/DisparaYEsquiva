@@ -34,7 +34,7 @@ public class serverPlayer1: MonoBehaviour
 
     public GameObject bullet, b_clone;
     public AudioSource gunshot;
-    private Vector3 speed = new Vector3(0.0f, 7.5f, 0.0f);
+    private Vector3 speed = new Vector3(7.5f, 0.0f, 0.0f);
 
     private int shot = 0; // 0->dont shoot, 1->shoot
 
@@ -113,8 +113,8 @@ public class serverPlayer1: MonoBehaviour
     void Spawn_shot() // player2 shot
     {
         print("Player 2 shot");
-        b_clone = Instantiate(bullet, new Vector3(player2.transform.position.x,
-            player2.transform.position.y + 0.2f, 0), Quaternion.identity);
+        b_clone = Instantiate(bullet, new Vector3(player2.transform.position.x+ 1.0f,
+            player2.transform.position.y, 0), Quaternion.identity);
         b_clone.GetComponent<Rigidbody>().velocity = speed;
         gunshot = b_clone.GetComponent<AudioSource>();
         gunshot.Play();

@@ -9,7 +9,7 @@ using System.Threading;
 using static MenuToGame;
 using static globalGameInfo;
 
-public class mpBullets : MonoBehaviour
+public class mpBullets2 : MonoBehaviour
 {
     public GameObject hero;
     public GameObject bullet, clone;
@@ -18,9 +18,9 @@ public class mpBullets : MonoBehaviour
     private bool shot = false;
     //private bool power = false;
 
-    private bool AUTO_SHOOTING = false; //testing purposes
+    private bool AUTO_SHOOTING = true; //testing purposes
 
-    private Vector3 speed = new Vector3(0.0f, 7.5f, 0.0f);
+    private Vector3 speed = new Vector3(0.0f , 5.0f, 0.0f);
 
     private float delay = 0.3f;
 
@@ -134,7 +134,7 @@ public class mpBullets : MonoBehaviour
             Spawn();
             shot = false;
         }
-        
+        /*
         GameObject[] instances = GameObject.FindGameObjectsWithTag("MainBullet");
         for (int i = 0; i < instances.Length; i++)
         {
@@ -144,7 +144,7 @@ public class mpBullets : MonoBehaviour
                 break;
             }
         }
-        
+        */
 
             // } catch (Exception e){
             ;
@@ -158,9 +158,11 @@ public class mpBullets : MonoBehaviour
 
     void Spawn()
     {
-        clone = Instantiate(bullet, new Vector3(hero.transform.position.x,
-            hero.transform.position.y + 0.2f, 0), Quaternion.identity);
+        clone = Instantiate(bullet, new Vector3(hero.transform.position.x+1.0f ,
+            hero.transform.position.y , 0), Quaternion.identity);
+       //clone.transform.Rotate(-90.0f, 0.0f, 0.0f, Space.Self);
         clone.GetComponent<Rigidbody>().velocity = speed;
+      
         gunshot = clone.GetComponent<AudioSource>();
         gunshot.Play();
     }
