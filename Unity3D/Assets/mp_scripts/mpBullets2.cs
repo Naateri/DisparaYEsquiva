@@ -14,13 +14,13 @@ public class mpBullets2 : MonoBehaviour
     public GameObject hero;
     public GameObject bullet, clone;
     public AudioSource gunshot;
-    private float MAX_HEIGHT = 9.5f;
-    private bool shot = false;
+    private float MAX_HEIGHT = -12.5f;
+    private bool shot = true;
     //private bool power = false;
 
-    private bool AUTO_SHOOTING = true; //testing purposes
+    private bool AUTO_SHOOTING = false; //testing purposes
 
-    private Vector3 speed = new Vector3(0.0f , 5.0f, 0.0f);
+    private Vector3 speed = new Vector3(-7.5f, 0.0f, 0.0f);
 
     private float delay = 0.3f;
 
@@ -39,6 +39,7 @@ public class mpBullets2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Physics.IgnoreLayerCollision(10, 10);
 
         if (AUTO_SHOOTING)
         {
@@ -134,17 +135,17 @@ public class mpBullets2 : MonoBehaviour
             Spawn();
             shot = false;
         }
-        /*
+        
         GameObject[] instances = GameObject.FindGameObjectsWithTag("MainBullet");
         for (int i = 0; i < instances.Length; i++)
         {
-            if (instances[i].transform.position.y >= MAX_HEIGHT)
+            if (instances[i].transform.position.x <= MAX_HEIGHT)
             {
                 Destroy(instances[i]);
                 break;
             }
         }
-        */
+        
 
             // } catch (Exception e){
             ;
@@ -158,11 +159,11 @@ public class mpBullets2 : MonoBehaviour
 
     void Spawn()
     {
-        clone = Instantiate(bullet, new Vector3(hero.transform.position.x+1.0f ,
+        clone = Instantiate(bullet, new Vector3(hero.transform.position.x-1.5f ,
             hero.transform.position.y , 0), Quaternion.identity);
-       //clone.transform.Rotate(-90.0f, 0.0f, 0.0f, Space.Self);
+        clone.transform.Rotate(0.0f, 0.0f, -90.0f, Space.Self);
         clone.GetComponent<Rigidbody>().velocity = speed;
-      
+
         gunshot = clone.GetComponent<AudioSource>();
         gunshot.Play();
     }

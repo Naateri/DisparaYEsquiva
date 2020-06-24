@@ -34,7 +34,7 @@ public class serverPlayer1: MonoBehaviour
 
     public GameObject bullet, b_clone;
     public AudioSource gunshot;
-    private Vector3 speed = new Vector3(7.5f, 0.0f, 0.0f);
+    private Vector3 speed = new Vector3(-7.5f, 0.0f, 0.0f);
 
     private int shot = 0; // 0->dont shoot, 1->shoot
 
@@ -53,8 +53,8 @@ public class serverPlayer1: MonoBehaviour
         port1 = 5200; // server -> client
         port2 = 5300; // client -> server
 
-        //client_ip = "192.168.1.61";
-        client_ip = "26.65.120.130";
+        client_ip = "192.168.1.61";
+        //client_ip = "26.65.120.130";
 
         server_to_client = new Socket(AddressFamily.InterNetwork, SocketType.Dgram,
             ProtocolType.Udp);
@@ -113,8 +113,9 @@ public class serverPlayer1: MonoBehaviour
     void Spawn_shot() // player2 shot
     {
         print("Player 2 shot");
-        b_clone = Instantiate(bullet, new Vector3(player2.transform.position.x+ 1.0f,
+        b_clone = Instantiate(bullet, new Vector3(player2.transform.position.x - 1.5f,
             player2.transform.position.y, 0), Quaternion.identity);
+        b_clone.transform.Rotate(0.0f, 0.0f, -90.0f, Space.Self);
         b_clone.GetComponent<Rigidbody>().velocity = speed;
         gunshot = b_clone.GetComponent<AudioSource>();
         gunshot.Play();

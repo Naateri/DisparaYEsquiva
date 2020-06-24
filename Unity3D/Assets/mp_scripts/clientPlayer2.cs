@@ -39,7 +39,15 @@ public class clientPlayer2 : MonoBehaviour
 
     // 0 -> no spawn
     // 1 -> spawn
-    private int enemy1_spawn = 0; 
+    private int enemy1_spawn = 0;
+
+    // Enemy 2
+
+    public GameObject enemy2, clone2;
+
+    // 0 -> no spawn
+    // 1 -> spawn
+    private int enemy2_spawn = 0;
 
     // Sockets
 
@@ -48,8 +56,8 @@ public class clientPlayer2 : MonoBehaviour
     Socket client_to_server;
     public int port1, port2;
 
-    //String server_ip = "192.168.1.133";
-    String server_ip = "26.65.123.2";
+    String server_ip = "192.168.1.133";
+    //String server_ip = "26.65.123.2";
 
     float pos_x, pos_y; // stores positions recieved from player 1
 
@@ -61,6 +69,12 @@ public class clientPlayer2 : MonoBehaviour
     {
         clone = Instantiate(cube, new Vector3(x, y, 0),
              Quaternion.identity);
+    }
+
+    void SpawnEnemy2(float x, float y)
+    {
+        clone2 = Instantiate(enemy2, new Vector3(x, y, 0),
+            Quaternion.identity);
     }
 
     void Spawn_shot() // player1 shot
@@ -159,6 +173,12 @@ public class clientPlayer2 : MonoBehaviour
             enemy1_spawn = 0; // reseting values
         }
 
+        if (enemy2_spawn == 1)
+        {
+            SpawnEnemy2(globalGameInfo.Sp_e2_x, globalGameInfo.Sp_e2_y);
+            enemy2_spawn = 0;
+        }
+
         // Clearing enemy 1 if needed
         GameObject[] instances = GameObject.FindGameObjectsWithTag("Enemy1");
         for (int i = 0; i < instances.Length; i++)
@@ -212,9 +232,21 @@ public class clientPlayer2 : MonoBehaviour
                     globalGameInfo.Sp_e1_x = e1_posx;
                     globalGameInfo.Sp_e1_y = e1_posy;
                     enemy1_spawn = 1;
-                } else if (strlist[0] == "1500") // bullet from player1
+                } else if (strlist[0] == "2100") // enemy2 spawn
+                {
+                    float e2_posx = float.Parse(strlist[2]);
+                    float e2_posy = float.Parse(strlist[3]);
+                    
+                    globalGameInfo.Sp_e2_x = e2_posx;
+                    globalGameInfo.Sp_e2_y = e2_posy;
+                    enemy2_spawn = 1;
+                }
+                else if (strlist[0] == "1500") // bullet from player1
                 {
                     shot = 1;
+                } else
+                {
+                    ; // do nothing
                 }
                 //client.Close();
             }catch(Exception e){

@@ -39,7 +39,7 @@ public class mpBullets : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        Physics.IgnoreLayerCollision(10, 10);
         if (AUTO_SHOOTING)
         {
             InvokeRepeating("Spawn", delay, delay);
