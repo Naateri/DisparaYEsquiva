@@ -69,12 +69,14 @@ public class clientPlayer2 : MonoBehaviour
     {
         clone = Instantiate(cube, new Vector3(x, y, 0),
              Quaternion.identity);
+        clone.GetComponent<Rigidbody>().velocity = new Vector3(5.0f, 0.0f, 0.0f);
     }
 
     void SpawnEnemy2(float x, float y)
     {
         clone2 = Instantiate(enemy2, new Vector3(x, y, 0),
             Quaternion.identity);
+        clone2.GetComponent<Rigidbody>().velocity = new Vector3(5.0f, 0.0f, 0.0f);
     }
 
     void Spawn_shot() // player1 shot

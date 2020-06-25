@@ -23,12 +23,24 @@ public class SocketClientMP : MonoBehaviour {
 	Socket send_score;
 	public int port;
 
+	// differentiate players
+
+	public int player;
+
 	//info
 
 	public string lastReceivedUDPPacket = "";
 	public string allReceivedUDPPackets = "";
 
 	void Start () {
+
+		if (player == 2)
+        {
+			xPos = 12.0f;
+        }
+
+		Physics.IgnoreLayerCollision(8, 10);
+
 		init();
 
 		MenuToGame.Score = 0;
@@ -123,6 +135,19 @@ public class SocketClientMP : MonoBehaviour {
 				
 				yPos = float.Parse(strlist[1]);
 				yPos *= 0.005f;
+
+				if (player == 2) // player2: move on y axis only
+                {
+					xPos = float.Parse(strlist[0]);
+					yPos = float.Parse(strlist[1]);
+
+					yPos -= 175.0f;
+
+					//xPos *= 0.005f;
+					xPos = 10.0f;
+					yPos /= 20;
+                }
+
 				//client.Close();
 			}catch(Exception e){
 				print (e.ToString());
@@ -163,9 +188,14 @@ public class SocketClientMP : MonoBehaviour {
 		//try{
 			//hero = GameObject.FindWithTag("PlayerObj");
 			//hero.transform.position = new Vector3(-xPos+6.0f,-1.5f-yPos,0);
+		if (player == 1)
 			hero.transform.position = new Vector3(xPos,-1.5f-yPos,0);
+		if (player == 2)
+        {
+			print(yPos);
+			hero.transform.position = new Vector3(xPos, yPos, 0);
+		}
 		//} catch(Exception e){
-			;
 		//}
 		/*if (MenuToGame.Alive == 0){
 			//receiveThread.Abort();

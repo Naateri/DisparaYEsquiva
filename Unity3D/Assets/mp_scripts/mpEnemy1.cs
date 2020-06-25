@@ -29,6 +29,8 @@ public class mpEnemy1 : MonoBehaviour
 			float rand_x = Random.Range(-6, 6);
 			clone = Instantiate(cube, new Vector3(rand_x, 10, 0),
 			 Quaternion.identity);
+			clone.GetComponent<Rigidbody>().velocity = new Vector3(5.0f, 0.0f, 0.0f);
+
 			globalGameInfo.Sp_e1 = 1; // notify server of a spawn
 			globalGameInfo.Sp_e1_x = rand_x;
 			globalGameInfo.Sp_e1_y = 10;
