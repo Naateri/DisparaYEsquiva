@@ -56,8 +56,8 @@ public class clientPlayer2 : MonoBehaviour
     Socket client_to_server;
     public int port1, port2;
 
-    String server_ip = "192.168.1.133";
-    //String server_ip = "26.65.123.2";
+    //String server_ip = "192.168.1.133";
+    String server_ip = "26.65.123.2";
 
     float pos_x, pos_y; // stores positions recieved from player 1
 
