@@ -31,13 +31,32 @@ public class mpEnemy2 : MonoBehaviour
     {
         if (globalGameInfo.Sp_e2 == 0 && player == 0) // can spawn
         {
-            float rand_x = Random.Range(-6, 6);
-            clone = Instantiate(cube, new Vector3(rand_x, 10, 0),
-             Quaternion.identity);
-            clone.GetComponent<Rigidbody>().velocity = new Vector3(5.0f, 0.0f, 0.0f);
+            float direction = Random.Range(-5.0f, 5.0f);
+
+            if (direction <= 0.0f) // y axis
+            {
+                float rand_x = Random.Range(-6, 6);
+                clone = Instantiate(cube, new Vector3(rand_x, 10, 0),
+                    Quaternion.identity);
+                clone.GetComponent<Rigidbody>().useGravity = false;
+                clone.GetComponent<Rigidbody>().velocity = new Vector3(0.0f, -5.0f, 0.0f);
+                globalGameInfo.Dir_e2 = 1; // Notify y axis spawn
+                globalGameInfo.Sp_e2_x = rand_x;
+                globalGameInfo.Sp_e2_y = 10;
+            }
+            else
+            {
+                float rand_y = Random.Range(-1.5f, 6);
+                clone = Instantiate(cube, new Vector3(-15, rand_y, 0),
+                    Quaternion.identity);
+                clone.GetComponent<Rigidbody>().useGravity = false;
+                clone.GetComponent<Rigidbody>().velocity = new Vector3(5.0f, 0.0f, 0.0f);
+                globalGameInfo.Dir_e2 = 0; // Notify x axis spawn
+                globalGameInfo.Sp_e2_x = -15;
+                globalGameInfo.Sp_e2_y = rand_y;
+            }
+
             globalGameInfo.Sp_e2 = 1; // notify server of a spawn
-            globalGameInfo.Sp_e2_x = rand_x;
-            globalGameInfo.Sp_e2_y = 10;
         }
     }
     // Update is called once per frame

@@ -81,8 +81,15 @@ public class serverPlayer1: MonoBehaviour
             str_posx = enemy1_pos_x.ToString();
             str_posy = enemy1_pos_y.ToString();
 
-            position = "2000 0 " + str_posx + " " + str_posy;
+            String str_dir;
+            int direction;
 
+            direction = globalGameInfo.Dir_e1;
+            str_dir = direction.ToString();
+
+            //position = "2000 0 " + str_posx + " " + str_posy;
+            position = "2000 " + str_dir + " " + str_posx + " " + str_posy;
+            // position: 2000 direction posx posy
             globalGameInfo.Sp_e1 = 0;
             return position;
         }
