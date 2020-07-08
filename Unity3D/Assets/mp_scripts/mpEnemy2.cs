@@ -65,7 +65,7 @@ public class mpEnemy2 : MonoBehaviour
         GameObject[] instances = GameObject.FindGameObjectsWithTag("Enemy2");
         for (int i = 0; i < instances.Length; i++)
         {
-            if (instances[i].transform.position.y <= MIN_DEPTH)
+            if (instances[i].transform.position.y <= MIN_DEPTH || instances[i].transform.position.x >= 15.0f)
             {
                 Destroy(instances[i]);
                 break;

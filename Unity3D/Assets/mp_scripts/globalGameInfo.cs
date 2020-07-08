@@ -8,6 +8,7 @@ public class globalGameInfo
 	// sp: spawn
 	// e1: enemy 1
 	// e2: enemy 2
+	// e3: enemy 3
 	// 0 -> can spawn
 	// 1 -> has spawned, clear
 	// dir: direction
@@ -16,6 +17,7 @@ public class globalGameInfo
 
 	private static int sp_e1 = 0;
 	private static int sp_e2 = 0;
+	private static int sp_e3 = 0;
 
 	public static int Sp_e1
 	{
@@ -27,12 +29,18 @@ public class globalGameInfo
 		get { return sp_e2; }
 		set { sp_e2 = value; }
 	}
+	public static int Sp_e3
+	{
+		get { return sp_e3; }
+		set { sp_e3 = value; }
+	}
 
 	// sp: spawn
 	// e1: enemy 1
 	// x: position_x
 	private static float sp_e1_x = 0.0f;
 	private static float sp_e2_x = 0.0f;
+	private static float sp_e3_x = 0.0f;
 
 	public static float Sp_e1_x
 	{
@@ -46,12 +54,18 @@ public class globalGameInfo
 		set { sp_e2_x = value; }
 	}
 
+	public static float Sp_e3_x
+	{
+		get { return sp_e3_x; }
+		set { sp_e3_x = value; }
+	}
 
 	// sp: spawn
 	// e1: enemy 1
 	// y: position_y
 	private static float sp_e1_y = 0.0f;
 	private static float sp_e2_y = 0.0f;
+	private static float sp_e3_y = 0.0f;
 
 	public static float Sp_e1_y
 	{
@@ -65,12 +79,19 @@ public class globalGameInfo
 		set { sp_e2_y = value; }
 	}
 
+	public static float Sp_e3_y
+	{
+		get { return sp_e3_y; }
+		set { sp_e3_y = value; }
+	}
+
 	// dir: direction
 	// e1: enemy1
 	// e2: enemy2
 
 	private static int dir_e1 = 0;
 	private static int dir_e2 = 0;
+	private static int dir_e3 = 0;
 
 	public static int Dir_e1
     {
@@ -83,6 +104,12 @@ public class globalGameInfo
 		get { return dir_e2; }
 		set { dir_e2 = value; }
     }
+
+	public static int Dir_e3
+	{
+		get { return dir_e3; }
+		set { dir_e3 = value; }
+	}
 
 	// sp: spawn
 	// b: bullet

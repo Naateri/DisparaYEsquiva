@@ -49,6 +49,12 @@ public class clientPlayer2 : MonoBehaviour
     // 1 -> spawn
     private int enemy2_spawn = 0;
 
+    public GameObject enemy3, clone3;
+
+    // 0 -> no spawn
+    // 1 -> spawn
+    private int enemy3_spawn = 0;
+
     // Sockets
 
     Thread receiveThread, sendThread;
@@ -76,6 +82,7 @@ public class clientPlayer2 : MonoBehaviour
         {
             clone.GetComponent<Rigidbody>().velocity = new Vector3(0.0f, -5.0f, 0.0f);
         }
+       
         clone.GetComponent<Rigidbody>().useGravity = false;
     }
 
@@ -89,6 +96,21 @@ public class clientPlayer2 : MonoBehaviour
         } else if (globalGameInfo.Dir_e2 == 1)
         {
             clone2.GetComponent<Rigidbody>().velocity = new Vector3(0.0f, -5.0f, 0.0f);
+        }
+        clone2.GetComponent<Rigidbody>().useGravity = false;
+    }
+
+    void SpawnEnemy3(float x, float y)
+    {
+        clone3 = Instantiate(enemy3, new Vector3(x, y, 0),
+            Quaternion.identity);
+        if (globalGameInfo.Dir_e3 == 0)
+        {
+            clone3.GetComponent<Rigidbody>().velocity = new Vector3(5.0f, 0.0f, 0.0f);
+        }
+        else if (globalGameInfo.Dir_e3 == 1)
+        {
+            clone3.GetComponent<Rigidbody>().velocity = new Vector3(0.0f, -5.0f, 0.0f);
         }
         clone2.GetComponent<Rigidbody>().useGravity = false;
     }
@@ -195,6 +217,12 @@ public class clientPlayer2 : MonoBehaviour
             enemy2_spawn = 0;
         }
 
+        if (enemy3_spawn == 1)
+        {
+            SpawnEnemy3(globalGameInfo.Sp_e3_x, globalGameInfo.Sp_e3_y);
+            enemy3_spawn = 0;
+        }
+
         // Clearing enemy 1 if needed
         GameObject[] instances = GameObject.FindGameObjectsWithTag("Enemy1");
         for (int i = 0; i < instances.Length; i++)
@@ -260,6 +288,17 @@ public class clientPlayer2 : MonoBehaviour
                     globalGameInfo.Sp_e2_y = e2_posy;
                     globalGameInfo.Dir_e2 = direction;
                     enemy2_spawn = 1;
+                }
+                else if (strlist[0] == "2200") // enemy2 spawn
+                {
+                    float e3_posx = float.Parse(strlist[2]);
+                    float e3_posy = float.Parse(strlist[3]);
+                    int direction = int.Parse(strlist[1]);
+
+                    globalGameInfo.Sp_e3_x = e3_posx;
+                    globalGameInfo.Sp_e3_y = e3_posy;
+                    globalGameInfo.Dir_e3 = direction;
+                    enemy3_spawn = 1;
                 }
                 else if (strlist[0] == "1500") // bullet from player1
                 {
