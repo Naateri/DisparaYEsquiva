@@ -15,8 +15,8 @@ public class mpEnemy2 : MonoBehaviour
     {
        // if (MenuToGame.Difficulty == 1)
         //{
-            this.delay = 1.8f;
-            this.start_delay = 1.5f;
+            this.delay = 5.0f;
+            this.start_delay = 2.5f;
        /* }
         else if (MenuToGame.Difficulty == 2)
         {
@@ -24,7 +24,7 @@ public class mpEnemy2 : MonoBehaviour
             this.start_delay = 0.75f;
         }
        */
-        InvokeRepeating("Spawn", start_delay, delay);
+        InvokeRepeating("Spawn", 10.0f + start_delay, delay);
     }
 
     void Spawn()

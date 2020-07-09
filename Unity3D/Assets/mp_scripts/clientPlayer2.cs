@@ -9,6 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using static MenuToGame;
+using static globalGameInfo;
 
 public class clientPlayer2 : MonoBehaviour
 {
@@ -49,11 +50,23 @@ public class clientPlayer2 : MonoBehaviour
     // 1 -> spawn
     private int enemy2_spawn = 0;
 
+    // Enemy 3
+
     public GameObject enemy3, clone3;
 
     // 0 -> no spawn
     // 1 -> spawn
     private int enemy3_spawn = 0;
+
+    // Enemy 3 bullets
+
+    public GameObject enemy3bullet, bullet_clone_x, bullet_clone_y;
+    private Vector3 bulletSpeed_y = new Vector3(0.0f, -7.5f, 0.0f);
+    private Vector3 bulletSpeed_x = new Vector3(7.5f, 0.0f, 0.0f);
+
+    // 0 -> no spawn
+    // 1 -> spawn
+    private int enemy3b_spawn = 0;
 
     // Sockets
 
@@ -106,13 +119,27 @@ public class clientPlayer2 : MonoBehaviour
             Quaternion.identity);
         if (globalGameInfo.Dir_e3 == 0)
         {
-            clone3.GetComponent<Rigidbody>().velocity = new Vector3(5.0f, 0.0f, 0.0f);
+            clone3.GetComponent<Rigidbody>().velocity = new Vector3(4.0f, 0.0f, 0.0f);
         }
         else if (globalGameInfo.Dir_e3 == 1)
         {
-            clone3.GetComponent<Rigidbody>().velocity = new Vector3(0.0f, -5.0f, 0.0f);
+            clone3.GetComponent<Rigidbody>().velocity = new Vector3(0.0f, -4.0f, 0.0f);
         }
-        clone2.GetComponent<Rigidbody>().useGravity = false;
+        clone3.GetComponent<Rigidbody>().useGravity = false;
+    }
+
+    void SpawnEnemy3Bullet(float x, float y)
+    {
+        Physics.IgnoreLayerCollision(9, 9);
+        bullet_clone_x = Instantiate(enemy3bullet, new Vector3(x + 1.0f, y, 0),
+            Quaternion.identity);
+        bullet_clone_x.GetComponent<Rigidbody>().velocity = bulletSpeed_x;
+        bullet_clone_x.GetComponent<Rigidbody>().useGravity = false;
+        bullet_clone_x.transform.Rotate(0.0f, 0.0f, -90.0f, Space.Self);
+
+        bullet_clone_y = Instantiate(bullet, new Vector3(x, y - 1.0f, 0), Quaternion.identity);
+        bullet_clone_y.GetComponent<Rigidbody>().velocity = bulletSpeed_y;
+        bullet_clone_y.GetComponent<Rigidbody>().useGravity = false;
     }
 
     void Spawn_shot() // player1 shot
@@ -142,13 +169,15 @@ public class clientPlayer2 : MonoBehaviour
 
 
     void Start(){
-		print("Server mp");
+		print("Client mp");
 
 		//MenuToGame.Alive = 1;
 		//MenuToGame.Power_status = 1;
 		//MenuToGame.Menu_Cellphone = 1; // can create menu socket again
         port1 = 5200; // server -> client
         port2 = 5300; // client -> server
+
+        Physics.IgnoreLayerCollision(9, 9, true);
 
         client_to_server = new Socket(AddressFamily.InterNetwork, SocketType.Dgram,
             ProtocolType.Udp);
@@ -223,6 +252,12 @@ public class clientPlayer2 : MonoBehaviour
             enemy3_spawn = 0;
         }
 
+        if (enemy3b_spawn == 1)
+        {
+            SpawnEnemy3Bullet(globalGameInfo.E3_bx, globalGameInfo.E3_by);
+            enemy3b_spawn = 0;
+        }
+
         // Clearing enemy 1 if needed
         GameObject[] instances = GameObject.FindGameObjectsWithTag("Enemy1");
         for (int i = 0; i < instances.Length; i++)
@@ -289,7 +324,7 @@ public class clientPlayer2 : MonoBehaviour
                     globalGameInfo.Dir_e2 = direction;
                     enemy2_spawn = 1;
                 }
-                else if (strlist[0] == "2200") // enemy2 spawn
+                else if (strlist[0] == "2200") // enemy3 spawn
                 {
                     float e3_posx = float.Parse(strlist[2]);
                     float e3_posy = float.Parse(strlist[3]);
@@ -299,6 +334,14 @@ public class clientPlayer2 : MonoBehaviour
                     globalGameInfo.Sp_e3_y = e3_posy;
                     globalGameInfo.Dir_e3 = direction;
                     enemy3_spawn = 1;
+                } else if (strlist[0] == "2250") // enemy3 bullet spawn
+                {
+                    float e3b_posx = float.Parse(strlist[1]);
+                    float e3b_posy = float.Parse(strlist[2]);
+
+                    globalGameInfo.E3_bx = e3b_posx;
+                    globalGameInfo.E3_by = e3b_posy;
+                    enemy3b_spawn = 1;
                 }
                 else if (strlist[0] == "1500") // bullet from player1
                 {

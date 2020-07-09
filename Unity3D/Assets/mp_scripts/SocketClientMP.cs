@@ -40,6 +40,7 @@ public class SocketClientMP : MonoBehaviour {
         }
 
 		Physics.IgnoreLayerCollision(8, 10);
+		Physics.IgnoreLayerCollision(9, 9, true);
 
 		init();
 

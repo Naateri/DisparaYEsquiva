@@ -11,6 +11,15 @@ using System.Threading;
 using static MenuToGame;
 using static globalGameInfo;
 
+/*
+ * Códigos:
+ * 1000: posicion
+ * 1500: disparo
+ * 2000: enemigo 1
+ * 2100: enemigo 2
+ * 2200: enemigo 3
+ * 2250: bala enemigo 3
+ */
 public class serverPlayer1: MonoBehaviour
 {
     
@@ -108,7 +117,14 @@ public class serverPlayer1: MonoBehaviour
             str_posx = enemy2_pos_x.ToString();
             str_posy = enemy2_pos_y.ToString();
 
-            position = "2100 0 " + str_posx + " " + str_posy;
+            String str_dir;
+            int direction;
+
+            direction = globalGameInfo.Dir_e2;
+            str_dir = direction.ToString();
+
+            //position = "2100 0 " + str_posx + " " + str_posy;
+            position = "2100 " + str_dir + " " +  str_posx + " " + str_posy;
 
             globalGameInfo.Sp_e2 = 0;
             return position;
@@ -128,9 +144,35 @@ public class serverPlayer1: MonoBehaviour
             str_posx = enemy3_pos_x.ToString();
             str_posy = enemy3_pos_y.ToString();
 
-            position = "2200 0 " + str_posx + " " + str_posy;
+            String str_dir;
+            int direction;
+
+            direction = globalGameInfo.Dir_e3;
+            str_dir = direction.ToString();
+
+            position = "2200 " + str_dir + " " + str_posx + " " + str_posy;
 
             globalGameInfo.Sp_e3 = 0;
+            return position;
+        }
+        return "None"; // if no spawn
+    }
+
+    String spawn_enemy3bullet()
+    {
+        if (globalGameInfo.E3_b == 1) { // enemy3 bullet spawn
+            String position, str_posx, str_posy;
+            float enemy3b_pos_x, enemy3b_pos_y;
+            enemy3b_pos_x = globalGameInfo.E3_bx;
+            enemy3b_pos_y = globalGameInfo.E3_by;
+
+            str_posx = enemy3b_pos_x.ToString();
+            str_posy = enemy3b_pos_y.ToString();
+
+            // Forma: 2250 posx posy
+            position = "2250 " + str_posx + " " + str_posy;
+
+            globalGameInfo.E3_b = 0;
             return position;
         }
         return "None"; // if no spawn
@@ -192,9 +234,14 @@ public class serverPlayer1: MonoBehaviour
 
         Byte[] enemy3pos_bytes = Encoding.ASCII.GetBytes(enemy3pos);
 
+        String enemy3bullet = spawn_enemy3bullet();
+
+        Byte[] enemy3bpos_bytes = Encoding.ASCII.GetBytes(enemy3bullet);
+
         Byte[] sendBytes = Encoding.ASCII.GetBytes(position);
 
-        try{
+        try
+        {
             server_to_client.SendTo(sendBytes, anyIP); // sends position
             if (enemy1pos != "None")
             {
@@ -207,6 +254,10 @@ public class serverPlayer1: MonoBehaviour
             if (enemy3pos != "None")
             {
                 server_to_client.SendTo(enemy3pos_bytes, anyIP); // sends spawn position only when it happens
+            }
+            if (enemy3bullet != "None")
+            {
+                server_to_client.SendTo(enemy3bpos_bytes, anyIP); // sends spawn position only when it happens
             }
 
             if (globalGameInfo.Sp_b == 1) // player has shot, send bullet info

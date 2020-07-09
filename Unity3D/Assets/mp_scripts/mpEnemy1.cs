@@ -16,9 +16,9 @@ public class mpEnemy1 : MonoBehaviour
 	{
 		if (player == 0)
 		{
-			this.delay = 1.5f;
+			this.delay = 2.0f;
 
-			InvokeRepeating("Spawn", 0.0f, delay);
+			InvokeRepeating("Spawn", 10.0f, delay);
 		}
 	}
 

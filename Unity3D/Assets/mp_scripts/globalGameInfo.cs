@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿//using NUnit.Framework.Internal.Filters;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -122,6 +123,32 @@ public class globalGameInfo
     {
 		get { return sp_b; }
         set { sp_b = value; }
+    }
+
+	// Enemy3Bullet
+
+	private static int e3_b = 0; 
+	// 0 -> no spawn, can spawn
+	// 1 -> has spawned on server, spawn on client
+	private static float e3_bx = 0.0f; // enemy3 bullet position x
+	private static float e3_by = 0.0f; // enemy3 bullet position y
+
+	public static int E3_b
+    {
+		get { return e3_b; }
+		set { e3_b = value; }
+    }
+
+	public static float E3_bx
+    {
+		get { return e3_bx; }
+		set { e3_bx = value; }
+    }
+
+	public static float E3_by
+    {
+		get { return e3_by; }
+		set { e3_by = value; }
     }
 
 }
