@@ -16,6 +16,8 @@ public class mpSphere1 : MonoBehaviour
     public Font myFont;
     public GameObject leaveButton;
 
+    public int player = 0;
+
     void Start()
     {
         print("Start Sphere");
@@ -60,9 +62,10 @@ public class mpSphere1 : MonoBehaviour
         gameObject.GetComponent<MeshRenderer>().enabled = false;
         (gameObject.GetComponent(typeof(SphereCollider)) as Collider).enabled = false;
 
+        /*
         yield return new WaitForSeconds(2.0f);
         SceneManager.LoadScene("menu");
-        Destroy(gameObject);
+        Destroy(gameObject);*/
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -110,12 +113,14 @@ public class mpSphere1 : MonoBehaviour
             Destroy(collision.gameObject, 0);
         }
 
-        /*if (this.lives <= 0)
+        print("Player " + player + " lives = " + this.lives);
+
+        if (this.lives <= 0)
         {
             MenuToGame.Alive = 0;
             //Destroy(gameObject, 2);
             StartCoroutine(RestartGame());
-        }*/
+        }
     }
 
  /*   void OnGUI()
