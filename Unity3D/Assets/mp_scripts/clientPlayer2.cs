@@ -137,7 +137,7 @@ public class clientPlayer2 : MonoBehaviour
         bullet_clone_x.GetComponent<Rigidbody>().useGravity = false;
         bullet_clone_x.transform.Rotate(0.0f, 0.0f, -90.0f, Space.Self);
 
-        bullet_clone_y = Instantiate(bullet, new Vector3(x, y - 1.0f, 0), Quaternion.identity);
+        bullet_clone_y = Instantiate(enemy3bullet, new Vector3(x, y - 1.0f, 0), Quaternion.identity);
         bullet_clone_y.GetComponent<Rigidbody>().velocity = bulletSpeed_y;
         bullet_clone_y.GetComponent<Rigidbody>().useGravity = false;
     }

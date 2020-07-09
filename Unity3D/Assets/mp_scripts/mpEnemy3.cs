@@ -24,7 +24,8 @@ public class mpEnemy3 : MonoBehaviour
 			//this.delay = 2.5f;
 			Physics.IgnoreLayerCollision(9, 9, true);
 
-			InvokeRepeating("Spawn", 10.0f + delay, delay);
+			//InvokeRepeating("Spawn", 10.0f + delay, delay);
+			InvokeRepeating("Spawn", 5.0f, 2.5f);
 		}
 	}
 
