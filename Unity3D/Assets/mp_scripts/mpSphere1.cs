@@ -117,7 +117,7 @@ public class mpSphere1 : MonoBehaviour
 
         if (this.lives <= 0)
         {
-            MenuToGame.Alive = 0;
+            //MenuToGame.Alive = 0;
             //Destroy(gameObject, 2);
             StartCoroutine(RestartGame());
         }
@@ -137,9 +137,9 @@ public class mpSphere1 : MonoBehaviour
         {
             GUI.Box(rectObj, "VIDAS: " + this.lives,
                   style);
+        {
         }
         else
-        {
             GUI.Box(rectObj, "PERDISTE",
                   style);
         }
