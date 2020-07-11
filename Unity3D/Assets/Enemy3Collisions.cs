@@ -45,14 +45,49 @@ public class Enemy3Collisions : MonoBehaviour
             //if (this.lives-1 == 0){
 
 
-            	this.gameObject.GetComponent<MeshRenderer>().enabled = false;
-            	(gameObject.GetComponent(typeof(BoxCollider)) as Collider).enabled = false;
+            this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            (gameObject.GetComponent(typeof(BoxCollider)) as Collider).enabled = false;
 
-            	MenuToGame.Score += 3;
-            	print("Score " + MenuToGame.Score);
+            MenuToGame.Score += 3;
+            print("Score " + MenuToGame.Score);
 
-            	Destroy(this.gameObject, 2);
-            	Destroy(collision.gameObject, 0);
+            Destroy(this.gameObject, 2);
+            Destroy(collision.gameObject, 0);
+            //}
+            this.lives--;
+        }
+        else if (collision.gameObject.tag == "Bullet_P2")
+        {
+
+            if (transform.position.y >= UPPER_THRESHOLD)
+            {
+                Destroy(collision.gameObject);
+                return;
+            }
+
+
+            particle = this.gameObject.GetComponent<ParticleSystem>();
+            particle.Play();
+
+            audioGlass = this.gameObject.GetComponent<AudioSource>();
+            audioGlass.Play();
+
+            Destroy(collision.gameObject);
+
+
+            print("Enemy 3 lives " + this.lives);
+
+            //if (this.lives-1 == 0){
+
+
+            this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            (gameObject.GetComponent(typeof(BoxCollider)) as Collider).enabled = false;
+
+            MenuToGame.Score2 += 3;
+            print("Score2 " + MenuToGame.Score2);
+
+            Destroy(this.gameObject, 2);
+            Destroy(collision.gameObject, 0);
             //}
             this.lives--;
         }

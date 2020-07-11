@@ -136,7 +136,7 @@ public class mpBullets2 : MonoBehaviour
             shot = false;
         }
         
-        GameObject[] instances = GameObject.FindGameObjectsWithTag("MainBullet");
+        GameObject[] instances = GameObject.FindGameObjectsWithTag("Bullet_P2");
         for (int i = 0; i < instances.Length; i++)
         {
             if (instances[i].transform.position.x <= MAX_HEIGHT)

@@ -127,7 +127,7 @@ public class mpSphere1 : MonoBehaviour
     {
         if (player == 1)
         {
-            Rect rectObj = new Rect(45, 70, 200, 400);
+            Rect rectObj = new Rect(50, 70, 200, 400);
 
             GUIStyle style = new GUIStyle();
 
@@ -147,7 +147,7 @@ public class mpSphere1 : MonoBehaviour
                       style);
             }
 
-            Rect rectObj2 = new Rect(42, 20, 200, 400);
+            Rect rectObj2 = new Rect(50, 20, 200, 400);
 
             GUIStyle style2 = new GUIStyle();
             style2.font = myFont;
@@ -159,7 +159,7 @@ public class mpSphere1 : MonoBehaviour
         }
         else if (player == 2)
         {
-            Rect rectObj = new Rect(1100, 70, 200, 400);
+            Rect rectObj = new Rect(900, 70, 200, 400);
 
             GUIStyle style = new GUIStyle();
 
@@ -179,7 +179,7 @@ public class mpSphere1 : MonoBehaviour
                       style);
             }
 
-            Rect rectObj2 = new Rect(1100, 20, 200, 400);
+            Rect rectObj2 = new Rect(900, 20, 200, 400);
 
             GUIStyle style2 = new GUIStyle();
             style2.font = myFont;
@@ -187,7 +187,7 @@ public class mpSphere1 : MonoBehaviour
             style2.normal.textColor = Color.white;
             style2.alignment = TextAnchor.UpperRight;
 
-            GUI.Box(rectObj2, "SCORE : " + MenuToGame.Score, style2);
+            GUI.Box(rectObj2, "SCORE : " + MenuToGame.Score2, style2);
         }
 
 

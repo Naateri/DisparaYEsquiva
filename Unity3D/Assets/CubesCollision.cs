@@ -65,5 +65,34 @@ public class CubesCollision : MonoBehaviour
 
             Destroy(this.gameObject, 2);
         }
+
+        else if (collision.gameObject.tag == "Bullet_P2")
+        {
+
+            if (transform.position.y >= UPPER_THRESHOLD)
+            {
+                Destroy(collision.gameObject);
+                return;
+            }
+
+            particle = this.gameObject.GetComponent<ParticleSystem>();
+            particle.Play();
+
+            audioWood = this.gameObject.GetComponent<AudioSource>();
+            audioWood.Play();
+
+
+
+
+            Destroy(collision.gameObject);
+
+            this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            (gameObject.GetComponent(typeof(BoxCollider)) as Collider).enabled = false;
+
+            MenuToGame.Score2++;
+
+
+            Destroy(this.gameObject, 2);
+        }
     }
 }

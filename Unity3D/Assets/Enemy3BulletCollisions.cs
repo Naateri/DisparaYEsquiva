@@ -48,5 +48,25 @@ public class Enemy3BulletCollisions : MonoBehaviour
 
             Destroy(this.gameObject);
         }
+        else if (collision.gameObject.tag == "Bullet_P2")
+        { //impact with bullet
+
+            if (transform.position.y >= UPPER_THRESHOLD)
+            {
+                Destroy(collision.gameObject);
+                Destroy(this.gameObject);
+                return;
+            }
+
+            Destroy(collision.gameObject);
+
+            //this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            //(gameObject.GetComponent(typeof(BoxCollider)) as Collider).enabled = false;
+
+            //MenuToGame.Score++;
+            //print("Score " + MenuToGame.Score);
+
+            Destroy(this.gameObject);
+        }
     }
 }
