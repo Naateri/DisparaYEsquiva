@@ -301,21 +301,21 @@ public class clientPlayer2 : MonoBehaviour
                 break;
             }
         }
-        GameObject[] instances = GameObject.FindGameObjectsWithTag("Enemy2");
-        for (int i = 0; i < instances.Length; i++)
+        GameObject[] instances2 = GameObject.FindGameObjectsWithTag("Enemy2");
+        for (int i = 0; i < instances2.Length; i++)
         {
-            if (instances[i].transform.position.y <= MIN_DEPTH)
+            if (instances2[i].transform.position.y <= MIN_DEPTH)
             {
-                Destroy(instances[i]);
+                Destroy(instances2[i]);
                 break;
             }
         }
-        GameObject[] instances = GameObject.FindGameObjectsWithTag("Enemy3");
-        for (int i = 0; i < instances.Length; i++)
+        GameObject[] instances3 = GameObject.FindGameObjectsWithTag("Enemy3");
+        for (int i = 0; i < instances3.Length; i++)
         {
-            if (instances[i].transform.position.y <= MIN_DEPTH)
+            if (instances3[i].transform.position.y <= MIN_DEPTH)
             {
-                Destroy(instances[i]);
+                Destroy(instances3[i]);
                 break;
             }
         }
