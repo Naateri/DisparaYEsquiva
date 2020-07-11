@@ -58,6 +58,15 @@ public class clientPlayer2 : MonoBehaviour
     // 1 -> spawn
     private int enemy3_spawn = 0;
 
+    // Enemy 4
+
+    public GameObject enemy4, clone4;
+
+    // 0 -> no spawn
+    // 1 -> spawn
+    private int enemy4_spawn = 0;
+
+
     // Enemy 3 bullets
 
     public GameObject enemy3bullet, bullet_clone_x, bullet_clone_y;
@@ -75,8 +84,11 @@ public class clientPlayer2 : MonoBehaviour
     Socket client_to_server;
     public int port1, port2;
 
-    String server_ip = "192.168.1.133";
-    //String server_ip = "26.65.123.2";
+    //String server_ip = "192.168.1.133";
+    String server_ip = "26.65.123.2"; // RENU
+    //String server_ip = "26.65.120.130"; // JAZ
+
+
 
     float pos_x, pos_y; // stores positions recieved from player 1
 
@@ -140,6 +152,21 @@ public class clientPlayer2 : MonoBehaviour
         bullet_clone_y = Instantiate(enemy3bullet, new Vector3(x, y - 1.0f, 0), Quaternion.identity);
         bullet_clone_y.GetComponent<Rigidbody>().velocity = bulletSpeed_y;
         bullet_clone_y.GetComponent<Rigidbody>().useGravity = false;
+    }
+
+    void SpawnEnemy4(float x, float y)
+    {
+        clone4 = Instantiate(enemy4, new Vector3(x, y, 0),
+            Quaternion.identity);
+        if (globalGameInfo.Dir_e4 == 0)
+        {
+            clone4.GetComponent<Rigidbody>().velocity = new Vector3(4.0f, 0.0f, 0.0f);
+        }
+        else if (globalGameInfo.Dir_e4 == 1)
+        {
+            clone4.GetComponent<Rigidbody>().velocity = new Vector3(0.0f, -4.0f, 0.0f);
+        }
+        clone4.GetComponent<Rigidbody>().useGravity = false;
     }
 
     void Spawn_shot() // player1 shot
@@ -258,6 +285,12 @@ public class clientPlayer2 : MonoBehaviour
             enemy3b_spawn = 0;
         }
 
+        if (enemy4_spawn == 1)
+        {
+            SpawnEnemy4(globalGameInfo.Sp_e4_x, globalGameInfo.Sp_e4_y);
+            enemy4_spawn = 0;
+        }
+
         // Clearing enemy 1 if needed
         GameObject[] instances = GameObject.FindGameObjectsWithTag("Enemy1");
         for (int i = 0; i < instances.Length; i++)
@@ -342,6 +375,17 @@ public class clientPlayer2 : MonoBehaviour
                     globalGameInfo.E3_bx = e3b_posx;
                     globalGameInfo.E3_by = e3b_posy;
                     enemy3b_spawn = 1;
+                }
+                else if (strlist[0] == "2300") // enemy4 spawn
+                {
+                    float e4_posx = float.Parse(strlist[2]);
+                    float e4_posy = float.Parse(strlist[3]);
+                    int direction = int.Parse(strlist[1]);
+
+                    globalGameInfo.Sp_e4_x = e4_posx;
+                    globalGameInfo.Sp_e4_y = e4_posy;
+                    globalGameInfo.Dir_e4 = direction;
+                    enemy4_spawn = 1;
                 }
                 else if (strlist[0] == "1500") // bullet from player1
                 {

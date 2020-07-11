@@ -18,6 +18,7 @@ using static globalGameInfo;
  * 2000: enemigo 1
  * 2100: enemigo 2
  * 2200: enemigo 3
+ * 2300: enemigo 4
  * 2250: bala enemigo 3
  */
 public class serverPlayer1: MonoBehaviour
@@ -62,8 +63,8 @@ public class serverPlayer1: MonoBehaviour
         port1 = 5200; // server -> client
         port2 = 5300; // client -> server
 
-        client_ip = "192.168.1.61";
-        //client_ip = "26.65.120.130";
+        //client_ip = "192.168.1.61";
+        client_ip = "26.65.120.130"; // JAZ
 
         server_to_client = new Socket(AddressFamily.InterNetwork, SocketType.Dgram,
             ProtocolType.Udp);
@@ -178,6 +179,31 @@ public class serverPlayer1: MonoBehaviour
         return "None"; // if no spawn
     }
 
+    String spawn_enemy4()
+    {
+        if (globalGameInfo.Sp_e4 == 1) // has spawned
+        {
+            String position, str_posx, str_posy;
+            float enemy4_pos_x, enemy4_pos_y;
+            enemy4_pos_x = globalGameInfo.Sp_e4_x;
+            enemy4_pos_y = globalGameInfo.Sp_e4_y;
+
+            str_posx = enemy4_pos_x.ToString();
+            str_posy = enemy4_pos_y.ToString();
+
+            String str_dir;
+            int direction;
+
+            direction = globalGameInfo.Dir_e4;
+            str_dir = direction.ToString();
+
+            position = "2300 " + str_dir + " " + str_posx + " " + str_posy;
+
+            globalGameInfo.Sp_e4 = 0;
+            return position;
+        }
+        return "None"; // if no spawn
+    }
 
     void Spawn_shot() // player2 shot
     {
@@ -238,7 +264,13 @@ public class serverPlayer1: MonoBehaviour
 
         Byte[] enemy3bpos_bytes = Encoding.ASCII.GetBytes(enemy3bullet);
 
+        String enemy4pos = spawn_enemy4();
+
+        Byte[] enemy4pos_bytes = Encoding.ASCII.GetBytes(enemy4pos);
+
         Byte[] sendBytes = Encoding.ASCII.GetBytes(position);
+
+
 
         try
         {
@@ -259,7 +291,10 @@ public class serverPlayer1: MonoBehaviour
             {
                 server_to_client.SendTo(enemy3bpos_bytes, anyIP); // sends spawn position only when it happens
             }
-
+            if (enemy4pos != "None")
+            {
+                server_to_client.SendTo(enemy4pos_bytes, anyIP); // sends spawn position only when it happens
+            }
             if (globalGameInfo.Sp_b == 1) // player has shot, send bullet info
             {
                 String bullet_notif = send_shot();
