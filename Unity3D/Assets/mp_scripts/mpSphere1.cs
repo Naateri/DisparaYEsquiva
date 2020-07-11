@@ -123,27 +123,75 @@ public class mpSphere1 : MonoBehaviour
         }
     }
 
- /*   void OnGUI()
+    void OnGUI()
     {
-        Rect rectObj = new Rect(45, 70, 200, 400);
-
-        GUIStyle style = new GUIStyle();
-
-        style.alignment = TextAnchor.UpperLeft;
-        style.font = myFont;
-        style.fontSize = 35;
-        style.normal.textColor = Color.yellow;
-        if (this.lives > 0)
+        if (player == 1)
         {
-            GUI.Box(rectObj, "VIDAS: " + this.lives,
-                  style);
-        {
+            Rect rectObj = new Rect(45, 70, 200, 400);
+
+            GUIStyle style = new GUIStyle();
+
+            style.alignment = TextAnchor.UpperLeft;
+            style.font = myFont;
+            style.fontSize = 35;
+            style.normal.textColor = Color.yellow;
+            if (this.lives > 0)
+            {
+                GUI.Box(rectObj, "VIDAS: " + this.lives,
+                      style);
+
+            }
+            else
+            {
+                GUI.Box(rectObj, "PERDISTE",
+                      style);
+            }
+
+            Rect rectObj2 = new Rect(42, 20, 200, 400);
+
+            GUIStyle style2 = new GUIStyle();
+            style2.font = myFont;
+            style2.fontSize = 40;
+            style2.normal.textColor = Color.white;
+            style2.alignment = TextAnchor.UpperRight;
+
+            GUI.Box(rectObj2, "SCORE : " + MenuToGame.Score, style2);
         }
-        else
-            GUI.Box(rectObj, "PERDISTE",
-                  style);
+        else if (player == 2)
+        {
+            Rect rectObj = new Rect(1100, 70, 200, 400);
+
+            GUIStyle style = new GUIStyle();
+
+            style.alignment = TextAnchor.UpperLeft;
+            style.font = myFont;
+            style.fontSize = 35;
+            style.normal.textColor = Color.yellow;
+            if (this.lives > 0)
+            {
+                GUI.Box(rectObj, "VIDAS: " + this.lives,
+                      style);
+
+            }
+            else
+            {
+                GUI.Box(rectObj, "PERDISTE",
+                      style);
+            }
+
+            Rect rectObj2 = new Rect(1100, 20, 200, 400);
+
+            GUIStyle style2 = new GUIStyle();
+            style2.font = myFont;
+            style2.fontSize = 40;
+            style2.normal.textColor = Color.white;
+            style2.alignment = TextAnchor.UpperRight;
+
+            GUI.Box(rectObj2, "SCORE : " + MenuToGame.Score, style2);
         }
 
+
+        /*
         Rect powerNotif = new Rect(800, 70, 200, 350);
         style.fontSize = 30;
         style.normal.textColor = Color.green;
@@ -160,13 +208,7 @@ public class mpSphere1 : MonoBehaviour
             GUI.Box(powerNotif, "PODER ACTIVADO", style);
         }
 
-        Rect rectObj2 = new Rect(800, 300, 200, 350);
-        GUIStyle style2 = new GUIStyle();
+    */
 
-        style.alignment = TextAnchor.UpperLeft;
-
-        //GUI.Box(rectObj2, "SCORE: " + this.score, style2);
-
-    }*/
-
+    }
 }

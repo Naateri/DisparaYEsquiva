@@ -19,7 +19,7 @@ public class CubesCollision : MonoBehaviour
         Physics.IgnoreLayerCollision(9,9);
     }
 
-
+    /*
     void OnGUI()
     {
         Rect rectObj = new Rect(0, 20, 200, 400);
@@ -33,7 +33,7 @@ public class CubesCollision : MonoBehaviour
         GUI.Box(rectObj, "SCORE : " + MenuToGame.Score, style);
 
     }
-
+    */
 
 
 
