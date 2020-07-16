@@ -8,7 +8,7 @@ public class Enemy4Collisions : MonoBehaviour
 {
     // Start is called before the first frame update
     private float UPPER_THRESHOLD = 9.0f;
-    private int lives = 5;
+    private int lives = 10;
     public AudioSource audioMetal;
     private ParticleSystem particle;
     public Material newMaterial;
