@@ -11,47 +11,43 @@ public class mpEnemy4 : MonoBehaviour
 
 	public int player; // 0 -> server, 1 -> client
 
+	private float timer = -1.0f;
+	private float cur_time = 0.0f;
+	//private float wait_time = 40.0f; // 30 + 10
+	private float wait_time = 15.0f; // test
+
+	private int spawns = 0;
+
 	// Use this for initialization
 	void Start()
 	{
 		if (player == 0)
 		{
-			this.delay = 2.0f;
+			//this.delay = 2.0f;
 
-			InvokeRepeating("Spawn", 10.0f, delay);
+			//InvokeRepeating("Spawn", 10.0f, delay);
+			// if (end_of_level_1)
+			//Invoke("Spawn", 5.0f);
+			timer = Time.time;
+			// if (end_of_level_2)
+			//Invoke("Spawn", 5.0f);
 		}
 	}
 
 	void Spawn()
 	{
-		if (globalGameInfo.Sp_e4 == 0 && player == 0) // can spawn
+		if (globalGameInfo.Sp_e4 == 0 && player == 0)
 		{
-			float direction = Random.Range(-5.0f, 5.0f);
+			float rand_y = Random.Range(-0.5f, 6);
+			clone = Instantiate(cube, new Vector3(-15, rand_y, 0),
+				Quaternion.identity);
+			clone.GetComponent<Rigidbody>().useGravity = false;
+			clone.GetComponent<Rigidbody>().velocity = new Vector3(1.2f, 0.0f, 0.0f);
+			globalGameInfo.Dir_e4 = 0; // Notify x axis spawn
+			globalGameInfo.Sp_e4_x = -15;
+			globalGameInfo.Sp_e4_y = rand_y;
 
-			if (direction <= 0.0f) // y axis
-			{
-				float rand_x = Random.Range(-6, 6);
-				clone = Instantiate(cube, new Vector3(rand_x, 10, 0),
-					Quaternion.identity);
-				clone.GetComponent<Rigidbody>().useGravity = false;
-				clone.GetComponent<Rigidbody>().velocity = new Vector3(0.0f, -5.0f, 0.0f);
-				globalGameInfo.Dir_e4 = 1; // Notify y axis spawn
-				globalGameInfo.Sp_e4_x = rand_x;
-				globalGameInfo.Sp_e4_y = 10;
-			}
-			else
-			{
-				float rand_y = Random.Range(-1.5f, 6);
-				clone = Instantiate(cube, new Vector3(-15, rand_y, 0),
-					Quaternion.identity);
-				clone.GetComponent<Rigidbody>().useGravity = false;
-				clone.GetComponent<Rigidbody>().velocity = new Vector3(5.0f, 0.0f, 0.0f);
-				globalGameInfo.Dir_e4 = 0; // Notify x axis spawn
-				globalGameInfo.Sp_e4_x = -15;
-				globalGameInfo.Sp_e4_y = rand_y;
-			}
-
-			globalGameInfo.Sp_e4 = 1; // notify server of a spawn
+			globalGameInfo.Sp_e4 = 1;
 		}
 	}
 
@@ -61,9 +57,26 @@ public class mpEnemy4 : MonoBehaviour
 		if (clone.transform.position.y <= MIN_DEPTH){
 			Destroy(clone);
 		}*/
+
+		if (timer == -1.0f) timer = Time.time;
+
+		cur_time = Time.time;
+
+		float elapsed_time = cur_time - timer;
+
+		if (spawns < 2 && cur_time != 0.0f && elapsed_time >= wait_time - 0.15f)
+        {
+			Invoke("Spawn", 0.0f);
+			timer = -1.0f;
+			cur_time = 0.0f;
+			spawns++;
+			wait_time = 30.0f;
+        }
+
 		GameObject[] instances = GameObject.FindGameObjectsWithTag("Enemy4");
 		for (int i = 0; i < instances.Length; i++)
 		{
+			//instances[i].GetComponent<Rigidbody>().velocity = new Vector3(1.2f, 0.0f, 0.0f);
 			if (instances[i].transform.position.y <= MIN_DEPTH || instances[i].transform.position.x >= 15.0f)
 			{
 				Destroy(instances[i]);

@@ -1,6 +1,7 @@
 ﻿//using NUnit.Framework.Internal.Filters;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Policy;
 using UnityEngine;
 
 public class globalGameInfo
@@ -115,16 +116,16 @@ public class globalGameInfo
 	private static int dir_e4 = 0;
 
 	public static int Dir_e1
-    {
+	{
 		get { return dir_e1; }
 		set { dir_e1 = value; }
-    }
+	}
 
 	public static int Dir_e2
-    {
+	{
 		get { return dir_e2; }
 		set { dir_e2 = value; }
-    }
+	}
 
 	public static int Dir_e3
 	{
@@ -145,35 +146,53 @@ public class globalGameInfo
 	// 1 -> cur player has shot, must update other player
 
 	public static int Sp_b
-    {
+	{
 		get { return sp_b; }
-        set { sp_b = value; }
-    }
+		set { sp_b = value; }
+	}
 
 	// Enemy3Bullet
 
-	private static int e3_b = 0; 
+	private static int e3_b = 0;
 	// 0 -> no spawn, can spawn
 	// 1 -> has spawned on server, spawn on client
 	private static float e3_bx = 0.0f; // enemy3 bullet position x
 	private static float e3_by = 0.0f; // enemy3 bullet position y
 
 	public static int E3_b
-    {
+	{
 		get { return e3_b; }
 		set { e3_b = value; }
-    }
+	}
 
 	public static float E3_bx
-    {
+	{
 		get { return e3_bx; }
 		set { e3_bx = value; }
-    }
+	}
 
 	public static float E3_by
-    {
+	{
 		get { return e3_by; }
 		set { e3_by = value; }
+	}
+
+
+	// Start new levels
+
+	private static int level_2 = 0;
+	private static int level_3 = 0;
+
+	public static int Level_2
+	{
+		get { return level_2; }
+		set { level_2 = value; }
+	}
+
+	public static int Level_3
+    {
+		get { return level_3; }
+		set { level_3 = value; }
     }
 
 }

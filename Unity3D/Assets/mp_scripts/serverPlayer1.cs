@@ -63,7 +63,7 @@ public class serverPlayer1: MonoBehaviour
         port1 = 5200; // server -> client
         port2 = 5300; // client -> server
 
-        //client_ip = "192.168.1.61";
+        //client_ip = "192.168.1.61"; // LAN
         client_ip = "26.65.120.130"; // JAZ
 
         server_to_client = new Socket(AddressFamily.InterNetwork, SocketType.Dgram,

@@ -112,6 +112,12 @@ public class mpSphere1 : MonoBehaviour
             print("lives: " + this.lives);
             Destroy(collision.gameObject, 0);
         }
+        else if (collision.gameObject.tag == "Enemy4")
+        {
+            if (MenuToGame.Game_mode == 0)
+                this.lives = 0;
+            Destroy(collision.gameObject, 0);
+        }
 
         print("Player " + player + " lives = " + this.lives);
 

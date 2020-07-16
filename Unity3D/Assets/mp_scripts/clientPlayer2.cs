@@ -84,7 +84,7 @@ public class clientPlayer2 : MonoBehaviour
     Socket client_to_server;
     public int port1, port2;
 
-    //String server_ip = "192.168.1.133";
+    //String server_ip = "192.168.1.133"; // LAN
     String server_ip = "26.65.123.2"; // RENU
     //String server_ip = "26.65.120.130"; // JAZ
 
@@ -160,11 +160,11 @@ public class clientPlayer2 : MonoBehaviour
             Quaternion.identity);
         if (globalGameInfo.Dir_e4 == 0)
         {
-            clone4.GetComponent<Rigidbody>().velocity = new Vector3(4.0f, 0.0f, 0.0f);
+            clone4.GetComponent<Rigidbody>().velocity = new Vector3(1.2f, 0.0f, 0.0f);
         }
         else if (globalGameInfo.Dir_e4 == 1)
         {
-            clone4.GetComponent<Rigidbody>().velocity = new Vector3(0.0f, -4.0f, 0.0f);
+            clone4.GetComponent<Rigidbody>().velocity = new Vector3(0.0f, -1.2f, 0.0f);
         }
         clone4.GetComponent<Rigidbody>().useGravity = false;
     }

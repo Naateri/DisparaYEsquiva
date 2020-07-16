@@ -25,7 +25,8 @@ public class mpEnemy3 : MonoBehaviour
 			Physics.IgnoreLayerCollision(9, 9, true);
 
 			//InvokeRepeating("Spawn", 10.0f + delay, delay);
-			InvokeRepeating("Spawn", 5.0f, 2.5f);
+			//while (globalGameInfo.Level_3 == 0) ;
+			//InvokeRepeating("Spawn", 5.0f, 2.5f);
 		}
 	}
 
@@ -93,6 +94,10 @@ public class mpEnemy3 : MonoBehaviour
 
 	void Update()
 	{
+		if (globalGameInfo.Level_3 == 1 && !IsInvoking("Spawn"))
+		{
+			Invoke("Spawn", 3.5f);
+		}
 		/*print("clone " + clone.transform.position.y);
 		if (clone.transform.position.y <= MIN_DEPTH){
 			Destroy(clone);

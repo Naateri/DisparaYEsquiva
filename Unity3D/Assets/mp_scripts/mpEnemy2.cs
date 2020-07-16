@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static globalGameInfo;
 
 public class mpEnemy2 : MonoBehaviour
 {
@@ -17,14 +18,18 @@ public class mpEnemy2 : MonoBehaviour
         //{
             this.delay = 5.0f;
             this.start_delay = 2.5f;
-       /* }
-        else if (MenuToGame.Difficulty == 2)
-        {
-            this.delay = 0.9f;
-            this.start_delay = 0.75f;
-        }
-       */
-        InvokeRepeating("Spawn", 10.0f + start_delay, delay);
+        /* }
+         else if (MenuToGame.Difficulty == 2)
+         {
+             this.delay = 0.9f;
+             this.start_delay = 0.75f;
+         }
+        */
+
+        // Wait until end of level 1 (killing enemy4)
+        //while (globalGameInfo.Level_2 == 0) ;
+
+        //InvokeRepeating("Spawn", 10.0f + start_delay, delay);
     }
 
     void Spawn()
@@ -62,6 +67,12 @@ public class mpEnemy2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (globalGameInfo.Level_2 == 1 && !IsInvoking("Spawn"))
+        {
+            Invoke("Spawn", 2.5f);
+        }
+
         GameObject[] instances = GameObject.FindGameObjectsWithTag("Enemy2");
         for (int i = 0; i < instances.Length; i++)
         {
