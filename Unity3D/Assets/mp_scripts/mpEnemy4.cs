@@ -13,8 +13,8 @@ public class mpEnemy4 : MonoBehaviour
 
 	private float timer = -1.0f;
 	private float cur_time = 0.0f;
-	//private float wait_time = 40.0f; // 30 + 10
-	private float wait_time = 15.0f; // test
+	private float wait_time = 60.0f + 10.0f; // 30 + 10
+	//private float wait_time = 15.0f; // test
 
 	private int spawns = 0;
 
@@ -70,7 +70,7 @@ public class mpEnemy4 : MonoBehaviour
 			timer = -1.0f;
 			cur_time = 0.0f;
 			spawns++;
-			wait_time = 30.0f;
+			wait_time = 60.0f;
         }
 
 		GameObject[] instances = GameObject.FindGameObjectsWithTag("Enemy4");

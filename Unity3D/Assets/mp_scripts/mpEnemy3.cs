@@ -96,7 +96,7 @@ public class mpEnemy3 : MonoBehaviour
 	{
 		if (globalGameInfo.Level_3 == 1 && !IsInvoking("Spawn"))
 		{
-			Invoke("Spawn", 3.5f);
+			Invoke("Spawn", 3.0f);
 		}
 		/*print("clone " + clone.transform.position.y);
 		if (clone.transform.position.y <= MIN_DEPTH){

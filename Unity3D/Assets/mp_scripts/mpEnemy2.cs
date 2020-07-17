@@ -70,7 +70,7 @@ public class mpEnemy2 : MonoBehaviour
 
         if (globalGameInfo.Level_2 == 1 && !IsInvoking("Spawn"))
         {
-            Invoke("Spawn", 2.5f);
+            Invoke("Spawn", 2.0f);
         }
 
         GameObject[] instances = GameObject.FindGameObjectsWithTag("Enemy2");
