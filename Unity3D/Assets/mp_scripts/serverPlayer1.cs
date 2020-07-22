@@ -367,8 +367,14 @@ public class serverPlayer1: MonoBehaviour
             extra_life = 0;
         }
 
-		//this.score = MenuToGame.Score;
-	}
+       
+
+
+
+
+
+        //this.score = MenuToGame.Score;
+    }
 
     private void ReceiveData(){
         //recieve from client at port2
@@ -431,43 +437,31 @@ public class serverPlayer1: MonoBehaviour
         }
     }
 
-    /*void OnGUI(){
-    	// print other players stats
+    void OnGUI(){
+        // levels
 
-		Rect rectObj= new Rect (45,70,200,400);
-		
-		GUIStyle style = new GUIStyle ();
-		
-		style.alignment = TextAnchor.UpperLeft;
+        Rect rectObj = new Rect(500, 30, 100, 40);
+
+        GUIStyle style = new GUIStyle();
+
+        style.alignment = TextAnchor.UpperLeft;
         style.font = myFont;
-        style.fontSize = 35;
-        style.normal.textColor = Color.yellow;
-		if (this.lives > 0){
-			GUI.Box (rectObj,"VIDAS: " + this.lives, 
-		          style );
-		} else {
-			GUI.Box (rectObj,"PERDISTE", 
-		          style );
-		}
-      
-        Rect powerNotif = new Rect(800, 70, 200, 350);
-        style.fontSize = 30;
+        style.fontSize = 45;
         style.normal.textColor = Color.green;
-        if (MenuToGame.Power_status == 0){
-			GUI.Box (powerNotif, "PODER NO DISPONIBLE", style);
-		} else if (MenuToGame.Power_status == 1){
-			GUI.Box (powerNotif, "PODER DISPONIBLE", style);
-		} else if (MenuToGame.Power_status == 2){
-			GUI.Box (powerNotif, "PODER ACTIVADO", style);
-		}
 
-		Rect rectObj2 = new Rect(800, 300, 200, 350);
-		GUIStyle style2 = new GUIStyle();
+        if (globalGameInfo.Level_3 == 1)
+        {
+            GUI.Box(rectObj, "NIVEL 3", style);
+        }
+        else if (globalGameInfo.Level_2 == 1)
+        {
+            GUI.Box(rectObj, "NIVEL 2 ", style);
+        }
+        else if (globalGameInfo.Level_2 == 0)
+        {
+            GUI.Box(rectObj, "NIVEL 1 ", style);
+        }
 
-		style.alignment = TextAnchor.UpperLeft;
-
-		//GUI.Box(rectObj2, "SCORE: " + this.score, style2);
-
-	}*/
+    }
 
 }
