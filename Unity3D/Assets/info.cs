@@ -48,8 +48,8 @@ public class info : MonoBehaviour
         {
             //Puntaje 
             score = MenuToGame.Score;
-            playerScore.text = "Puntaje1 : " + score + " " + globalGameInfo.shots_hit + " " + globalGameInfo.shots_done;
-
+            playerScore.text = "Puntaje jugador 1 : " + score; /* + " " + globalGameInfo.shots_hit + " " + globalGameInfo.shots_done;
+            */
             // Enemigos
             playerEnemies.text = "Enemigos eliminados : " + globalGameInfo.enemies_destroyed;
 
@@ -63,15 +63,15 @@ public class info : MonoBehaviour
         {
             // Puntaje 
             score = MenuToGame.Score2;
-            playerScore.text = "Puntaje2 : " + score + " " + globalGameInfo.p2_shots_hit + " " + globalGameInfo.p2_shots_done;
-
+            playerScore.text = "Puntaje jugador 2 : " + score; /* + " " + globalGameInfo.p2_shots_hit + " " + globalGameInfo.p2_shots_done;
+            */
             // Enemigos
-            playerEnemies.text = "Enemigos eliminados2 : " + globalGameInfo.p2_enemies_destroyed;
+            playerEnemies.text = "Enemigos eliminados : " + globalGameInfo.p2_enemies_destroyed;
 
             // Precision disparos
             float done = globalGameInfo.p2_shots_done;
             float precision = (globalGameInfo.p2_shots_hit / done) * 100;
-            playerBullets.text = "Precisión de disparos2 : " + precision.ToString() + " %";
+            playerBullets.text = "Precisión de disparos  : " + precision.ToString() + " %";
 
         }
         
