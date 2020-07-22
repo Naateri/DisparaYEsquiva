@@ -90,7 +90,7 @@ public class Enemy4Collisions : MonoBehaviour
 
             print("Enemy 4 lives " + this.lives);
 
-            globalGameInfo.Shots_hit++;
+            globalGameInfo.p2_Shots_hit++;
 
             /*rend = GetComponent<Renderer>();
             rend.enabled = true;
@@ -108,7 +108,7 @@ public class Enemy4Collisions : MonoBehaviour
                 if (globalGameInfo.Level_2 == 0) globalGameInfo.Level_2 = 1;
                 else globalGameInfo.Level_3 = 1;
 
-                globalGameInfo.Enemies_Destroyed++;
+                globalGameInfo.p2_Enemies_Destroyed++;
 
                 // Notifying end of level by destroying enemy 4
 

@@ -219,7 +219,7 @@ public class serverPlayer1: MonoBehaviour
         gunshot.Play();
     }
 
-    String send_shot() // sending shot notification to player 2
+    String send_shot() // sending shotshot notification to player 2
     {
         String position, str_posx, str_posy;
         float player_pos_x, player_pos_y;

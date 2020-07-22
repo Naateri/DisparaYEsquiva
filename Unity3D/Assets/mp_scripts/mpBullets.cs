@@ -159,6 +159,7 @@ public class mpBullets : MonoBehaviour
         //}
 
         /*if (MenuToGame.Alive == 0){
+        /*if (MenuToGame.Alive == 0){
             //receiveThread.Abort();
             //client.Close();
         }*/

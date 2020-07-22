@@ -78,8 +78,8 @@ public class Enemy3Collisions : MonoBehaviour
 
             print("Enemy 3 lives " + this.lives);
 
-            globalGameInfo.Shots_hit++;
-            globalGameInfo.Enemies_Destroyed++;
+            globalGameInfo.p2_Shots_hit++;
+            globalGameInfo.p2_Enemies_Destroyed++;
 
             //if (this.lives-1 == 0){
 

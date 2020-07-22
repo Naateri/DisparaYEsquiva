@@ -97,8 +97,8 @@ public class clientPlayer2 : MonoBehaviour
     Socket client_to_server;
     public int port1, port2;
 
-    String server_ip = "192.168.1.133"; // LAN
-    //String server_ip = "26.65.123.2"; // RENU
+    //String server_ip = "192.168.1.133"; // LAN
+    String server_ip = "26.65.123.2"; // RENU
     //String server_ip = "26.65.120.130"; // JAZ
 
 
@@ -253,7 +253,10 @@ public class clientPlayer2 : MonoBehaviour
     {
         yield return new WaitForSeconds(3.0f);
         print("Loading scene");
+        info.player2 = true;
         SceneManager.LoadScene("stats");
+        
+       
     }
 
     void Update(){

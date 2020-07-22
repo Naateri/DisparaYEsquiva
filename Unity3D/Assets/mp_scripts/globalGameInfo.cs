@@ -238,7 +238,7 @@ public class globalGameInfo
     }
 
 	// DATA to display after ending the game
-
+	// Player 1
 	public static int shots_done = 0;
 
 	public static int Shots_done
@@ -262,5 +262,31 @@ public class globalGameInfo
 		get { return enemies_destroyed; }
 		set { enemies_destroyed = value; }
     }
+
+	// Player 2
+
+	public static int p2_shots_done = 0;
+
+	public static int p2_Shots_done
+	{
+		get { return p2_shots_done; }
+		set { p2_shots_done = value; }
+	}
+
+	public static int p2_shots_hit = 0;
+
+	public static int p2_Shots_hit
+	{
+		get { return p2_shots_hit; }
+		set { p2_shots_hit = value; }
+	}
+
+	public static int p2_enemies_destroyed = 0;
+
+	public static int p2_Enemies_Destroyed
+	{
+		get { return p2_enemies_destroyed; }
+		set { p2_enemies_destroyed = value; }
+	}
 
 }

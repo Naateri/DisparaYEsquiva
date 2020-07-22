@@ -25,8 +25,7 @@ public class CubesCollision : MonoBehaviour
         audioWood = this.gameObject.GetComponent<AudioSource>();
         audioWood.Play();
 
-        globalGameInfo.Shots_hit++;
-        globalGameInfo.Enemies_Destroyed++;
+       
         yield return new WaitForSeconds(particle.main.startLifetime.constantMax);
 
         Destroy(this.gameObject);
@@ -43,6 +42,8 @@ public class CubesCollision : MonoBehaviour
                 return;
             }
             StartCoroutine(Break(collision));
+            globalGameInfo.Shots_hit++;
+            globalGameInfo.Enemies_Destroyed++;
             MenuToGame.Score++;
 
         }
@@ -55,6 +56,8 @@ public class CubesCollision : MonoBehaviour
                 return;
             }
             StartCoroutine(Break(collision));
+            globalGameInfo.p2_Shots_hit++;
+            globalGameInfo.p2_Enemies_Destroyed++;
             MenuToGame.Score2++;
 
         }
