@@ -239,7 +239,7 @@ public class globalGameInfo
 
 	// DATA to display after ending the game
 
-	private static int shots_done = 0;
+	public static int shots_done = 0;
 
 	public static int Shots_done
     {
@@ -247,7 +247,7 @@ public class globalGameInfo
 		set { shots_done = value; }
     }
 
-	private static int shots_hit = 0;
+	public static int shots_hit = 0;
 
 	public static int Shots_hit
     {
@@ -255,7 +255,7 @@ public class globalGameInfo
 		set { shots_hit = value; }
     }
 
-	private static int enemies_destroyed = 0;
+	public static int enemies_destroyed = 0;
 
 	public static int Enemies_Destroyed
     {

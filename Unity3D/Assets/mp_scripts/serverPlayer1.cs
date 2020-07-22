@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using static MenuToGame;
 using static globalGameInfo;
-
+using static info;
 /*
  * Códigos:
  * 1000: posicion
@@ -257,7 +257,10 @@ public class serverPlayer1: MonoBehaviour
     {
         yield return new WaitForSeconds(3.0f);
         print("Loading scene");
+        info.player1 = true;
         SceneManager.LoadScene("stats");
+        
+
     }
 
     void Update(){
