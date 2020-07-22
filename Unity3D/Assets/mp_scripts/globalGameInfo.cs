@@ -195,4 +195,72 @@ public class globalGameInfo
 		set { level_3 = value; }
     }
 
+	// Extra life
+
+	private static int add_life = 0;
+	public static int Add_life
+    {
+		get { return add_life; }
+		set { add_life = value; }
+	}
+
+	private static int send_life = 0;
+
+	public static int Send_life
+	{
+		get { return send_life; }
+		set { send_life = value; }
+    }
+
+	private static int looses_life = 0;
+
+	public static int Looses_life
+    {
+        get { return looses_life; }
+		set { looses_life = value; }
+    }
+
+	// Lives counter
+
+	private static int player1_lives = 10;
+	private static int player2_lives = 10;
+
+	public static int Player1_lives
+    {
+		get { return player1_lives; }
+		set { player1_lives = value; }
+    }
+
+	public static int Player2_lives
+    {
+		get { return player2_lives; }
+		set { player2_lives = value; }
+    }
+
+	// DATA to display after ending the game
+
+	private static int shots_done = 0;
+
+	public static int Shots_done
+    {
+		get { return shots_done; }
+		set { shots_done = value; }
+    }
+
+	private static int shots_hit = 0;
+
+	public static int Shots_hit
+    {
+		get { return shots_hit; }
+		set { shots_hit = value; }
+    }
+
+	private static int enemies_destroyed = 0;
+
+	public static int Enemies_Destroyed
+    {
+		get { return enemies_destroyed; }
+		set { enemies_destroyed = value; }
+    }
+
 }

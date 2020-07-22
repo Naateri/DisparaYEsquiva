@@ -16,7 +16,7 @@ public class mpBullets2 : MonoBehaviour
     public AudioSource gunshot;
     private float MAX_HEIGHT = -12.5f;
     private bool shot = true;
-    //private bool power = false;
+    private bool power = false;
 
     private bool AUTO_SHOOTING = false; //testing purposes
 
@@ -99,6 +99,7 @@ public class mpBullets2 : MonoBehaviour
                 else if (text == "400")
                 {
                     MenuToGame.Power_status = 2; // power IS activated
+                    power = true;
                 }
                 //client.Close();
             }
@@ -135,6 +136,13 @@ public class mpBullets2 : MonoBehaviour
             Spawn();
             shot = false;
         }
+
+        if (power)
+        {
+            globalGameInfo.Send_life = 1; // Notify life
+            update_life();
+            power = false;
+        }
         
         GameObject[] instances = GameObject.FindGameObjectsWithTag("Bullet_P2");
         for (int i = 0; i < instances.Length; i++)
@@ -159,6 +167,7 @@ public class mpBullets2 : MonoBehaviour
 
     void Spawn()
     {
+        globalGameInfo.Shots_done++;
         clone = Instantiate(bullet, new Vector3(hero.transform.position.x-1.5f ,
             hero.transform.position.y , 0), Quaternion.identity);
         clone.transform.Rotate(0.0f, 0.0f, -90.0f, Space.Self);
@@ -166,5 +175,14 @@ public class mpBullets2 : MonoBehaviour
 
         gunshot = clone.GetComponent<AudioSource>();
         gunshot.Play();
+    }
+
+    void update_life() // Sent life, update local values
+    {
+        if (globalGameInfo.Player2_lives > 1)
+        {
+            globalGameInfo.Player2_lives -= 1;
+            globalGameInfo.Player1_lives += 1;
+        }
     }
 }

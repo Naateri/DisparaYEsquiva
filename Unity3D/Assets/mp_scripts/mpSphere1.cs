@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Experimental.UIElements;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static MenuToGame;
@@ -15,6 +16,7 @@ public class mpSphere1 : MonoBehaviour
     private ParticleSystem particle;
     public Font myFont;
     public GameObject leaveButton;
+    private bool restarted = false;
 
     public int player = 0;
 
@@ -34,6 +36,57 @@ public class mpSphere1 : MonoBehaviour
 		}*/
 
         this.score = MenuToGame.Score;
+
+        if (player == 1)
+        {
+            this.lives = globalGameInfo.Player1_lives;
+        } else if (player == 2)
+        {
+            this.lives = globalGameInfo.Player2_lives;
+        }
+
+        //if (this.lives >= 1)
+        if (globalGameInfo.Player1_lives > 1 && globalGameInfo.Player2_lives > 1)
+        {
+            if (globalGameInfo.Add_life == 1)
+            {
+                /*if (this.player == 1) // Player1 got the life
+                {
+                    globalGameInfo.Player1_lives++;
+                    globalGameInfo.Player2_lives--;
+                } else if (this.player == 2) // Player2 got the life
+                {
+                    globalGameInfo.Player1_lives--;
+                    globalGameInfo.Player2_lives++;
+                }*/
+                if (globalGameInfo.Looses_life == 1)
+                {
+                    globalGameInfo.Player1_lives--;
+                    globalGameInfo.Player2_lives++;
+                } else if (globalGameInfo.Looses_life == 2)
+                {
+                    globalGameInfo.Player2_lives--;
+                    globalGameInfo.Player1_lives++;
+                }
+                globalGameInfo.Add_life = 0;
+                globalGameInfo.Looses_life = 0;
+            }
+                
+        }
+
+        if (globalGameInfo.Add_life == 1)
+        {
+            globalGameInfo.Add_life = 0;
+            globalGameInfo.Looses_life = 0;
+        }
+
+        if (globalGameInfo.Player1_lives <= 0 && globalGameInfo.Player2_lives <= 0)
+        {
+            print("End game");
+            MenuToGame.Alive = 0;
+            //StartCoroutine(EndGame());
+            StartCoroutine(RestartGame());
+        }
     }
 
     private IEnumerator Break(Collision collision)
@@ -61,11 +114,27 @@ public class mpSphere1 : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
         gameObject.GetComponent<MeshRenderer>().enabled = false;
         (gameObject.GetComponent(typeof(SphereCollider)) as Collider).enabled = false;
+        restarted = true;
 
         /*
         yield return new WaitForSeconds(2.0f);
         SceneManager.LoadScene("menu");
         Destroy(gameObject);*/
+    }
+
+    private IEnumerator EndGame()
+    {
+        if (!restarted)
+        {
+            yield return new WaitForSeconds(1.0f);
+            gameObject.GetComponent<MeshRenderer>().enabled = false;
+            (gameObject.GetComponent(typeof(SphereCollider)) as Collider).enabled = false;
+        }
+        yield return new WaitForSeconds(1.0f);
+        MenuToGame.Alive = 0;
+        print("Loading scene");
+        SceneManager.LoadScene("stats");
+        Destroy(gameObject);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -115,11 +184,23 @@ public class mpSphere1 : MonoBehaviour
         else if (collision.gameObject.tag == "Enemy4")
         {
             if (MenuToGame.Game_mode == 0)
+            {
                 this.lives = 0;
+                globalGameInfo.Player1_lives = 0;
+                globalGameInfo.Player2_lives = 0;
+            }
             Destroy(collision.gameObject, 0);
         }
 
         print("Player " + player + " lives = " + this.lives);
+
+        if (player == 1)
+        {
+            globalGameInfo.Player1_lives = this.lives;
+        } else if (player == 2)
+        {
+            globalGameInfo.Player2_lives = this.lives;
+        }
 
         if (this.lives <= 0)
         {

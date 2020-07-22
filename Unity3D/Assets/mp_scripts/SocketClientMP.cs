@@ -187,8 +187,15 @@ public class SocketClientMP : MonoBehaviour {
 		}
 
 		//try{
-			//hero = GameObject.FindWithTag("PlayerObj");
-			//hero.transform.position = new Vector3(-xPos+6.0f,-1.5f-yPos,0);
+		//hero = GameObject.FindWithTag("PlayerObj");
+		//hero.transform.position = new Vector3(-xPos+6.0f,-1.5f-yPos,0);
+
+		if (MenuToGame.Alive == 0)
+		{
+			print("Player is dead");
+			return;
+		}
+
 		if (player == 1)
 			hero.transform.position = new Vector3(xPos,-1.5f-yPos,0);
 		if (player == 2)

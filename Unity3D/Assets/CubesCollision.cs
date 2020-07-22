@@ -52,8 +52,8 @@ public class CubesCollision : MonoBehaviour
             audioWood = this.gameObject.GetComponent<AudioSource>();
             audioWood.Play();
 
-            
-
+            globalGameInfo.Shots_hit++;
+            globalGameInfo.Enemies_Destroyed++;
 
             Destroy(collision.gameObject);
 
@@ -81,8 +81,8 @@ public class CubesCollision : MonoBehaviour
             audioWood = this.gameObject.GetComponent<AudioSource>();
             audioWood.Play();
 
-
-
+            globalGameInfo.Shots_hit++;
+            globalGameInfo.Enemies_Destroyed++;
 
             Destroy(collision.gameObject);
 

@@ -15,6 +15,7 @@ using static globalGameInfo;
  * Códigos:
  * 1000: posicion
  * 1500: disparo
+ * 1750: vida adicional al otro jugador
  * 2000: enemigo 1
  * 2100: enemigo 2
  * 2200: enemigo 3
@@ -47,6 +48,8 @@ public class serverPlayer1: MonoBehaviour
     private Vector3 speed = new Vector3(-7.5f, 0.0f, 0.0f);
 
     private int shot = 0; // 0->dont shoot, 1->shoot
+    private int extra_life = 0; // 0->nothing happened, 1->add extra life
+    private int looses_life = 0;
 
     // ...
 
@@ -63,8 +66,8 @@ public class serverPlayer1: MonoBehaviour
         port1 = 5200; // server -> client
         port2 = 5300; // client -> server
 
-        //client_ip = "192.168.1.61"; // LAN
-        client_ip = "26.65.120.130"; // JAZ
+        client_ip = "192.168.1.61"; // LAN
+        //client_ip = "26.65.120.130"; // JAZ
 
         server_to_client = new Socket(AddressFamily.InterNetwork, SocketType.Dgram,
             ProtocolType.Udp);
@@ -232,7 +235,39 @@ public class serverPlayer1: MonoBehaviour
         return position;
     }
 
+    String send_extralife() // sending life to player 2
+    {
+        String protocol;
+        if (globalGameInfo.Send_life == 1)
+        {
+            protocol = "1750 1"; // 1 looses life
+            globalGameInfo.Send_life = 0;
+            return protocol;
+        }
+        return "None";
+    }
+
+    void update_life() // Sent life, update local values
+    {
+        globalGameInfo.Player1_lives -= 1;
+        globalGameInfo.Player2_lives += 1;
+    }
+
+    private IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(3.0f);
+        print("Loading scene");
+        SceneManager.LoadScene("stats");
+    }
+
     void Update(){
+
+        if (MenuToGame.Alive == 0)
+        {
+            server_to_client.Close();
+            StartCoroutine(EndGame());
+            return;
+        }
 
         IPEndPoint anyIP = new IPEndPoint(IPAddress.Parse(client_ip), port1);
         
@@ -270,7 +305,9 @@ public class serverPlayer1: MonoBehaviour
 
         Byte[] sendBytes = Encoding.ASCII.GetBytes(position);
 
+        String addlife_notif = send_extralife();
 
+        Byte[] sendExtraLife_bytes = Encoding.ASCII.GetBytes(addlife_notif);
 
         try
         {
@@ -295,6 +332,10 @@ public class serverPlayer1: MonoBehaviour
             {
                 server_to_client.SendTo(enemy4pos_bytes, anyIP); // sends spawn position only when it happens
             }
+            if (addlife_notif != "None")
+            {
+                server_to_client.SendTo(sendExtraLife_bytes, anyIP);
+            }
             if (globalGameInfo.Sp_b == 1) // player has shot, send bullet info
             {
                 String bullet_notif = send_shot();
@@ -315,6 +356,14 @@ public class serverPlayer1: MonoBehaviour
             Spawn_shot(); // Shoot bullet
             shot = 0;
         }
+
+        if (extra_life == 1) // add extra life to player 1
+        {
+            globalGameInfo.Add_life = 1;
+            globalGameInfo.Looses_life = looses_life;
+            extra_life = 0;
+        }
+
 		//this.score = MenuToGame.Score;
 	}
 
@@ -356,6 +405,11 @@ public class serverPlayer1: MonoBehaviour
                 } else if (strlist[0] == "1500") // player2 shot
                 {
                     shot = 1;
+                } else if (strlist[0] == "1750") // extra life
+                {
+                    print("Got extra life");
+                    extra_life = 1;
+                    looses_life = int.Parse(strlist[1]);
                 }
                 //client.Close();
             }catch(Exception e){

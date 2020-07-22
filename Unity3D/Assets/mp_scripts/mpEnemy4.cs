@@ -18,6 +18,8 @@ public class mpEnemy4 : MonoBehaviour
 
 	private int spawns = 0;
 
+	private bool TEST_STATS = true;
+
 	// Use this for initialization
 	void Start()
 	{
@@ -32,6 +34,11 @@ public class mpEnemy4 : MonoBehaviour
 			// if (end_of_level_2)
 			//Invoke("Spawn", 5.0f);
 		}
+
+		if (TEST_STATS)
+        {
+			wait_time = 5.0f;
+        }
 	}
 
 	void Spawn()
@@ -77,9 +84,11 @@ public class mpEnemy4 : MonoBehaviour
 		for (int i = 0; i < instances.Length; i++)
 		{
 			//instances[i].GetComponent<Rigidbody>().velocity = new Vector3(1.2f, 0.0f, 0.0f);
-			if (instances[i].transform.position.y <= MIN_DEPTH || instances[i].transform.position.x >= 15.0f)
+			if (instances[i].transform.position.x >= 20.0f)
 			{
 				Destroy(instances[i]);
+				globalGameInfo.Player1_lives = 0;
+				globalGameInfo.Player2_lives = 0;
 				break;
 			}
 		}

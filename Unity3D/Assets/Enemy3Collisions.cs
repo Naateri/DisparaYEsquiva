@@ -43,7 +43,8 @@ public class Enemy3Collisions : MonoBehaviour
             print("Enemy 3 lives " + this.lives);
 
             //if (this.lives-1 == 0){
-
+            globalGameInfo.Shots_hit++;
+            globalGameInfo.Enemies_Destroyed++;
 
             this.gameObject.GetComponent<MeshRenderer>().enabled = false;
             (gameObject.GetComponent(typeof(BoxCollider)) as Collider).enabled = false;
@@ -76,6 +77,9 @@ public class Enemy3Collisions : MonoBehaviour
 
 
             print("Enemy 3 lives " + this.lives);
+
+            globalGameInfo.Shots_hit++;
+            globalGameInfo.Enemies_Destroyed++;
 
             //if (this.lives-1 == 0){
 

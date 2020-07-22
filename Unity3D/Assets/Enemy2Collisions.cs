@@ -41,6 +41,7 @@ public class Enemy2Collisions : MonoBehaviour
 
             print("Enemy 2 lives " + this.lives);
 
+            globalGameInfo.Shots_hit++;
 
             rend = GetComponent<Renderer>();
             rend.enabled = true;
@@ -50,6 +51,7 @@ public class Enemy2Collisions : MonoBehaviour
             {
                 this.gameObject.GetComponent<MeshRenderer>().enabled = false;
                 (gameObject.GetComponent(typeof(BoxCollider)) as Collider).enabled = false;
+                globalGameInfo.Enemies_Destroyed++;
 
                 MenuToGame.Score += 2;
                 print("Score " + MenuToGame.Score);
@@ -77,6 +79,8 @@ public class Enemy2Collisions : MonoBehaviour
 
             print("Enemy 2 lives " + this.lives);
 
+            globalGameInfo.Shots_hit++;
+
             rend = GetComponent<Renderer>();
             rend.enabled = true;
             rend.sharedMaterial = newMaterial;
@@ -85,6 +89,8 @@ public class Enemy2Collisions : MonoBehaviour
             {
                 this.gameObject.GetComponent<MeshRenderer>().enabled = false;
                 (gameObject.GetComponent(typeof(BoxCollider)) as Collider).enabled = false;
+
+                globalGameInfo.Enemies_Destroyed++;
 
                 MenuToGame.Score2 += 2;
                 print("Score2 " + MenuToGame.Score2);
