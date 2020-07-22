@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -45,6 +46,12 @@ public class MenuCellphone : MonoBehaviour {
 
 	public string lastReceivedUDPPacket = "";
 	public string allReceivedUDPPackets = "";
+
+	public Scrollbar jugar;
+	public Scrollbar modo2j;
+	public Scrollbar opciones;
+	public Scrollbar pruebas;
+	public Scrollbar salir;
 
 	void Start () {
 
@@ -190,6 +197,16 @@ public class MenuCellphone : MonoBehaviour {
 		return lastReceivedUDPPacket;
 	}
 
+	void restart()
+    {
+		jugar.size = 0;
+		modo2j.size = 0;
+		opciones.size = 0;
+		pruebas.size = 0;
+		salir.size = 0;
+	}
+
+
     // Update is called once per frame
     void Update()
     {
@@ -200,40 +217,53 @@ public class MenuCellphone : MonoBehaviour {
         if (play.Contains(startPos)){
         	if (prev_button == 0){
         		cur_time = Time.time - timer;
-        	} else {
+				jugar.size = cur_time / 2;
+			} else {
+				restart();
         		prev_button = 0;
         		timer = Time.time;
-        	}
+				
+			}
         } else if (multi.Contains(startPos)){
         	if (prev_button == 1){
         		cur_time = Time.time - timer;
-        	} else {
-        		prev_button = 1;
+				modo2j.size = cur_time / 2;
+			} else {
+				restart();
+				prev_button = 1;
         		timer = Time.time;
         	}
         } else if (opt.Contains(startPos)){
         	if (prev_button == 2){
         		cur_time = Time.time - timer;
+				opciones.size = cur_time / 2;
+
         	} else {
-        		prev_button = 2;
+				restart();
+				prev_button = 2;
         		timer = Time.time;
         	}
         } else if (tryout.Contains(startPos)){
         	if (prev_button == 3){
         		cur_time = Time.time - timer;
-        	} else {
-        		prev_button = 3;
+				pruebas.size = cur_time / 2;
+			} else {
+				restart();
+				prev_button = 3;
         		timer = Time.time;
         	}
         } else if (exit.Contains(startPos)){
             if (prev_button == 4){
                 cur_time = Time.time - timer;
-            } else{
-                prev_button = 4;
+				salir.size = cur_time / 2;
+			} else{
+				restart();
+				prev_button = 4;
                 timer = Time.time;
             }
         } else {
-        	timer = Time.time; //restarting timer
+			restart();
+			timer = Time.time; //restarting timer
         	cur_time = 0.0f;
         }
 

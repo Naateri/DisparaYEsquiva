@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using UnityEngine.SceneManagement;
 using static MenuToGame;
+using UnityEngine.UI;
 
 // y goes from -6 to 6
 // x goes from -10 to 10
@@ -45,6 +46,10 @@ public class MultiplayerMenu : MonoBehaviour {
 
 	public string lastReceivedUDPPacket = "";
 	public string allReceivedUDPPackets = "";
+
+	public Scrollbar crear;
+	public Scrollbar unir;
+	public Scrollbar volver;
 
 	void Start () {
 
@@ -128,6 +133,13 @@ public class MultiplayerMenu : MonoBehaviour {
 
 	}
 
+	void restart()
+	{
+		crear.size = 0;
+		unir.size = 0;
+		volver.size = 0;
+	}
+
 	private void ReceiveData(){
 		print("Recieve thread MENU_POS");
 		client = new UdpClient (port);
@@ -189,26 +201,33 @@ public class MultiplayerMenu : MonoBehaviour {
         if (create.Contains(startPos)){
         	if (prev_button == 0){
         		cur_time = Time.time - timer;
-        	} else {
-        		prev_button = 0;
+				crear.size = cur_time / 2;
+			} else {
+				restart();
+				prev_button = 0;
         		timer = Time.time;
         	}
         } else if (join.Contains(startPos)){
         	if (prev_button == 1){
         		cur_time = Time.time - timer;
-        	} else {
+				unir.size = cur_time / 2;
+			} else {
+				restart();
         		prev_button = 1;
         		timer = Time.time;
         	}
         } else if (back.Contains(startPos)){
         	if (prev_button == 2){
         		cur_time = Time.time - timer;
-        	} else {
-        		prev_button = 2;
+				volver.size = cur_time / 2;
+			} else {
+				restart();
+				prev_button = 2;
         		timer = Time.time;
         	}
         } else {
-        	timer = Time.time; //restarting timer
+			restart();
+			timer = Time.time; //restarting timer
         	cur_time = 0.0f;
         }
 
