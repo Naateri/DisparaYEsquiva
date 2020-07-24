@@ -2,7 +2,7 @@
 
 NOTA: El siguiente proyecto está basado en un [proyecto del usuario hasanavi](https://github.com/hasanavi/OpenCV-Unity3D-Object-Tracking), a partir del cuál empezó la construcción de nuestro aplicativo.
 
-NOTE: The following project is based on a [project by user hasanavi](https://github.com/hasanavi/OpenCV-Unity3D-Object-Tracking), which was the base where we started to build our project.
+NOTE: The following project is based on a [project by user hasanavi](https://github.com/hasanavi/OpenCV-Unity3D-Object-Tracking), from which we started to build our project.
 
 ## ESPAÑOL
 
