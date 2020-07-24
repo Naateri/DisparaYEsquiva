@@ -1,5 +1,9 @@
 # Dispara Y Esquiva
 
+NOTA: El siguiente proyecto está basado en un [proyecto del usuario hasanavi](https://github.com/hasanavi/OpenCV-Unity3D-Object-Tracking), a partir del cuál empezó la construcción de nuestro aplicativo.
+
+NOTE: The following project is based on a [project by user hasanavi](https://github.com/hasanavi/OpenCV-Unity3D-Object-Tracking), which was the base where we started to build our project.
+
 ## ESPAÑOL
 
 Dispara Y Esquiva es un videojuego realizado por los alumnos [Renato Postigo](https://github.com/Naateri/) y [Jazmine Alfaro](https://github.com/JazmineAlfaro), ambos estudiantes de pregrado cursando el curso de Interacción Humano Computador en la Universidad Católica San Pablo. 
