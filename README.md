@@ -6,6 +6,20 @@ Dispara Y Esquiva es un videojuego realizado por los alumnos [Renato Postigo](ht
 
 Este videojuego es el proyecto de programación de dicho curso dictado en el semestre 2020-1.
 
+## Porción multijugador
+
+El juego ahora incluye una porción multijugador. Es necesario especificar las IPs del servidor en clientPlayer2.cs y del cliente en serverPlayer1.cs. El jugador 1 (servidor, sandía verde) deberá jugar utilizando el archivo hand+colorsMP1.py, mientras que el jugador 2 (cliente, sandía rosada) deberá hacerlo con el archivo hand+colorsMP2.py. 
+
+Se debe tomar en cuenta que si se quiere conectar dos máquinas que no estén en la misma red, se debe utilizar una red VPN. En el caso de los creadores de este juego se utilizó [Radmin VPN](https://www.radmin-vpn.com/) para realizar dicha conexión.
+
+Los videos de la evolución del juego, como se menciona más adelante, se pueden ver en la siguiente carpeta de [Google Drive](https://drive.google.com/drive/u/1/folders/1rCAm8Pl8r9raPbC-vpR5URkj64kXJDYR), ordenados por semana. Además, hay videos mostrando la interacción con el juego en distintos momentos de su evolución.
+
+En esta porción del juego se agrega un cuarto enemigo que se debe destruir para pasar de nivel (nivel 1: solo enemigo 1; nivel 2: enemigos 1 y 2; nivel 3: enemigos 1, 2 y 3). Esto con la idea de promover la colaboración entre ambos usuarios.
+
+También se motiva a visitar el [wiki](https://github.com/Naateri/DisparaYEsquiva/wiki) del repositorio, en el que se discute un poco más a detalle el funcionamiento de algunas partes de esta porción.
+
+Además de esto, el funcionamiento es idéntico a como se describe posteriormente en el siguiente readme. Muchas gracias, y disfrute del videojuego.
+
 ## Uso 
 
 Hay dos programas que interactúan entre sí, uno hecho en Unity y otro en Python 3.x.
@@ -79,6 +93,20 @@ Además de esto, se podrá ver ejemplos de jugabilidad dentro del juego, aclaran
 Dispara Y Esquiva (Shoot and Evade) is a videogame developed by [Renato Postigo](https://github.com/Naateri/) and [Jazmine Alfaro](https://github.com/JazmineAlfaro), both undergraduate students at Universidad Católica San Pablo, taking the Human-Computer Interaction course.
 
 This videogame is the programming proyect of said course at semester 2020-1.
+
+## Multiplayer portion
+
+The game now includes a multiplayer portion. It is necessary to specify the server's IP address on clientPlayer2.cs and the client's one on serverPlayer1.cs. Player 1 (server, green watermelon) must play using the hand+colorsMP1.py file, whilst player 2 (client, pink watermelon) must play using the hand+colorsMP2.py file. 
+
+If you want to connect to computers that are not on the same network (i.e. same LAN), a VPN must be used. When testing the game, [Radmin VPN](https://www.radmin-vpn.com/) was used by both game developers.
+
+Videos displaying the game's evolution, as mentioned further ahead, can be seen in the following [Google Drive](https://drive.google.com/drive/u/1/folders/1rCAm8Pl8r9raPbC-vpR5URkj64kXJDYR) folder, sorted by week. There are also videos showing the interaction with the game on different versions of it.
+
+There is, only on this portion of the game, a fourth enemy that must be destroyed to beat the current level (level 1: only enemy 1; level 2: enemies 1 and 2; level 3: enemies 1, 2 and 3). This was made with the intention to promote colaboration between both users.
+
+It is also encouraged to visit the repository's [wiki](https://github.com/Naateri/DisparaYEsquiva/wiki), where there's a more detailed discussion of some parts of the inner-workings of this portion (SPANISH ONLY).
+
+Besides the mentioned in this section, the game works as it is described up next in this readme file. Thank you very much, and enjoy the videogame.
 
 ## Usage
 
